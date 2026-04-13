@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { 
   Lock, User, Loader2, Eye, EyeOff, ShieldCheck, Zap, Sparkles, HelpCircle, 
   Search, Coffee, Music, PartyPopper, HelpCircle as QuestionIcon, Power, CheckCircle2, 
-  AlertTriangle, Fingerprint, Activity, Keyboard, Flame, Wifi, BatteryCharging, Server
+  AlertTriangle, Fingerprint, Activity, Keyboard, Flame, Wifi, BatteryCharging, Server, Cpu
 } from "lucide-react";
 
 // --- 1. DEFINIÇÃO DE TIPOS ROBUSTA ---
@@ -25,11 +25,11 @@ type MascotProp = "none" | "magnifier" | "coffee" | "shield" | "glasses" | "warn
 // --- HELPERS VISUAIS ---
 const getStrengthColor = (s: number) => {
   const colors = [
-    "bg-red-500/80 shadow-[0_0_10px_rgba(239,68,68,0.4)]", 
+    "bg-red-600/80 shadow-[0_0_10px_rgba(220,38,38,0.4)]", 
     "bg-orange-500/80 shadow-[0_0_10px_rgba(249,115,22,0.4)]", 
-    "bg-yellow-500/80 shadow-[0_0_10px_rgba(234,179,8,0.4)]", 
-    "bg-blue-500/80 shadow-[0_0_10px_rgba(59,130,246,0.4)]", 
-    "bg-emerald-500/80 shadow-[0_0_15px_rgba(16,185,129,0.6)]"
+    "bg-amber-500/80 shadow-[0_0_10px_rgba(245,158,11,0.4)]", 
+    "bg-emerald-400/80 shadow-[0_0_10px_rgba(52,211,153,0.4)]", 
+    "bg-emerald-600/80 shadow-[0_0_15px_rgba(5,150,105,0.6)]"
   ];
   return colors[s] || colors[0];
 };
@@ -76,7 +76,6 @@ export default function Auth() {
   const lastMousePos = useRef({ x: 0, y: 0 });
   const mascotRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
-  const inactivityTimer = useRef<NodeJS.Timeout | null>(null);
   const comboTimer = useRef<NodeJS.Timeout | null>(null);
   const bootSequenceTimer = useRef<NodeJS.Timeout | null>(null);
   const typingSpeedTimer = useRef<NodeJS.Timeout | null>(null);
@@ -90,14 +89,14 @@ export default function Auth() {
     if (user && !isSubmittingRef.current) navigate("/inicio"); 
   }, [user, navigate]);
 
-  // --- BOOT SEQUENCE (Intro Matrix) ---
+  // --- BOOT SEQUENCE (Intro Terminal) ---
   useEffect(() => {
     const lines = [
-      "INITIALIZING FLUXO_CORE v2.1...",
-      "LOADING PHYSICS ENGINE... OK",
-      "CHECKING NEURAL LINK... ESTABLISHED",
+      "INITIALIZING COL_CORE v3.0...",
+      "LOADING OPERATIONAL PHYSICS... OK",
+      "CHECKING LOGICAL LINK... ESTABLISHED",
       "SECURITY PROTOCOLS... ACTIVE",
-      "WELCOME, USER."
+      "WELCOME, OPERATOR."
     ];
     let currentLine = 0;
     const interval = setInterval(() => {
@@ -169,7 +168,7 @@ export default function Auth() {
     comboTimer.current = setTimeout(() => setTypingCombo(0), 1500);
 
     if (typingCombo > 15 && !['overheat', 'blind'].includes(mascotMood)) { setMascotMood('overheat'); setMascotMessage("OVERCLOCK!"); } 
-    else if (typingCombo > 8 && !['flow', 'blind', 'peek', 'god', 'overheat'].includes(mascotMood)) { setMascotMood('flow'); setMascotMessage("FLUXO TOTAL"); }
+    else if (typingCombo > 8 && !['flow', 'blind', 'peek', 'god', 'overheat'].includes(mascotMood)) { setMascotMood('flow'); setMascotMessage("SISTEMA EM FLUXO"); }
 
     if (e.getModifierState("CapsLock")) {
         if (mascotMood !== 'capslock' && !['blind', 'peek'].includes(mascotMood)) { setMascotMood('capslock'); setCurrentProp('warning'); setMascotMessage("CAPS LOCK"); }
@@ -214,9 +213,9 @@ export default function Auth() {
   const triggerRandomIdleAction = useCallback(() => {
     if (loading || ['blind', 'peek', 'error', 'success', 'warp', 'cool', 'party', 'sleeping', 'confused', 'capslock', 'dizzy', 'shutdown', 'booting', 'lost', 'judging', 'flow', 'god', 'overheat', 'rage'].includes(mascotMood)) return;
     const actions = [
-        { mood: 'bored' as MascotMood, prop: 'coffee' as MascotProp, msg: "Reabastecendo cafeína...", duration: 4000 },
+        { mood: 'bored' as MascotMood, prop: 'coffee' as MascotProp, msg: "Reabastecendo núcleos...", duration: 4000 },
         { mood: 'idle' as MascotMood, prop: 'none' as MascotProp, msg: "Escaneando ameaças...", duration: 3000 },
-        { mood: 'idle' as MascotMood, prop: 'none' as MascotProp, msg: "🎵 Processando beats... 🎵", duration: 3000, music: true },
+        { mood: 'idle' as MascotMood, prop: 'none' as MascotProp, msg: "🎵 Analisando frequências... 🎵", duration: 3000, music: true },
         { mood: 'sleeping' as MascotMood, prop: 'none' as MascotProp, msg: "Modo de Economia...", duration: 6000 },
     ];
     const randomAction = actions[Math.floor(Math.random() * actions.length)];
@@ -340,7 +339,7 @@ export default function Auth() {
         setMascotMood("party"); setCurrentProp("none"); setMascotMessage("MODO FESTA! 🎉");
         setClickCount(0); setTimeout(() => setMascotMood("idle"), 3000);
     } else if (mascotMood === 'sleeping') { wakeUpMascot(); } 
-    else { setMascotMood("excited"); setMascotMessage("Olá!"); setTimeout(() => setMascotMood("idle"), 1500); }
+    else { setMascotMood("excited"); setMascotMessage("Olá, Operador!"); setTimeout(() => setMascotMood("idle"), 1500); }
   };
 
   const toggleShowPassword = () => {
@@ -412,15 +411,15 @@ export default function Auth() {
     ${['idle', 'tracking', 'peek', 'excited', 'bored', 'cool', 'confused', 'lost', 'judging', 'flow', 'god', 'overheat'].includes(mascotMood) ? 'animate-float-organic' : ''}
   `;
 
-  // Estilo do Corpo do Mascote
+  // Estilo do Corpo do Mascote (Ajustado para Vermelho/Carmesim)
   const mascotBodyClasses = `
     relative w-full h-full bg-gradient-to-br rounded-[3rem] border-[3px] shadow-2xl flex items-center justify-center overflow-hidden transition-all duration-500 z-20
-    ${mascotMood === 'shutdown' ? 'from-gray-900 to-black border-gray-700 shadow-none' : 'from-[#1a1f2e] to-[#0a0a0a]'} 
-    ${mascotMood === 'error' || mascotMood === 'capslock' || mascotMood === 'overheat' || mascotMood === 'rage' ? 'border-red-500/60 shadow-[0_0_50px_rgba(239,68,68,0.5)] bg-red-950/40' : ''}
+    ${mascotMood === 'shutdown' ? 'from-gray-900 to-black border-gray-700 shadow-none' : 'from-[#2e1212] to-[#0a0202]'} 
+    ${mascotMood === 'error' || mascotMood === 'capslock' || mascotMood === 'overheat' || mascotMood === 'rage' ? 'border-red-500/80 shadow-[0_0_60px_rgba(255,0,0,0.6)] bg-[#4a0000]' : ''}
     ${mascotMood === 'success' || mascotMood === 'warp' || mascotMood === 'party' ? 'border-emerald-400/60 shadow-[0_0_50px_rgba(52,211,153,0.5)] bg-emerald-950/40' : ''}
     ${mascotMood === 'flow' ? 'border-amber-400/60 shadow-[0_0_50px_rgba(251,191,36,0.6)] bg-amber-950/40' : ''}
     ${mascotMood === 'god' ? 'border-yellow-200/80 shadow-[0_0_80px_rgba(253,224,71,0.8)] bg-yellow-950/40' : ''}
-    ${['idle', 'tracking', 'blind', 'peek', 'sleeping', 'cool', 'bored', 'excited', 'confused', 'booting', 'scared', 'dizzy', 'lost', 'judging'].includes(mascotMood) ? 'border-blue-500/40 shadow-[0_0_35px_rgba(59,130,246,0.3)]' : ''}
+    ${['idle', 'tracking', 'blind', 'peek', 'sleeping', 'cool', 'bored', 'excited', 'confused', 'booting', 'scared', 'dizzy', 'lost', 'judging'].includes(mascotMood) ? 'border-red-500/40 shadow-[0_0_35px_rgba(239,68,68,0.3)]' : ''}
   `;
 
   const headTiltStyle = {
@@ -437,26 +436,26 @@ export default function Auth() {
   
   if (!systemBooted) {
     return (
-      <div className="h-[100dvh] w-full bg-black text-green-500 font-mono text-xs md:text-sm p-8 flex flex-col justify-end overflow-hidden cursor-wait relative">
-        <div className="absolute top-0 left-0 w-full h-1 bg-green-500/50 animate-input-scan" />
-        {bootLines.map((line, i) => ( <div key={i} className="mb-1 opacity-90 tracking-wider text-green-400 font-bold">{line}</div> ))}
-        <div className="animate-pulse text-green-400 font-black">_</div>
-        <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(0,255,0,0.03),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-50 bg-[length:100%_2px,3px_100%]"></div>
+      <div className="h-[100dvh] w-full bg-black text-red-500 font-mono text-xs md:text-sm p-8 flex flex-col justify-end overflow-hidden cursor-wait relative">
+        <div className="absolute top-0 left-0 w-full h-1 bg-red-600/50 animate-input-scan" />
+        {bootLines.map((line, i) => ( <div key={i} className="mb-1 opacity-90 tracking-wider text-red-500 font-bold">{line}</div> ))}
+        <div className="animate-pulse text-red-500 font-black">_</div>
+        <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(255,0,0,0.02),rgba(150,0,0,0.06))] z-50 bg-[length:100%_2px,3px_100%]"></div>
       </div>
     )
   }
 
   return (
-    <div className={`min-h-[100dvh] w-full flex flex-col md:flex-row items-center justify-center relative overflow-hidden font-sans selection:bg-blue-500/30 selection:text-blue-100 p-4 md:pl-16 lg:pl-24 overscroll-none`}>
+    <div className={`min-h-[100dvh] w-full flex flex-col md:flex-row items-center justify-center relative overflow-hidden font-sans selection:bg-red-500/30 selection:text-red-100 p-4 md:pl-16 lg:pl-24 overscroll-none`}>
       
       {/* RIPPLES (Efeito de clique) */}
       {ripples.map(r => (
-          <div key={r.id} className="fixed w-2 h-2 rounded-full border border-blue-400/50 animate-ping pointer-events-none z-50" style={{ left: r.x, top: r.y, transform: 'translate(-50%, -50%)' }}></div>
+          <div key={r.id} className="fixed w-2 h-2 rounded-full border border-red-500/50 animate-ping pointer-events-none z-50" style={{ left: r.x, top: r.y, transform: 'translate(-50%, -50%)' }}></div>
       ))}
 
       {/* ATMOSFERA GLOBAL & SCANLINES */}
       <div className="absolute inset-0 pointer-events-none z-0 opacity-[0.07] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay"></div>
-      <div className="absolute inset-0 pointer-events-none z-50 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-[length:100%_4px,6px_100%]"></div>
+      <div className="absolute inset-0 pointer-events-none z-50 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.05),rgba(255,0,0,0.02),rgba(150,0,0,0.04))] bg-[length:100%_4px,6px_100%]"></div>
 
       {/* STYLES PARA ANIMAÇÕES CSS PURO */}
       <style>{`
@@ -492,7 +491,7 @@ export default function Auth() {
         .animate-crt-off { animation: crt-off 0.6s ease-in-out forwards; }
         .animate-dizzy { animation: dizzy-spin 1s linear infinite; }
         .animate-data { animation: data-flow 5s linear infinite; }
-        .glitch-effect { animation: glitch-anim 0.3s cubic-bezier(.25, .46, .45, .94) both infinite; color: #ef4444; }
+        .glitch-effect { animation: glitch-anim 0.3s cubic-bezier(.25, .46, .45, .94) both infinite; color: #fca5a5; }
         .input-scan-line { animation: input-scan 2s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
         .animate-rgb-shake { animation: rgb-shake 0.2s ease-in-out infinite; }
         .animate-levitate { animation: levitate 2s ease-in-out infinite; }
@@ -508,48 +507,49 @@ export default function Auth() {
       {/* --- HUD TÁTICO --- */}
       {mascotMood !== 'shutdown' && (
           <div className="fixed inset-0 pointer-events-none z-10 opacity-30 mix-blend-screen hidden md:block">
-              <div className="absolute top-8 left-8 w-12 h-12 border-t-2 border-l-2 border-blue-400 rounded-tl-lg"></div>
-              <div className="absolute top-8 right-8 w-12 h-12 border-t-2 border-r-2 border-blue-400 rounded-tr-lg"></div>
-              <div className="absolute bottom-8 left-8 w-12 h-12 border-b-2 border-l-2 border-blue-400 rounded-bl-lg"></div>
-              <div className="absolute bottom-8 right-8 w-12 h-12 border-b-2 border-r-2 border-blue-400 rounded-br-lg"></div>
-              <div className="absolute top-8 right-8 flex gap-4 text-blue-300 font-mono text-[10px]">
+              <div className="absolute top-8 left-8 w-12 h-12 border-t-2 border-l-2 border-red-500/50 rounded-tl-lg"></div>
+              <div className="absolute top-8 right-8 w-12 h-12 border-t-2 border-r-2 border-red-500/50 rounded-tr-lg"></div>
+              <div className="absolute bottom-8 left-8 w-12 h-12 border-b-2 border-l-2 border-red-500/50 rounded-bl-lg"></div>
+              <div className="absolute bottom-8 right-8 w-12 h-12 border-b-2 border-r-2 border-red-500/50 rounded-br-lg"></div>
+              <div className="absolute top-8 right-8 flex gap-4 text-red-400 font-mono text-[10px]">
                   <div className="flex items-center gap-1"><Wifi className="h-3 w-3" /> NET: SECURE</div>
                   <div className="flex items-center gap-1"><BatteryCharging className="h-3 w-3" /> PWR: 100%</div>
                   <div className="flex items-center gap-1"><Server className="h-3 w-3" /> LAT: 5ms</div>
               </div>
-              <div className="absolute bottom-10 left-12 font-mono text-[9px] text-blue-300 flex items-center gap-2">
-                  <Activity className="h-3 w-3 animate-pulse" /> NEURAL LINK ESTABLISHED
+              <div className="absolute bottom-10 left-12 font-mono text-[9px] text-red-400 flex items-center gap-2">
+                  <Activity className="h-3 w-3 animate-pulse" /> LOGICAL LINK ESTABLISHED
               </div>
           </div>
       )}
 
       {/* --- FUNDO (GRID & IMAGE) --- */}
-      <div className={`absolute inset-0 w-full h-full pointer-events-none overflow-hidden transition-colors duration-1000 ${mascotMood === 'success' || isExiting ? 'bg-emerald-950/20' : mascotMood === 'error' || mascotMood === 'rage' ? 'bg-red-950/20' : mascotMood === 'shutdown' ? 'bg-black' : 'bg-[#020204]'}`}>
+      <div className={`absolute inset-0 w-full h-full pointer-events-none overflow-hidden transition-colors duration-1000 ${mascotMood === 'success' || isExiting ? 'bg-emerald-950/20' : mascotMood === 'error' || mascotMood === 'rage' ? 'bg-red-950/40' : mascotMood === 'shutdown' ? 'bg-black' : 'bg-[#050202]'}`}>
         
         {/* Imagem de Fundo (Blur e Movimento) */}
         <div 
             className="absolute inset-0 transition-transform duration-300 ease-out overflow-hidden"
             style={{ transform: `translate(${mousePos.x * 3}px, ${mousePos.y * 3}px) scale(1.02)` }}
         >
-            <div className={`absolute inset-0 bg-[url('https://royaleavicultura.com.br/wp-content/uploads/2025/09/Esteira-para-ovos-o-que-e-e-como-funciona.png')] bg-cover bg-[position:25%_center] transition-all duration-1000 ${mascotMood === 'shutdown' ? 'brightness-0 opacity-0' : 'brightness-50 opacity-40'}`}></div>
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0a1e3f] from-45% via-[#0a1e3f]/90 to-transparent opacity-100"></div>
+            <div className={`absolute inset-0 bg-[url('https://royaleavicultura.com.br/wp-content/uploads/2025/09/Esteira-para-ovos-o-que-e-e-como-funciona.png')] bg-cover bg-[position:25%_center] transition-all duration-1000 ${mascotMood === 'shutdown' ? 'brightness-0 opacity-0' : 'brightness-50 opacity-30 grayscale-[0.3]'}`}></div>
+            {/* Overlay vermelho esmeralda adaptado */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#2a0606] from-45% via-[#2a0606]/90 to-transparent opacity-100"></div>
         </div>
 
         {/* Grid Animado (Chão Digital) */}
         {mascotMood !== 'shutdown' && (
-            <div className="absolute bottom-0 left-0 w-full h-1/2 bg-[linear-gradient(to_right,rgba(59,130,246,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(59,130,246,0.1)_1px,transparent_1px)] bg-[size:50px_50px] [transform:perspective(500px)_rotateX(60deg)] origin-bottom animate-grid opacity-30 pointer-events-none"></div>
+            <div className="absolute bottom-0 left-0 w-full h-1/2 bg-[linear-gradient(to_right,rgba(239,68,68,0.15)_1px,transparent_1px),linear-gradient(to_bottom,rgba(239,68,68,0.15)_1px,transparent_1px)] bg-[size:50px_50px] [transform:perspective(500px)_rotateX(60deg)] origin-bottom animate-grid opacity-30 pointer-events-none"></div>
         )}
         
         {mascotMood !== 'shutdown' && (
             <>
-                <div className={`absolute inset-0 bg-red-600/20 blur-[150px] transition-opacity duration-500 mix-blend-overlay ${mascotMood === 'error' || mascotMood === 'capslock' || mascotMood === 'overheat' || mascotMood === 'rage' ? 'opacity-100' : 'opacity-0'}`} />
+                <div className={`absolute inset-0 bg-red-600/30 blur-[150px] transition-opacity duration-500 mix-blend-overlay ${mascotMood === 'error' || mascotMood === 'capslock' || mascotMood === 'overheat' || mascotMood === 'rage' ? 'opacity-100' : 'opacity-20'}`} />
                 <div className={`absolute inset-0 bg-emerald-600/20 blur-[150px] transition-opacity duration-500 mix-blend-overlay ${mascotMood === 'success' || mascotMood === 'warp' || mascotMood === 'party' ? 'opacity-100' : 'opacity-0'}`} />
                 {mascotMood === 'god' && <div className="absolute inset-0 bg-yellow-500/20 blur-[100px] animate-pulse mix-blend-overlay" />}
                 
                 {/* Partículas de Dados Flutuantes */}
-                <div className="absolute inset-0 overflow-hidden opacity-20 pointer-events-none">
-                      <div className="absolute top-[-20%] left-[20%] text-[10px] text-blue-400 font-mono animate-[data-flow_4s_linear_infinite]">010101</div>
-                      <div className="absolute top-[-30%] left-[80%] text-[10px] text-blue-400 font-mono animate-[data-flow_5s_linear_infinite]" style={{animationDelay:'1s'}}>101100</div>
+                <div className="absolute inset-0 overflow-hidden opacity-30 pointer-events-none">
+                      <div className="absolute top-[-20%] left-[20%] text-[10px] text-red-500 font-mono animate-[data-flow_4s_linear_infinite]">010101</div>
+                      <div className="absolute top-[-30%] left-[80%] text-[10px] text-red-500 font-mono animate-[data-flow_5s_linear_infinite]" style={{animationDelay:'1s'}}>101100</div>
                 </div>
             </>
         )}
@@ -568,47 +568,50 @@ export default function Auth() {
                     transform: `rotateX(${cardTilt.x}deg) rotateY(${cardTilt.y}deg)`,
                     transition: 'transform 0.1s ease-out'
                 }}
-                className={`relative group overflow-hidden rounded-[2rem] border border-white/10 bg-slate-900/80 backdrop-blur-3xl shadow-2xl transition-colors duration-500 ${mascotMood === 'success' || mascotMood === 'warp' ? 'border-emerald-500/30 shadow-[0_0_40px_rgba(16,185,129,0.2)]' : mascotMood === 'error' || mascotMood === 'rage' ? 'border-red-500/30 shadow-[0_0_40px_rgba(239,68,68,0.2)]' : ''}`}
+                className={`relative group overflow-hidden rounded-[2rem] border border-white/5 bg-neutral-950/80 backdrop-blur-3xl shadow-2xl transition-colors duration-500 ${mascotMood === 'success' || mascotMood === 'warp' ? 'border-emerald-500/30 shadow-[0_0_40px_rgba(16,185,129,0.2)]' : mascotMood === 'error' || mascotMood === 'rage' ? 'border-red-500/50 shadow-[0_0_60px_rgba(239,68,68,0.4)]' : 'shadow-[0_0_40px_rgba(0,0,0,0.8)]'}`}
             >
                 {/* Spotlight 2D (Efeito de brilho ao passar o mouse) */}
                 <div 
                     className="pointer-events-none absolute -inset-px rounded-[2rem] opacity-0 transition-opacity duration-300"
                     style={{
-                        background: `radial-gradient(600px circle at ${cardSpotlight.x}px ${cardSpotlight.y}px, rgba(59, 130, 246, 0.15), transparent 40%)`,
+                        background: `radial-gradient(600px circle at ${cardSpotlight.x}px ${cardSpotlight.y}px, rgba(239, 68, 68, 0.15), transparent 40%)`,
                         opacity: cardSpotlight.opacity
                     }}
                 />
 
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-[1px] bg-gradient-to-r from-transparent via-blue-400/50 to-transparent" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-[1px] bg-gradient-to-r from-transparent via-red-500/50 to-transparent" />
                 <div className="px-6 py-8 relative z-10">
                     <div className="mb-8 text-center relative">
                         <div className="flex justify-center mb-5">
                             <div className="relative group/logo cursor-pointer animate-float-logo" onClick={() => setMascotMood('party')}>
-                                <div className={`absolute inset-0 bg-blue-500/20 rounded-full blur-3xl animate-pulse opacity-50 ${mascotMood === 'god' ? 'bg-yellow-500/50' : ''}`} />
-                                <img src="/favicon.png" alt="Logo" className={`relative h-16 w-16 object-contain drop-shadow-[0_0_25px_rgba(59,130,246,0.5)] ${mascotMood === 'god' ? 'sepia contrast-150 brightness-150' : ''}`} />
+                                <div className={`absolute inset-0 bg-red-600/30 rounded-full blur-3xl animate-pulse opacity-60 ${mascotMood === 'god' ? 'bg-yellow-500/50' : ''}`} />
+                                {/* Filtro aplicado no logo para deixá-lo com tom vermelho, ou utilize outro ícone central */}
+                                <div className="relative h-16 w-16 flex items-center justify-center bg-red-950/50 rounded-2xl border border-red-500/30 drop-shadow-[0_0_15px_rgba(239,68,68,0.6)]">
+                                    <Cpu className={`h-10 w-10 text-red-500 ${mascotMood === 'god' ? 'text-yellow-400' : ''}`} />
+                                </div>
                             </div>
                         </div>
-                        <h1 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-blue-50 to-blue-300 tracking-tight mb-2">Fluxo Royale</h1>
-                        <p className="text-blue-200/50 text-xs font-medium tracking-widest uppercase flex items-center justify-center gap-2"><Zap className="h-3 w-3 text-yellow-400 fill-yellow-400" /> Acesso Seguro</p>
+                        <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-red-100 to-red-400 tracking-tight mb-2">COL</h1>
+                        <p className="text-red-300/60 text-xs font-medium tracking-widest uppercase flex items-center justify-center gap-2">Controle Operacional Lógico</p>
                     </div>
 
                     <form onSubmit={handleLogin} className="space-y-4">
                         <div className="space-y-2 group/input">
-                            <Label className="text-xs font-bold text-blue-300/70 uppercase tracking-widest ml-2">ID Numérico</Label>
-                            <div className={`relative overflow-hidden rounded-2xl group-focus-within:ring-1 transition-all duration-300 ${mascotMood === 'flow' ? 'ring-amber-500/50' : 'ring-blue-500/30'}`}>
-                                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-300/50 group-focus-within/input:text-blue-400 transition-colors"><User className="h-5 w-5" /></div>
-                                <Input type="text" inputMode="numeric" placeholder="Ex: 1050" value={loginId} onChange={handleIdChange} onFocus={() => { setFocusedField('id'); if(!['tracking', 'sleeping', 'error', 'warp', 'excited', 'cool', 'shutdown', 'flow', 'god', 'glitch', 'overheat'].includes(mascotMood)) { setMascotMood("tracking"); setCurrentProp("magnifier"); setMascotMessage("Lendo ID..."); }}} onBlur={() => { setFocusedField(null); if(mascotMood !== 'shutdown') { setMascotMood("idle"); setCurrentProp("none"); }}} className="pl-12 h-11 bg-white/5 border-white/5 text-white placeholder:text-white/20 rounded-2xl focus:border-blue-500/50 focus:ring-0 transition-all font-mono tracking-wider" required minLength={3} />
-                                {focusedField === 'id' && <div className={`absolute inset-0 pointer-events-none input-scan-line w-1 h-full blur-[2px] ${mascotMood === 'flow' ? 'bg-amber-400/50' : 'bg-blue-400/50'}`}></div>}
+                            <Label className="text-xs font-bold text-red-300/70 uppercase tracking-widest ml-2">ID Numérico</Label>
+                            <div className={`relative overflow-hidden rounded-2xl group-focus-within:ring-1 transition-all duration-300 ${mascotMood === 'flow' ? 'ring-amber-500/50' : 'ring-red-500/40'}`}>
+                                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-red-400/50 group-focus-within/input:text-red-400 transition-colors"><User className="h-5 w-5" /></div>
+                                <Input type="text" inputMode="numeric" placeholder="Ex: 1050" value={loginId} onChange={handleIdChange} onFocus={() => { setFocusedField('id'); if(!['tracking', 'sleeping', 'error', 'warp', 'excited', 'cool', 'shutdown', 'flow', 'god', 'glitch', 'overheat'].includes(mascotMood)) { setMascotMood("tracking"); setCurrentProp("magnifier"); setMascotMessage("Lendo ID..."); }}} onBlur={() => { setFocusedField(null); if(mascotMood !== 'shutdown') { setMascotMood("idle"); setCurrentProp("none"); }}} className="pl-12 h-11 bg-white/5 border-white/5 text-white placeholder:text-white/20 rounded-2xl focus:border-red-500/50 focus:ring-0 transition-all font-mono tracking-wider" required minLength={3} />
+                                {focusedField === 'id' && <div className={`absolute inset-0 pointer-events-none input-scan-line w-1 h-full blur-[2px] ${mascotMood === 'flow' ? 'bg-amber-400/50' : 'bg-red-500/50'}`}></div>}
                             </div>
                         </div>
 
                         <div className="space-y-2 group/input">
-                            <Label className="text-xs font-bold text-blue-300/70 uppercase tracking-widest ml-2">Senha</Label>
-                            <div className={`relative overflow-hidden rounded-2xl group-focus-within:ring-1 transition-all duration-300 ${mascotMood === 'flow' ? 'ring-amber-500/50' : 'ring-blue-500/30'}`}>
-                                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-300/50 group-focus-within/input:text-blue-400 transition-colors"><Lock className="h-5 w-5" /></div>
-                                <Input type={showPassword ? "text" : "password"} placeholder="••••••••" value={loginPassword} onChange={handlePasswordChange} onKeyDown={handleKeyDown as any} onFocus={() => { setFocusedField('password'); if (showPassword) { setMascotMood("peek"); setMascotMessage("Conferindo..."); } else { setMascotMood("blind"); setMascotMessage("Modo privado ativado."); }}} onBlur={() => { setFocusedField(null); if(mascotMood !== 'shutdown') { setMascotMood("idle"); setCurrentProp("none"); }}} className="pl-12 pr-12 h-11 bg-white/5 border-white/5 text-white placeholder:text-white/20 rounded-2xl focus:border-blue-500/50 focus:ring-0 transition-all" required />
-                                <button type="button" onClick={toggleShowPassword} className="absolute right-4 top-1/2 -translate-y-1/2 text-blue-300/50 hover:text-blue-300 transition-colors p-1">{showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}</button>
-                                {focusedField === 'password' && !['blind'].includes(mascotMood) && <div className={`absolute inset-0 pointer-events-none input-scan-line w-1 h-full blur-[2px] ${mascotMood === 'flow' ? 'bg-amber-400/50' : 'bg-blue-400/50'}`}></div>}
+                            <Label className="text-xs font-bold text-red-300/70 uppercase tracking-widest ml-2">Senha</Label>
+                            <div className={`relative overflow-hidden rounded-2xl group-focus-within:ring-1 transition-all duration-300 ${mascotMood === 'flow' ? 'ring-amber-500/50' : 'ring-red-500/40'}`}>
+                                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-red-400/50 group-focus-within/input:text-red-400 transition-colors"><Lock className="h-5 w-5" /></div>
+                                <Input type={showPassword ? "text" : "password"} placeholder="••••••••" value={loginPassword} onChange={handlePasswordChange} onKeyDown={handleKeyDown as any} onFocus={() => { setFocusedField('password'); if (showPassword) { setMascotMood("peek"); setMascotMessage("Conferindo..."); } else { setMascotMood("blind"); setMascotMessage("Modo privado ativado."); }}} onBlur={() => { setFocusedField(null); if(mascotMood !== 'shutdown') { setMascotMood("idle"); setCurrentProp("none"); }}} className="pl-12 pr-12 h-11 bg-white/5 border-white/5 text-white placeholder:text-white/20 rounded-2xl focus:border-red-500/50 focus:ring-0 transition-all" required />
+                                <button type="button" onClick={toggleShowPassword} className="absolute right-4 top-1/2 -translate-y-1/2 text-red-400/50 hover:text-red-300 transition-colors p-1">{showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}</button>
+                                {focusedField === 'password' && !['blind'].includes(mascotMood) && <div className={`absolute inset-0 pointer-events-none input-scan-line w-1 h-full blur-[2px] ${mascotMood === 'flow' ? 'bg-amber-400/50' : 'bg-red-500/50'}`}></div>}
                             </div>
                             <div className={`overflow-hidden transition-all duration-500 ease-out ${loginPassword.length > 0 ? "max-h-10 mt-3 opacity-100" : "max-h-0 opacity-0"}`}>
                                 <div className="flex gap-1 h-1 mb-2 bg-white/5 rounded-full overflow-hidden">
@@ -618,8 +621,8 @@ export default function Auth() {
                             </div>
                         </div>
 
-                        <Button type="submit" className={`w-full h-11 text-sm font-bold rounded-2xl shadow-lg shadow-blue-900/20 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-70 border-none text-white animate-shimmer relative overflow-hidden group hover:bg-blue-500 ${mascotMood === 'flow' ? 'bg-amber-600 hover:bg-amber-500' : 'bg-blue-600'}`} disabled={loading} onMouseEnter={() => { if(!['sleeping', 'error', 'warp', 'shutdown'].includes(mascotMood)) { setMascotMood('excited'); setMascotMessage("Pronto para acessar?"); }}} onMouseLeave={() => { if(mascotMood === 'excited') setMascotMood('idle'); }}>
-                            {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <span className="flex items-center gap-2 relative z-10 group-hover:gap-4 transition-all"><Fingerprint className="h-4 w-4 opacity-50 group-hover:opacity-100" /> Acessar Plataforma</span>}
+                        <Button type="submit" className={`w-full h-11 text-sm font-bold rounded-2xl shadow-lg shadow-red-900/40 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-70 border-none text-white animate-shimmer relative overflow-hidden group hover:bg-red-500 ${mascotMood === 'flow' ? 'bg-amber-600 hover:bg-amber-500' : 'bg-red-600'}`} disabled={loading} onMouseEnter={() => { if(!['sleeping', 'error', 'warp', 'shutdown'].includes(mascotMood)) { setMascotMood('excited'); setMascotMessage("Pronto para acessar?"); }}} onMouseLeave={() => { if(mascotMood === 'excited') setMascotMood('idle'); }}>
+                            {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <span className="flex items-center gap-2 relative z-10 group-hover:gap-4 transition-all"><Fingerprint className="h-4 w-4 opacity-50 group-hover:opacity-100" /> Acessar Sistema</span>}
                         </Button>
                     </form>
 
@@ -627,7 +630,7 @@ export default function Auth() {
                         <p className="text-gray-500 text-[10px] flex items-center gap-1 cursor-help group/safe hover:text-emerald-400 transition-colors" onMouseEnter={() => { if(mascotMood !== 'shutdown') { setMascotMood('success'); setMascotMessage("Ambiente 100% Protegido."); setCurrentProp("shield"); }}} onMouseLeave={() => { if(mascotMood !== 'shutdown') { setMascotMood('idle'); setCurrentProp("none"); }}}>
                             <ShieldCheck className="h-3 w-3 text-emerald-500 group-hover/safe:scale-110 transition-transform" /> Ambiente Seguro
                         </p>
-                        <button className="text-[10px] text-blue-400 hover:text-blue-300 flex items-center gap-1 hover:underline" onMouseEnter={() => { if(mascotMood !== 'shutdown') { setMascotMood('confused'); setMascotMessage("Esqueceu? Posso ajudar?"); }}} onMouseLeave={() => { if(mascotMood !== 'shutdown') { setMascotMood('idle'); }}}>
+                        <button className="text-[10px] text-red-400/80 hover:text-red-300 flex items-center gap-1 hover:underline" onMouseEnter={() => { if(mascotMood !== 'shutdown') { setMascotMood('confused'); setMascotMessage("Esqueceu? Posso ajudar?"); }}} onMouseLeave={() => { if(mascotMood !== 'shutdown') { setMascotMood('idle'); }}}>
                             <HelpCircle className="h-3 w-3" /> Esqueceu?
                         </button>
                     </div>
@@ -639,11 +642,11 @@ export default function Auth() {
         <div ref={mascotRef} style={mascotWrapperStyle} className={mascotContainerClasses} onClick={handleMascotClick}>
             {typingCombo > 0 && !['blind', 'sleeping'].includes(mascotMood) && (
                 <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 w-40 h-20 perspective-500 opacity-60 animate-pulse pointer-events-none hidden md:block">
-                    <Keyboard className={`w-full h-full transform rotate-x-60 ${mascotMood === 'flow' ? 'text-amber-400' : 'text-blue-400'}`} />
+                    <Keyboard className={`w-full h-full transform rotate-x-60 ${mascotMood === 'flow' ? 'text-amber-400' : 'text-red-500'}`} />
                 </div>
             )}
-            {mascotMessage.includes("Processing beats") && <div className="absolute -top-12 right-0 pointer-events-none z-30"><Music className="text-blue-300 h-6 w-6 animate-music" /></div>}
-            {mascotMood === 'sleeping' && <div className="absolute -top-14 right-[-24px] pointer-events-none z-30"><span className="text-blue-100/70 font-black text-2xl animate-zzz">Z</span></div>}
+            {mascotMessage.includes("Analisando") && <div className="absolute -top-12 right-0 pointer-events-none z-30"><Music className="text-red-400 h-6 w-6 animate-music" /></div>}
+            {mascotMood === 'sleeping' && <div className="absolute -top-14 right-[-24px] pointer-events-none z-30"><span className="text-red-200/50 font-black text-2xl animate-zzz">Z</span></div>}
             {(mascotMood === 'error' || mascotMood === 'capslock' || mascotMood === 'overheat' || mascotMood === 'rage') && <Sparkles className="absolute -top-8 -left-6 text-red-400 h-6 w-6 animate-pulse z-30" />}
             {mascotMood === 'overheat' && <Flame className="absolute -top-16 left-1/2 -translate-x-1/2 text-orange-500 h-10 w-10 animate-steam z-40" />}
             {mascotMood === 'party' && <PartyPopper className="absolute -top-10 left-0 text-yellow-400 h-8 w-8 animate-bounce z-30" />}
@@ -655,9 +658,9 @@ export default function Auth() {
 
             {mascotMood !== 'shutdown' && (
                 <div className={`mb-5 relative group transition-all duration-300 ${mascotMood === 'sleeping' ? 'opacity-0 scale-75' : 'opacity-100 scale-100'}`}>
-                    <div className={`absolute -inset-0.5 bg-gradient-to-r rounded-xl opacity-30 blur ${mascotMood === 'error' || mascotMood === 'capslock' || mascotMood === 'overheat' || mascotMood === 'rage' ? 'from-red-500 to-orange-500' : 'from-blue-500 to-cyan-500'}`}></div>
-                    <div className="relative bg-slate-900/80 backdrop-blur-xl border border-white/10 px-5 py-2.5 rounded-2xl rounded-br-none shadow-2xl min-w-[170px] text-center">
-                        <p className={`text-xs font-bold tracking-wide transition-colors duration-300 whitespace-nowrap ${mascotMood === 'error' || mascotMood === 'capslock' || mascotMood === 'overheat' || mascotMood === 'rage' ? 'text-red-300 glitch-effect' : isGlitching ? 'text-blue-200 glitch-effect' : 'text-blue-100'}`}>{displayedMessage}<span className="animate-pulse opacity-50">_</span></p>
+                    <div className={`absolute -inset-0.5 bg-gradient-to-r rounded-xl opacity-40 blur ${mascotMood === 'error' || mascotMood === 'capslock' || mascotMood === 'overheat' || mascotMood === 'rage' ? 'from-red-500 to-orange-500' : 'from-red-600 to-rose-500'}`}></div>
+                    <div className="relative bg-neutral-950/90 backdrop-blur-xl border border-red-500/20 px-5 py-2.5 rounded-2xl rounded-br-none shadow-2xl min-w-[170px] text-center">
+                        <p className={`text-xs font-bold tracking-wide transition-colors duration-300 whitespace-nowrap ${mascotMood === 'error' || mascotMood === 'capslock' || mascotMood === 'overheat' || mascotMood === 'rage' ? 'text-red-400 glitch-effect' : isGlitching ? 'text-red-200 glitch-effect' : 'text-red-50'}`}>{displayedMessage}<span className="animate-pulse opacity-50">_</span></p>
                     </div>
                 </div>
             )}
@@ -670,23 +673,23 @@ export default function Auth() {
                         ) : (
                             <>
                                 {/* Corpo Robótico / Facial */}
-                                <div className="absolute top-1 left-1/2 -translate-x-1/2 w-1/2 h-[2px] bg-white/30 blur-[1px] rounded-full" />
-                                <div className="absolute w-20 h-10 bg-gradient-to-b from-white/10 to-transparent rounded-full blur-md pointer-events-none transition-transform duration-200" style={{ transform: `translate(${mousePos.x * -20}px, ${mousePos.y * -10}px) rotate(-15deg)` }}></div>
-                                <div className={`absolute inset-3 bg-[#030305] rounded-[2.3rem] overflow-hidden flex items-center justify-center border border-white/5 shadow-[inset_0_0_15px_rgba(0,0,0,0.9)]`}>
+                                <div className="absolute top-1 left-1/2 -translate-x-1/2 w-1/2 h-[2px] bg-white/20 blur-[1px] rounded-full" />
+                                <div className="absolute w-20 h-10 bg-gradient-to-b from-red-400/10 to-transparent rounded-full blur-md pointer-events-none transition-transform duration-200" style={{ transform: `translate(${mousePos.x * -20}px, ${mousePos.y * -10}px) rotate(-15deg)` }}></div>
+                                <div className={`absolute inset-3 bg-[#0a0202] rounded-[2.3rem] overflow-hidden flex items-center justify-center border border-red-500/10 shadow-[inset_0_0_15px_rgba(0,0,0,0.9)]`}>
                                     {(mascotMood === 'tracking' || mascotMood === 'excited' || mascotMood === 'flow' || mascotMood === 'god') && (
-                                        <><div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-400/30 to-transparent w-full h-[150%] scanner-effect z-10 pointer-events-none mix-blend-overlay" /><div className="absolute inset-0 flex flex-col gap-1 opacity-20 animate-data">{[...Array(10)].map((_, i) => <div key={i} className={`text-[6px] font-mono whitespace-nowrap ${mascotMood === 'god' ? 'text-yellow-300' : 'text-green-500'}`}>0101010101</div>)}</div></>
+                                        <><div className="absolute inset-0 bg-gradient-to-b from-transparent via-red-500/20 to-transparent w-full h-[150%] scanner-effect z-10 pointer-events-none mix-blend-overlay" /><div className="absolute inset-0 flex flex-col gap-1 opacity-30 animate-data">{[...Array(10)].map((_, i) => <div key={i} className={`text-[6px] font-mono whitespace-nowrap ${mascotMood === 'god' ? 'text-yellow-300' : 'text-red-500'}`}>0101010101</div>)}</div></>
                                     )}
-                                    <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)] bg-[size:8px_8px]" />
-                                    <div className={`absolute inset-0 opacity-30 transition-colors duration-300 ${mascotMood === 'error' || mascotMood === 'capslock' || mascotMood === 'overheat' || mascotMood === 'rage' ? 'bg-red-600' : mascotMood === 'success' ? 'bg-emerald-500' : mascotMood === 'flow' ? 'bg-amber-500' : mascotMood === 'god' ? 'bg-yellow-500' : 'bg-transparent'}`} />
+                                    <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#ef444410_1px,transparent_1px),linear-gradient(to_bottom,#ef444410_1px,transparent_1px)] bg-[size:8px_8px]" />
+                                    <div className={`absolute inset-0 opacity-30 transition-colors duration-300 ${mascotMood === 'error' || mascotMood === 'capslock' || mascotMood === 'overheat' || mascotMood === 'rage' ? 'bg-red-700' : mascotMood === 'success' ? 'bg-emerald-500' : mascotMood === 'flow' ? 'bg-amber-500' : mascotMood === 'god' ? 'bg-yellow-500' : 'bg-transparent'}`} />
                                     
                                     {mascotMood === 'booting' ? (
-                                        <div className="w-2/3 h-1 bg-gray-800 rounded-full overflow-hidden"><div className="h-full bg-blue-500 transition-all duration-300 ease-out" style={{ width: `${bootProgress}%` }}></div></div>
+                                        <div className="w-2/3 h-1 bg-red-950 rounded-full overflow-hidden"><div className="h-full bg-red-500 transition-all duration-300 ease-out" style={{ width: `${bootProgress}%` }}></div></div>
                                     ) : (
                                         <div className={`flex gap-5 transition-all duration-200 ease-out z-20 items-center ${mascotMood === 'dizzy' ? 'animate-dizzy' : ''}`} style={{ transform: (['blind', 'peek', 'sleeping', 'error', 'success', 'warp', 'party', 'confused', 'scared', 'dizzy', 'lost'].includes(mascotMood)) ? 'none' : `translate(${eyePosition.x + eyeJitter.x}px, ${eyePosition.y + eyeJitter.y}px)` }}>
-                                            <div className={`transition-all duration-300 shadow-[0_0_25px_currentColor] overflow-hidden relative ${mascotMood === 'success' || mascotMood === 'warp' || mascotMood === 'excited' || mascotMood === 'party' ? 'w-8 h-4 rounded-t-full border-t-[6px] border-emerald-300 bg-transparent mb-2' : mascotMood === 'error' || mascotMood === 'capslock' ? 'w-7 h-1.5 bg-red-500 rotate-45 rounded-sm' : mascotMood === 'overheat' ? 'w-7 h-1.5 bg-orange-500 rotate-12 rounded-sm animate-pulse' : mascotMood === 'sleeping' || mascotMood === 'bored' ? 'w-7 h-1 bg-slate-500/50 rounded-full' : mascotMood === 'confused' || mascotMood === 'lost' ? 'w-7 h-3 bg-amber-300 rounded-full scale-y-75' : mascotMood === 'scared' ? 'w-5 h-5 bg-white rounded-full animate-ping' : mascotMood === 'dizzy' ? 'w-6 h-6 border-2 border-white rounded-full border-t-transparent animate-spin' : mascotMood === 'judging' ? 'w-7 h-2 bg-amber-400 rounded-sm rotate-12' : mascotMood === 'flow' ? 'w-8 h-5 rounded-md bg-amber-300 animate-pulse' : mascotMood === 'god' ? 'w-8 h-8 rounded-full bg-yellow-300 animate-pulse shadow-[0_0_20px_yellow]' : isGlitching ? 'w-7 h-1 bg-white' : 'w-6 h-9 bg-cyan-300 rounded-full' }`} style={{ transform: `scale(${pupilSize})` }}>
+                                            <div className={`transition-all duration-300 shadow-[0_0_25px_currentColor] overflow-hidden relative ${mascotMood === 'success' || mascotMood === 'warp' || mascotMood === 'excited' || mascotMood === 'party' ? 'w-8 h-4 rounded-t-full border-t-[6px] border-emerald-300 bg-transparent mb-2' : mascotMood === 'error' || mascotMood === 'capslock' ? 'w-7 h-1.5 bg-red-500 rotate-45 rounded-sm' : mascotMood === 'overheat' ? 'w-7 h-1.5 bg-orange-500 rotate-12 rounded-sm animate-pulse' : mascotMood === 'sleeping' || mascotMood === 'bored' ? 'w-7 h-1 bg-red-900/80 rounded-full' : mascotMood === 'confused' || mascotMood === 'lost' ? 'w-7 h-3 bg-amber-300 rounded-full scale-y-75' : mascotMood === 'scared' ? 'w-5 h-5 bg-white rounded-full animate-ping' : mascotMood === 'dizzy' ? 'w-6 h-6 border-2 border-white rounded-full border-t-transparent animate-spin' : mascotMood === 'judging' ? 'w-7 h-2 bg-amber-400 rounded-sm rotate-12' : mascotMood === 'flow' ? 'w-8 h-5 rounded-md bg-amber-300 animate-pulse' : mascotMood === 'god' ? 'w-8 h-8 rounded-full bg-yellow-300 animate-pulse shadow-[0_0_20px_yellow]' : isGlitching ? 'w-7 h-1 bg-white' : 'w-6 h-9 bg-red-400 rounded-full' }`} style={{ transform: `scale(${pupilSize})` }}>
                                                 {!['sleeping', 'error', 'success', 'warp', 'party', 'scared'].includes(mascotMood) && <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.4)_50%)] bg-[size:100%_4px]" />}
                                             </div>
-                                            <div className={`transition-all duration-300 shadow-[0_0_25px_currentColor] overflow-hidden relative ${mascotMood === 'success' || mascotMood === 'warp' || mascotMood === 'excited' || mascotMood === 'party' ? 'w-8 h-4 rounded-t-full border-t-[6px] border-emerald-300 bg-transparent mb-2' : mascotMood === 'error' || mascotMood === 'capslock' ? 'w-7 h-1.5 bg-red-500 -rotate-45 rounded-sm' : mascotMood === 'overheat' ? 'w-7 h-1.5 bg-orange-500 -rotate-12 rounded-sm animate-pulse' : mascotMood === 'sleeping' || mascotMood === 'bored' ? 'w-7 h-1 bg-slate-500/50 rounded-full' : mascotMood === 'confused' || mascotMood === 'lost' ? 'w-7 h-7 bg-amber-300 rounded-full' : mascotMood === 'scared' ? 'w-5 h-5 bg-white rounded-full animate-ping' : mascotMood === 'dizzy' ? 'w-6 h-6 border-2 border-white rounded-full border-t-transparent animate-spin' : mascotMood === 'judging' ? 'w-7 h-2 bg-amber-400 rounded-sm -rotate-12' : mascotMood === 'flow' ? 'w-8 h-5 rounded-md bg-amber-300 animate-pulse' : mascotMood === 'god' ? 'w-8 h-8 rounded-full bg-yellow-300 animate-pulse shadow-[0_0_20px_yellow]' : isGlitching ? 'w-7 h-1 bg-white' : 'w-6 h-9 bg-cyan-300 rounded-full' }`} style={{ transform: `scale(${pupilSize})` }}>
+                                            <div className={`transition-all duration-300 shadow-[0_0_25px_currentColor] overflow-hidden relative ${mascotMood === 'success' || mascotMood === 'warp' || mascotMood === 'excited' || mascotMood === 'party' ? 'w-8 h-4 rounded-t-full border-t-[6px] border-emerald-300 bg-transparent mb-2' : mascotMood === 'error' || mascotMood === 'capslock' ? 'w-7 h-1.5 bg-red-500 -rotate-45 rounded-sm' : mascotMood === 'overheat' ? 'w-7 h-1.5 bg-orange-500 -rotate-12 rounded-sm animate-pulse' : mascotMood === 'sleeping' || mascotMood === 'bored' ? 'w-7 h-1 bg-red-900/80 rounded-full' : mascotMood === 'confused' || mascotMood === 'lost' ? 'w-7 h-7 bg-amber-300 rounded-full' : mascotMood === 'scared' ? 'w-5 h-5 bg-white rounded-full animate-ping' : mascotMood === 'dizzy' ? 'w-6 h-6 border-2 border-white rounded-full border-t-transparent animate-spin' : mascotMood === 'judging' ? 'w-7 h-2 bg-amber-400 rounded-sm -rotate-12' : mascotMood === 'flow' ? 'w-8 h-5 rounded-md bg-amber-300 animate-pulse' : mascotMood === 'god' ? 'w-8 h-8 rounded-full bg-yellow-300 animate-pulse shadow-[0_0_20px_yellow]' : isGlitching ? 'w-7 h-1 bg-white' : 'w-6 h-9 bg-red-400 rounded-full' }`} style={{ transform: `scale(${pupilSize})` }}>
                                                 {!['sleeping', 'error', 'success', 'warp', 'party', 'scared'].includes(mascotMood) && <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.4)_50%)] bg-[size:100%_4px]" />}
                                             </div>
                                         </div>
@@ -700,7 +703,7 @@ export default function Auth() {
 
                 {mascotMood !== 'shutdown' && (
                     <>
-                        {currentProp === 'magnifier' && <Search className="absolute bottom-[-10px] right-[-20px] h-12 w-12 text-blue-200 rotate-12 drop-shadow-xl z-40 animate-pulse" />}
+                        {currentProp === 'magnifier' && <Search className="absolute bottom-[-10px] right-[-20px] h-12 w-12 text-red-200 rotate-12 drop-shadow-xl z-40 animate-pulse" />}
                         {currentProp === 'shield' && <ShieldCheck className="absolute bottom-[-15px] left-[-15px] h-14 w-14 text-emerald-400 -rotate-12 drop-shadow-2xl z-40 animate-pulse" />}
                         {currentProp === 'coffee' && <Coffee className="absolute bottom-[-10px] right-[-15px] h-10 w-10 text-amber-300 rotate-6 drop-shadow-xl z-40" />}
                         {currentProp === 'warning' && <AlertTriangle className="absolute top-0 right-[-20px] h-10 w-10 text-red-500 animate-bounce z-40" />}
@@ -710,52 +713,52 @@ export default function Auth() {
 
                 {mascotMood !== 'shutdown' && (
                     <>
-                        <div className={`absolute left-0 w-11 h-11 bg-gradient-to-br from-slate-600 to-slate-800 border border-slate-500/50 rounded-full z-30 shadow-xl transition-all duration-500 cubic-bezier(0.34, 1.56, 0.64, 1) ${mascotMood === 'blind' ? 'bottom-[38px] left-[12px] rotate-[15deg]' : mascotMood === 'peek' ? 'bottom-[28px] left-[2px] rotate-0' : mascotMood === 'confused' || mascotMood === 'lost' ? 'bottom-[40px] left-[5px] rotate-[30deg]' : mascotMood === 'scared' ? 'bottom-[50px] -left-2 rotate-[-20deg]' : mascotMood === 'judging' ? 'bottom-[25px] -left-2' : mascotMood === 'flow' || typingCombo > 5 ? 'bottom-[20px] -left-4 animate-bounce' : mascotMood === 'god' ? 'bottom-[40px] -left-8 animate-levitate' : currentProp === 'shield' ? 'bottom-[20px] -left-4' : '-bottom-4 -left-2 opacity-0 scale-50'}`}></div>
-                        <div className={`absolute right-0 w-11 h-11 bg-gradient-to-bl from-slate-600 to-slate-800 border border-slate-500/50 rounded-full z-30 shadow-xl transition-all duration-500 cubic-bezier(0.34, 1.56, 0.64, 1) ${mascotMood === 'blind' ? 'bottom-[38px] right-[12px] -rotate-[15deg]' : mascotMood === 'peek' ? 'bottom-[32px] -right-1 rotate-[25deg]' : mascotMood === 'scared' ? 'bottom-[50px] -right-2 rotate-[20deg]' : mascotMood === 'judging' ? 'bottom-[25px] -right-2' : mascotMood === 'flow' || typingCombo > 5 ? 'bottom-[20px] -right-4 animate-bounce' : mascotMood === 'god' ? 'bottom-[40px] -right-8 animate-levitate' : currentProp !== 'none' && currentProp !== 'shield' ? 'bottom-[20px] -right-4' : '-bottom-4 -right-2 opacity-0 scale-50'}`}></div>
+                        <div className={`absolute left-0 w-11 h-11 bg-gradient-to-br from-[#3f1010] to-[#1a0505] border border-red-500/30 rounded-full z-30 shadow-xl transition-all duration-500 cubic-bezier(0.34, 1.56, 0.64, 1) ${mascotMood === 'blind' ? 'bottom-[38px] left-[12px] rotate-[15deg]' : mascotMood === 'peek' ? 'bottom-[28px] left-[2px] rotate-0' : mascotMood === 'confused' || mascotMood === 'lost' ? 'bottom-[40px] left-[5px] rotate-[30deg]' : mascotMood === 'scared' ? 'bottom-[50px] -left-2 rotate-[-20deg]' : mascotMood === 'judging' ? 'bottom-[25px] -left-2' : mascotMood === 'flow' || typingCombo > 5 ? 'bottom-[20px] -left-4 animate-bounce' : mascotMood === 'god' ? 'bottom-[40px] -left-8 animate-levitate' : currentProp === 'shield' ? 'bottom-[20px] -left-4' : '-bottom-4 -left-2 opacity-0 scale-50'}`}></div>
+                        <div className={`absolute right-0 w-11 h-11 bg-gradient-to-bl from-[#3f1010] to-[#1a0505] border border-red-500/30 rounded-full z-30 shadow-xl transition-all duration-500 cubic-bezier(0.34, 1.56, 0.64, 1) ${mascotMood === 'blind' ? 'bottom-[38px] right-[12px] -rotate-[15deg]' : mascotMood === 'peek' ? 'bottom-[32px] -right-1 rotate-[25deg]' : mascotMood === 'scared' ? 'bottom-[50px] -right-2 rotate-[20deg]' : mascotMood === 'judging' ? 'bottom-[25px] -right-2' : mascotMood === 'flow' || typingCombo > 5 ? 'bottom-[20px] -right-4 animate-bounce' : mascotMood === 'god' ? 'bottom-[40px] -right-8 animate-levitate' : currentProp !== 'none' && currentProp !== 'shield' ? 'bottom-[20px] -right-4' : '-bottom-4 -right-2 opacity-0 scale-50'}`}></div>
                     </>
                 )}
 
-                {/* --- NOVOS PROPULSORES REALISTAS (PLASMA ENGINE) --- */}
+                {/* --- NOVOS PROPULSORES REALISTAS (PLASMA ENGINE RED/ORANGE) --- */}
                 {mascotMood !== 'sleeping' && mascotMood !== 'shutdown' && (
                  <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex justify-center z-10 origin-top">
                       {/* Heat Haze/Glow Container */}
-                      <div className={`absolute -bottom-4 w-20 h-20 blur-[20px] opacity-40 rounded-full animate-pulse transition-colors duration-500 ${isHighEnergy ? (mascotMood === 'overheat' ? 'bg-orange-500' : 'bg-amber-400') : (['error', 'capslock'].includes(mascotMood) ? 'bg-red-500' : 'bg-blue-500')}`}></div>
+                      <div className={`absolute -bottom-4 w-20 h-20 blur-[20px] opacity-50 rounded-full animate-pulse transition-colors duration-500 ${isHighEnergy ? (mascotMood === 'overheat' ? 'bg-orange-500' : 'bg-amber-400') : (['error', 'capslock'].includes(mascotMood) ? 'bg-red-500' : 'bg-red-600')}`}></div>
 
                       {/* Main Engine Cluster */}
                       <div className="relative flex items-start justify-center gap-1 scale-y-110">
                           {/* Left Stabilizer */}
                           <div className="relative w-3 h-8 origin-top animate-thruster-stabilizer-left">
-                              <div className={`absolute inset-0 rounded-b-full blur-[4px] opacity-80 transition-colors duration-500 ${isHighEnergy ? (mascotMood === 'overheat' ? 'bg-orange-500' : 'bg-amber-400') : (['error', 'capslock'].includes(mascotMood) ? 'bg-red-500' : 'bg-blue-500')}`}></div>
-                              <div className={`absolute top-0 left-[20%] w-[60%] h-[80%] rounded-b-full blur-[1px] transition-colors duration-500 ${isHighEnergy ? (mascotMood === 'overheat' ? 'bg-orange-100' : 'bg-yellow-100') : (['error', 'capslock'].includes(mascotMood) ? 'bg-red-100' : 'bg-cyan-50')}`}></div>
+                              <div className={`absolute inset-0 rounded-b-full blur-[4px] opacity-80 transition-colors duration-500 ${isHighEnergy ? (mascotMood === 'overheat' ? 'bg-orange-500' : 'bg-amber-400') : (['error', 'capslock'].includes(mascotMood) ? 'bg-red-500' : 'bg-red-600')}`}></div>
+                              <div className={`absolute top-0 left-[20%] w-[60%] h-[80%] rounded-b-full blur-[1px] transition-colors duration-500 ${isHighEnergy ? (mascotMood === 'overheat' ? 'bg-orange-100' : 'bg-yellow-100') : (['error', 'capslock'].includes(mascotMood) ? 'bg-red-100' : 'bg-red-200')}`}></div>
                           </div>
 
                           {/* Center Main Drive */}
                           <div className="relative w-5 h-12 origin-top animate-thruster-main mx-1">
                               {/* Outer plasma sheath */}
-                             <div className={`absolute inset-0 rounded-b-full blur-[6px] transition-colors duration-500 ${isHighEnergy ? (mascotMood === 'overheat' ? 'bg-orange-500' : 'bg-amber-400') : (['error', 'capslock'].includes(mascotMood) ? 'bg-red-500' : 'bg-blue-500')}`}></div>
+                             <div className={`absolute inset-0 rounded-b-full blur-[6px] transition-colors duration-500 ${isHighEnergy ? (mascotMood === 'overheat' ? 'bg-orange-500' : 'bg-amber-400') : (['error', 'capslock'].includes(mascotMood) ? 'bg-red-500' : 'bg-red-600')}`}></div>
                               {/* Inner bright core */}
                              <div className={`absolute top-0 left-[15%] w-[70%] h-[90%] rounded-b-full bg-white blur-[2px] animate-thruster-core-pulse`}></div>
                           </div>
 
                           {/* Right Stabilizer */}
                           <div className="relative w-3 h-8 origin-top animate-thruster-stabilizer-right">
-                              <div className={`absolute inset-0 rounded-b-full blur-[4px] opacity-80 transition-colors duration-500 ${isHighEnergy ? (mascotMood === 'overheat' ? 'bg-orange-500' : 'bg-amber-400') : (['error', 'capslock'].includes(mascotMood) ? 'bg-red-500' : 'bg-blue-500')}`}></div>
-                              <div className={`absolute top-0 left-[20%] w-[60%] h-[80%] rounded-b-full blur-[1px] transition-colors duration-500 ${isHighEnergy ? (mascotMood === 'overheat' ? 'bg-orange-100' : 'bg-yellow-100') : (['error', 'capslock'].includes(mascotMood) ? 'bg-red-100' : 'bg-cyan-50')}`}></div>
+                              <div className={`absolute inset-0 rounded-b-full blur-[4px] opacity-80 transition-colors duration-500 ${isHighEnergy ? (mascotMood === 'overheat' ? 'bg-orange-500' : 'bg-amber-400') : (['error', 'capslock'].includes(mascotMood) ? 'bg-red-500' : 'bg-red-600')}`}></div>
+                              <div className={`absolute top-0 left-[20%] w-[60%] h-[80%] rounded-b-full blur-[1px] transition-colors duration-500 ${isHighEnergy ? (mascotMood === 'overheat' ? 'bg-orange-100' : 'bg-yellow-100') : (['error', 'capslock'].includes(mascotMood) ? 'bg-red-100' : 'bg-red-200')}`}></div>
                           </div>
                       </div>
                  </div>
                 )}
             </div>
-            <div className={`w-24 h-3 bg-black/70 rounded-[100%] blur-lg mt-10 transition-all duration-1000 ${mascotMood === 'sleeping' ? 'opacity-10 scale-50' : mascotMood === 'shutdown' ? 'opacity-0' : 'animate-pulse scale-x-90 opacity-40'}`} />
+            <div className={`w-24 h-3 bg-black/80 rounded-[100%] blur-lg mt-10 transition-all duration-1000 ${mascotMood === 'sleeping' ? 'opacity-10 scale-50' : mascotMood === 'shutdown' ? 'opacity-0' : 'animate-pulse scale-x-90 opacity-60'}`} />
         </div>
 
       </div>
       
       {/* --- RODAPÉ DISCRETO --- */}
       <div className={`absolute bottom-5 w-full text-center transition-opacity duration-1000 ${isExiting ? 'opacity-0' : 'opacity-100'} z-50`}>
-        <div className="inline-flex items-center gap-3 text-[10px] font-mono text-white/10 hover:text-blue-400/40 transition-all duration-700 cursor-default tracking-[0.2em] group">
-            <span>© 2025 FLUXO ROYALE</span>
-            <span className="w-1 h-1 rounded-full bg-white/10 group-hover:bg-blue-500/50 transition-colors duration-700"></span>
+        <div className="inline-flex items-center gap-3 text-[10px] font-mono text-white/10 hover:text-red-400/40 transition-all duration-700 cursor-default tracking-[0.2em] group">
+            <span>© 2025 COL</span>
+            <span className="w-1 h-1 rounded-full bg-white/10 group-hover:bg-red-500/50 transition-colors duration-700"></span>
             <span>DEV BRUNO CORRAL</span>
         </div>
       </div>
