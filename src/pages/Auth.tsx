@@ -6,12 +6,12 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { 
-  Lock, User, Loader2, Eye, EyeOff, ShieldCheck, Zap, Sparkles, HelpCircle, 
+  Lock, User, Loader2, Eye, EyeOff, ShieldCheck, Sparkles, HelpCircle, 
   Search, Coffee, Music, PartyPopper, HelpCircle as QuestionIcon, Power, CheckCircle2, 
   AlertTriangle, Fingerprint, Activity, Keyboard, Flame, Wifi, BatteryCharging, Server, Cpu, ArrowRight
 } from "lucide-react";
 
-// --- 1. DEFINIÇÃO DE TIPOS ROBUSTA ---
+// --- 1. DEFINIÇÃO DE TIPOS ---
 const MASCOT_MOODS = [
   "idle", "sleeping", "shutdown", "booting", "waking", "tracking", "blind", 
   "peek", "success", "error", "warp", "excited", "cool", "bored", "party", 
@@ -420,7 +420,8 @@ export default function Auth() {
   }
 
   return (
-    <div className={`flex min-h-[100dvh] w-full bg-[#050202] overflow-hidden font-sans selection:bg-red-500/30 selection:text-red-100 ${isExiting ? 'animate-ui-zoom' : ''}`}>
+    // ESTRUTURA BASE: Flex Row para Desktop, Flex Col para mobile, SEMPRE h-[100dvh] para não quebrar a tela.
+    <div className={`flex flex-col lg:flex-row h-[100dvh] w-full bg-[#050202] text-white font-sans selection:bg-red-500/30 selection:text-red-100 overflow-hidden ${isExiting ? 'animate-ui-zoom' : ''}`}>
       
       {/* RIPPLES (Efeito de clique global) */}
       {ripples.map(r => (
@@ -474,7 +475,8 @@ export default function Auth() {
       `}</style>
 
       {/* =========================================
-          LADO ESQUERDO: VITRINE / MASCOTE (DESKTOP) 
+          LADO ESQUERDO: VITRINE / MASCOTE (DESKTOP)
+          (Completamente oculto no mobile)
           ========================================= */}
       <div className="hidden lg:flex flex-col relative w-[55%] xl:w-[60%] h-full items-center justify-center overflow-hidden bg-black border-r border-red-900/30">
         
@@ -614,12 +616,15 @@ export default function Auth() {
       {/* =========================================
           LADO DIREITO: FORMULÁRIO (CLEAN / iFOOD) 
           ========================================= */}
-      <div className="w-full lg:w-[45%] xl:w-[40%] flex flex-col justify-center px-6 sm:px-12 lg:px-20 h-full relative z-20 shadow-[-20px_0_50px_rgba(0,0,0,0.8)] bg-[#050202]">
+      {/* O container direito agora tem rolagem (overflow-y-auto) para que telas pequenas não cortem o formulário */}
+      <div className="w-full lg:w-[45%] xl:w-[40%] flex flex-col relative z-20 shadow-[-20px_0_50px_rgba(0,0,0,0.8)] bg-[#050202] overflow-y-auto h-full px-6 sm:px-12 lg:px-20">
         
-        {/* Atmosphere Overlay sutil apenas para manter o vermelho bem fundo */}
+        {/* Atmosphere Overlay */}
         <div className="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(ellipse_at_top_right,rgba(220,38,38,0.15),transparent_50%)]"></div>
 
-        <div className="w-full max-w-[420px] mx-auto relative z-10">
+        {/* Wrapper interno do formulário. Ele usa min-h-full e py-10 para garantir o espaço de respiração mobile */}
+        <div className="w-full max-w-[420px] mx-auto relative z-10 flex flex-col justify-center min-h-full py-10">
+            
             {/* Header Form */}
             <div className="mb-10 lg:mb-12">
                 <div className="lg:hidden flex items-center gap-3 mb-8">
@@ -692,14 +697,15 @@ export default function Auth() {
 
             <div className="mt-8 flex justify-center items-center">
                 <p className="text-neutral-500 text-xs flex items-center gap-1 cursor-help hover:text-emerald-400 transition-colors" onMouseEnter={() => { if(mascotMood !== 'shutdown') { setMascotMood('success'); setMascotMessage("Ambiente 100% Protegido."); setCurrentProp("shield"); }}} onMouseLeave={() => { if(mascotMood !== 'shutdown') { setMascotMood('idle'); setCurrentProp("none"); }}}>
-                    <ShieldCheck className="h-4 w-4 text-emerald-500" /> Conexão criptografada de ponta a ponta
+                    <ShieldCheck className="h-4 w-4 text-emerald-500" /> Conexão criptografada
                 </p>
             </div>
-        </div>
 
-        {/* Rodapé Mobile */}
-        <div className="absolute bottom-6 left-0 w-full text-center lg:hidden">
-             <p className="text-[10px] font-mono text-neutral-600 tracking-widest uppercase">© 2025 COL - Dev Bruno Corral</p>
+            {/* Rodapé Mobile (Fica no fim da rolagem, não sobrepõe a tela) */}
+            <div className="mt-auto pt-10 pb-2 w-full text-center lg:hidden">
+                 <p className="text-[10px] font-mono text-neutral-600 tracking-widest uppercase">© 2025 COL - Dev Bruno Corral</p>
+            </div>
+
         </div>
       </div>
     </div>
