@@ -1,72 +1,44 @@
-# Welcome to your Lovable project
+# 📦 ERP - Controle Interno de Estoque
 
-## Project info
+Bem-vindo ao repositório do meu projeto! 
 
-**URL**: https://lovable.dev/projects/e065d31e-17aa-41f5-9271-82d71aa3c3a5
+Este sistema é um **ERP (Enterprise Resource Planning)** focado no controle interno de estoque, gestão de cardápio e administração de pedidos. Ele foi idealizado e desenvolvido por mim, estudante da **FATEC de Adamantina**, como parte da minha jornada acadêmica e prática em Engenharia de Software.
 
-## How can I edit this code?
+O objetivo deste projeto é criar uma solução completa, eficiente e moderna para o gerenciamento de um estabelecimento (como uma hamburgueria), unificando uma interface de usuário rápida com uma API segura e robusta.
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## 🛠️ Tecnologias Utilizadas
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/e065d31e-17aa-41f5-9271-82d71aa3c3a5) and start prompting.
+Este projeto é *Full-Stack* e foi construído utilizando as melhores e mais modernas tecnologias do mercado:
 
-Changes made via Lovable will be committed automatically to this repo.
+**Frontend (Interface do Usuário):**
+- [Vite](https://vitejs.dev/) - *Build tool super rápida*
+- [React](https://reactjs.org/) - *Biblioteca para a criação da interface*
+- [TypeScript](https://www.typescriptlang.org/) - *Tipagem estática para maior segurança*
+- [Tailwind CSS](https://tailwindcss.com/) - *Estilização utilitária e responsiva*
+- [shadcn/ui](https://ui.shadcn.com/) - *Componentes de interface acessíveis e customizáveis*
 
-**Use your preferred IDE**
+**Backend (API & Banco de Dados):**
+- [Node.js](https://nodejs.org/) & [Express](https://expressjs.com/) - *Servidor e rotas da API*
+- [Prisma ORM](https://www.prisma.io/) - *Gerenciamento e consultas ao banco de dados*
+- **PostgreSQL** - *Banco de dados relacional (via NeonDB)*
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🚀 Como rodar o projeto localmente
 
-Follow these steps:
+Se você quiser clonar este projeto para testar na sua própria máquina, siga os passos abaixo.
 
+### Pré-requisitos
+Certifique-se de ter o [Node.js & npm](https://nodejs.org/en/download/) instalados no seu computador.
+
+### Passo a Passo
+
+**1. Clone o repositório:**
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/e065d31e-17aa-41f5-9271-82d71aa3c3a5) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
+git clone [https://github.com/SEU_USUARIO/NOME_DO_REPOSITORIO.git](https://github.com/SEU_USUARIO/NOME_DO_REPOSITORIO.git)
+cd NOME_DO_REPOSITORIO
 
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
