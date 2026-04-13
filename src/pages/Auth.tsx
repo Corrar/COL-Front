@@ -530,9 +530,11 @@ export default function Auth() {
             className="absolute inset-0 transition-transform duration-300 ease-out overflow-hidden"
             style={{ transform: `translate(${mousePos.x * 3}px, ${mousePos.y * 3}px) scale(1.02)` }}
         >
-            <div className={`absolute inset-0 bg-[url('https://royaleavicultura.com.br/wp-content/uploads/2025/09/Esteira-para-ovos-o-que-e-e-como-funciona.png')] bg-cover bg-[position:25%_center] transition-all duration-1000 ${mascotMood === 'shutdown' ? 'brightness-0 opacity-0' : 'brightness-50 opacity-30 grayscale-[0.3]'}`}></div>
-            {/* Overlay vermelho esmeralda adaptado */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#2a0606] from-45% via-[#2a0606]/90 to-transparent opacity-100"></div>
+            {/* Nova imagem de Data Center/Servidores que combina com o tema COL */}
+            <div className={`absolute inset-0 bg-[url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center transition-all duration-1000 ${mascotMood === 'shutdown' ? 'brightness-0 opacity-0' : 'brightness-50 opacity-40 grayscale-[0.2]'}`}></div>
+            
+            {/* Overlay vermelho escuro adaptado (Gradiente escuro) */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#1a0505] from-45% via-[#1a0505]/90 to-transparent opacity-100"></div>
         </div>
 
         {/* Grid Animado (Chão Digital) */}
