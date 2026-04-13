@@ -391,8 +391,10 @@ export default function Auth() {
   };
 
   // --- CLASSES CSS E ANIMAÇÕES ---
+  
+  // Mascote escondido no mobile (hidden) e visível como flex no desktop (md:flex)
   const mascotContainerClasses = `
-    flex flex-col items-center z-50 cursor-pointer
+    hidden md:flex flex-col items-center z-50 cursor-pointer
     transition-all duration-300 ease-out will-change-transform
     relative scale-75 md:scale-95 lg:scale-100
     mb-4 md:mb-0 md:ml-8
@@ -411,7 +413,7 @@ export default function Auth() {
     ${['idle', 'tracking', 'peek', 'excited', 'bored', 'cool', 'confused', 'lost', 'judging', 'flow', 'god', 'overheat'].includes(mascotMood) ? 'animate-float-organic' : ''}
   `;
 
-  // Estilo do Corpo do Mascote (Ajustado para Vermelho/Carmesim)
+  // Estilo do Corpo do Mascote
   const mascotBodyClasses = `
     relative w-full h-full bg-gradient-to-br rounded-[3rem] border-[3px] shadow-2xl flex items-center justify-center overflow-hidden transition-all duration-500 z-20
     ${mascotMood === 'shutdown' ? 'from-gray-900 to-black border-gray-700 shadow-none' : 'from-[#2e1212] to-[#0a0202]'} 
@@ -445,8 +447,9 @@ export default function Auth() {
     )
   }
 
+  // O container agora usa p-0 no mobile para tela cheia e retoma as margens no desktop (md:p-4)
   return (
-    <div className={`min-h-[100dvh] w-full flex flex-col md:flex-row items-center justify-center relative overflow-hidden font-sans selection:bg-red-500/30 selection:text-red-100 p-4 md:pl-16 lg:pl-24 overscroll-none`}>
+    <div className={`h-[100dvh] md:min-h-[100dvh] w-full flex flex-col md:flex-row items-center justify-center relative overflow-hidden font-sans selection:bg-red-500/30 selection:text-red-100 p-0 md:p-4 md:pl-16 lg:pl-24 overscroll-none`}>
       
       {/* RIPPLES (Efeito de clique) */}
       {ripples.map(r => (
@@ -549,7 +552,7 @@ export default function Auth() {
                 {mascotMood === 'god' && <div className="absolute inset-0 bg-yellow-500/20 blur-[100px] animate-pulse mix-blend-overlay" />}
                 
                 {/* Partículas de Dados Flutuantes */}
-                <div className="absolute inset-0 overflow-hidden opacity-30 pointer-events-none">
+                <div className="absolute inset-0 overflow-hidden opacity-30 pointer-events-none hidden md:block">
                       <div className="absolute top-[-20%] left-[20%] text-[10px] text-red-500 font-mono animate-[data-flow_4s_linear_infinite]">010101</div>
                       <div className="absolute top-[-30%] left-[80%] text-[10px] text-red-500 font-mono animate-[data-flow_5s_linear_infinite]" style={{animationDelay:'1s'}}>101100</div>
                 </div>
@@ -558,36 +561,37 @@ export default function Auth() {
       </div>
 
       {/* --- CONTEÚDO PRINCIPAL --- */}
-      <div className={`flex flex-col md:flex-row items-center z-20 gap-6 md:gap-8 ${isExiting ? 'animate-ui-zoom' : ''} w-full max-w-[900px] justify-center md:justify-start`}>
+      <div className={`flex flex-col md:flex-row items-center z-20 md:gap-8 ${isExiting ? 'animate-ui-zoom' : ''} w-full h-full md:h-auto md:max-w-[900px] justify-center md:justify-start`}>
         
-        {/* --- CARD DE LOGIN (O "Terminal") --- */}
-        <div className="w-full max-w-[360px] md:max-w-[400px] order-2 md:order-1" style={{ perspective: '1000px' }}>
+        {/* --- CARD DE LOGIN (Tela cheia no mobile, Cartão 3D no desktop) --- */}
+        <div className="w-full h-full md:h-auto md:max-w-[400px] order-2 md:order-1" style={{ perspective: '1000px' }}>
             <div 
                 ref={cardRef}
                 onMouseMove={handleCardMouseMove}
                 onMouseLeave={handleCardMouseLeave}
                 style={{ 
-                    transform: `rotateX(${cardTilt.x}deg) rotateY(${cardTilt.y}deg)`,
+                    transform: window.innerWidth > 768 ? `rotateX(${cardTilt.x}deg) rotateY(${cardTilt.y}deg)` : 'none',
                     transition: 'transform 0.1s ease-out'
                 }}
-                className={`relative group overflow-hidden rounded-[2rem] border border-white/5 bg-neutral-950/80 backdrop-blur-3xl shadow-2xl transition-colors duration-500 ${mascotMood === 'success' || mascotMood === 'warp' ? 'border-emerald-500/30 shadow-[0_0_40px_rgba(16,185,129,0.2)]' : mascotMood === 'error' || mascotMood === 'rage' ? 'border-red-500/50 shadow-[0_0_60px_rgba(239,68,68,0.4)]' : 'shadow-[0_0_40px_rgba(0,0,0,0.8)]'}`}
+                className={`relative group overflow-hidden w-full h-full md:h-auto rounded-none md:rounded-[2rem] border-0 md:border border-white/5 bg-neutral-950/90 md:bg-neutral-950/80 backdrop-blur-2xl md:backdrop-blur-3xl transition-colors duration-500 flex flex-col justify-center ${mascotMood === 'success' || mascotMood === 'warp' ? 'md:border-emerald-500/30 md:shadow-[0_0_40px_rgba(16,185,129,0.2)]' : mascotMood === 'error' || mascotMood === 'rage' ? 'md:border-red-500/50 md:shadow-[0_0_60px_rgba(239,68,68,0.4)]' : 'md:shadow-[0_0_40px_rgba(0,0,0,0.8)]'}`}
             >
-                {/* Spotlight 2D (Efeito de brilho ao passar o mouse) */}
+                {/* Spotlight 2D (Efeito de brilho ao passar o mouse - Apenas Desktop) */}
                 <div 
-                    className="pointer-events-none absolute -inset-px rounded-[2rem] opacity-0 transition-opacity duration-300"
+                    className="pointer-events-none absolute -inset-px rounded-[2rem] opacity-0 transition-opacity duration-300 hidden md:block"
                     style={{
                         background: `radial-gradient(600px circle at ${cardSpotlight.x}px ${cardSpotlight.y}px, rgba(239, 68, 68, 0.15), transparent 40%)`,
                         opacity: cardSpotlight.opacity
                     }}
                 />
 
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-[1px] bg-gradient-to-r from-transparent via-red-500/50 to-transparent" />
-                <div className="px-6 py-8 relative z-10">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-[1px] bg-gradient-to-r from-transparent via-red-500/50 to-transparent hidden md:block" />
+                
+                {/* O conteúdo interno centra-se verticalmente na tela cheia */}
+                <div className="px-6 py-8 relative z-10 flex flex-col justify-center h-full md:h-auto">
                     <div className="mb-8 text-center relative">
                         <div className="flex justify-center mb-5">
                             <div className="relative group/logo cursor-pointer animate-float-logo" onClick={() => setMascotMood('party')}>
                                 <div className={`absolute inset-0 bg-red-600/30 rounded-full blur-3xl animate-pulse opacity-60 ${mascotMood === 'god' ? 'bg-yellow-500/50' : ''}`} />
-                                {/* Filtro aplicado no logo para deixá-lo com tom vermelho, ou utilize outro ícone central */}
                                 <div className="relative h-16 w-16 flex items-center justify-center bg-red-950/50 rounded-2xl border border-red-500/30 drop-shadow-[0_0_15px_rgba(239,68,68,0.6)]">
                                     <Cpu className={`h-10 w-10 text-red-500 ${mascotMood === 'god' ? 'text-yellow-400' : ''}`} />
                                 </div>
@@ -602,7 +606,7 @@ export default function Auth() {
                             <Label className="text-xs font-bold text-red-300/70 uppercase tracking-widest ml-2">ID Numérico</Label>
                             <div className={`relative overflow-hidden rounded-2xl group-focus-within:ring-1 transition-all duration-300 ${mascotMood === 'flow' ? 'ring-amber-500/50' : 'ring-red-500/40'}`}>
                                 <div className="absolute left-4 top-1/2 -translate-y-1/2 text-red-400/50 group-focus-within/input:text-red-400 transition-colors"><User className="h-5 w-5" /></div>
-                                <Input type="text" inputMode="numeric" placeholder="Ex: 1050" value={loginId} onChange={handleIdChange} onFocus={() => { setFocusedField('id'); if(!['tracking', 'sleeping', 'error', 'warp', 'excited', 'cool', 'shutdown', 'flow', 'god', 'glitch', 'overheat'].includes(mascotMood)) { setMascotMood("tracking"); setCurrentProp("magnifier"); setMascotMessage("Lendo ID..."); }}} onBlur={() => { setFocusedField(null); if(mascotMood !== 'shutdown') { setMascotMood("idle"); setCurrentProp("none"); }}} className="pl-12 h-11 bg-white/5 border-white/5 text-white placeholder:text-white/20 rounded-2xl focus:border-red-500/50 focus:ring-0 transition-all font-mono tracking-wider" required minLength={3} />
+                                <Input type="text" inputMode="numeric" placeholder="Ex: 1050" value={loginId} onChange={handleIdChange} onFocus={() => { setFocusedField('id'); if(!['tracking', 'sleeping', 'error', 'warp', 'excited', 'cool', 'shutdown', 'flow', 'god', 'glitch', 'overheat'].includes(mascotMood)) { setMascotMood("tracking"); setCurrentProp("magnifier"); setMascotMessage("Lendo ID..."); }}} onBlur={() => { setFocusedField(null); if(mascotMood !== 'shutdown') { setMascotMood("idle"); setCurrentProp("none"); }}} className="pl-12 h-14 md:h-11 bg-white/5 border-white/5 text-white placeholder:text-white/20 rounded-2xl focus:border-red-500/50 focus:ring-0 transition-all font-mono tracking-wider text-base md:text-sm" required minLength={3} />
                                 {focusedField === 'id' && <div className={`absolute inset-0 pointer-events-none input-scan-line w-1 h-full blur-[2px] ${mascotMood === 'flow' ? 'bg-amber-400/50' : 'bg-red-500/50'}`}></div>}
                             </div>
                         </div>
@@ -611,7 +615,7 @@ export default function Auth() {
                             <Label className="text-xs font-bold text-red-300/70 uppercase tracking-widest ml-2">Senha</Label>
                             <div className={`relative overflow-hidden rounded-2xl group-focus-within:ring-1 transition-all duration-300 ${mascotMood === 'flow' ? 'ring-amber-500/50' : 'ring-red-500/40'}`}>
                                 <div className="absolute left-4 top-1/2 -translate-y-1/2 text-red-400/50 group-focus-within/input:text-red-400 transition-colors"><Lock className="h-5 w-5" /></div>
-                                <Input type={showPassword ? "text" : "password"} placeholder="••••••••" value={loginPassword} onChange={handlePasswordChange} onKeyDown={handleKeyDown as any} onFocus={() => { setFocusedField('password'); if (showPassword) { setMascotMood("peek"); setMascotMessage("Conferindo..."); } else { setMascotMood("blind"); setMascotMessage("Modo privado ativado."); }}} onBlur={() => { setFocusedField(null); if(mascotMood !== 'shutdown') { setMascotMood("idle"); setCurrentProp("none"); }}} className="pl-12 pr-12 h-11 bg-white/5 border-white/5 text-white placeholder:text-white/20 rounded-2xl focus:border-red-500/50 focus:ring-0 transition-all" required />
+                                <Input type={showPassword ? "text" : "password"} placeholder="••••••••" value={loginPassword} onChange={handlePasswordChange} onKeyDown={handleKeyDown as any} onFocus={() => { setFocusedField('password'); if (showPassword) { setMascotMood("peek"); setMascotMessage("Conferindo..."); } else { setMascotMood("blind"); setMascotMessage("Modo privado ativado."); }}} onBlur={() => { setFocusedField(null); if(mascotMood !== 'shutdown') { setMascotMood("idle"); setCurrentProp("none"); }}} className="pl-12 pr-12 h-14 md:h-11 bg-white/5 border-white/5 text-white placeholder:text-white/20 rounded-2xl focus:border-red-500/50 focus:ring-0 transition-all text-base md:text-sm" required />
                                 <button type="button" onClick={toggleShowPassword} className="absolute right-4 top-1/2 -translate-y-1/2 text-red-400/50 hover:text-red-300 transition-colors p-1">{showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}</button>
                                 {focusedField === 'password' && !['blind'].includes(mascotMood) && <div className={`absolute inset-0 pointer-events-none input-scan-line w-1 h-full blur-[2px] ${mascotMood === 'flow' ? 'bg-amber-400/50' : 'bg-red-500/50'}`}></div>}
                             </div>
@@ -623,24 +627,24 @@ export default function Auth() {
                             </div>
                         </div>
 
-                        <Button type="submit" className={`w-full h-11 text-sm font-bold rounded-2xl shadow-lg shadow-red-900/40 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-70 border-none text-white animate-shimmer relative overflow-hidden group hover:bg-red-500 ${mascotMood === 'flow' ? 'bg-amber-600 hover:bg-amber-500' : 'bg-red-600'}`} disabled={loading} onMouseEnter={() => { if(!['sleeping', 'error', 'warp', 'shutdown'].includes(mascotMood)) { setMascotMood('excited'); setMascotMessage("Pronto para acessar?"); }}} onMouseLeave={() => { if(mascotMood === 'excited') setMascotMood('idle'); }}>
+                        <Button type="submit" className={`w-full h-14 md:h-11 mt-4 text-base md:text-sm font-bold rounded-2xl shadow-lg shadow-red-900/40 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-70 border-none text-white animate-shimmer relative overflow-hidden group hover:bg-red-500 ${mascotMood === 'flow' ? 'bg-amber-600 hover:bg-amber-500' : 'bg-red-600'}`} disabled={loading} onMouseEnter={() => { if(!['sleeping', 'error', 'warp', 'shutdown'].includes(mascotMood)) { setMascotMood('excited'); setMascotMessage("Pronto para acessar?"); }}} onMouseLeave={() => { if(mascotMood === 'excited') setMascotMood('idle'); }}>
                             {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <span className="flex items-center gap-2 relative z-10 group-hover:gap-4 transition-all"><Fingerprint className="h-4 w-4 opacity-50 group-hover:opacity-100" /> Acessar Sistema</span>}
                         </Button>
                     </form>
 
-                    <div className="mt-6 text-center border-t border-white/5 pt-4 flex justify-between items-center">
-                        <p className="text-gray-500 text-[10px] flex items-center gap-1 cursor-help group/safe hover:text-emerald-400 transition-colors" onMouseEnter={() => { if(mascotMood !== 'shutdown') { setMascotMood('success'); setMascotMessage("Ambiente 100% Protegido."); setCurrentProp("shield"); }}} onMouseLeave={() => { if(mascotMood !== 'shutdown') { setMascotMood('idle'); setCurrentProp("none"); }}}>
-                            <ShieldCheck className="h-3 w-3 text-emerald-500 group-hover/safe:scale-110 transition-transform" /> Ambiente Seguro
+                    <div className="mt-8 md:mt-6 text-center border-t border-white/5 pt-6 md:pt-4 flex justify-between items-center">
+                        <p className="text-gray-500 text-xs md:text-[10px] flex items-center gap-1 cursor-help group/safe hover:text-emerald-400 transition-colors" onMouseEnter={() => { if(mascotMood !== 'shutdown') { setMascotMood('success'); setMascotMessage("Ambiente 100% Protegido."); setCurrentProp("shield"); }}} onMouseLeave={() => { if(mascotMood !== 'shutdown') { setMascotMood('idle'); setCurrentProp("none"); }}}>
+                            <ShieldCheck className="h-3 w-3 md:h-3 md:w-3 text-emerald-500 group-hover/safe:scale-110 transition-transform" /> Ambiente Seguro
                         </p>
-                        <button className="text-[10px] text-red-400/80 hover:text-red-300 flex items-center gap-1 hover:underline" onMouseEnter={() => { if(mascotMood !== 'shutdown') { setMascotMood('confused'); setMascotMessage("Esqueceu? Posso ajudar?"); }}} onMouseLeave={() => { if(mascotMood !== 'shutdown') { setMascotMood('idle'); }}}>
-                            <HelpCircle className="h-3 w-3" /> Esqueceu?
+                        <button className="text-xs md:text-[10px] text-red-400/80 hover:text-red-300 flex items-center gap-1 hover:underline" onMouseEnter={() => { if(mascotMood !== 'shutdown') { setMascotMood('confused'); setMascotMessage("Esqueceu? Posso ajudar?"); }}} onMouseLeave={() => { if(mascotMood !== 'shutdown') { setMascotMood('idle'); }}}>
+                            <HelpCircle className="h-3 w-3 md:h-3 md:w-3" /> Esqueceu?
                         </button>
                     </div>
                 </div>
             </div>
         </div>
 
-        {/* --- MASCOTE INTERATIVO (O "Robô") --- */}
+        {/* --- MASCOTE INTERATIVO (O "Robô" - Oculto no Mobile, Visível no Desktop) --- */}
         <div ref={mascotRef} style={mascotWrapperStyle} className={mascotContainerClasses} onClick={handleMascotClick}>
             {typingCombo > 0 && !['blind', 'sleeping'].includes(mascotMood) && (
                 <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 w-40 h-20 perspective-500 opacity-60 animate-pulse pointer-events-none hidden md:block">
@@ -757,7 +761,7 @@ export default function Auth() {
       </div>
       
       {/* --- RODAPÉ DISCRETO --- */}
-      <div className={`absolute bottom-5 w-full text-center transition-opacity duration-1000 ${isExiting ? 'opacity-0' : 'opacity-100'} z-50`}>
+      <div className={`absolute bottom-5 w-full text-center transition-opacity duration-1000 ${isExiting ? 'opacity-0' : 'opacity-100'} z-50 hidden md:block`}>
         <div className="inline-flex items-center gap-3 text-[10px] font-mono text-white/10 hover:text-red-400/40 transition-all duration-700 cursor-default tracking-[0.2em] group">
             <span>© 2025 COL</span>
             <span className="w-1 h-1 rounded-full bg-white/10 group-hover:bg-red-500/50 transition-colors duration-700"></span>
