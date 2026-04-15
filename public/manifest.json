@@ -1,10 +1,10 @@
 {
-  "name": "Fluxo Royale",
-  "short_name": "Fluxo",
+  "name": "COL - Controle Operacional Lógico",
+  "short_name": "COL",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F8FAFC",
-  "theme_color": "#F8FAFC",
+  "background_color": "#050202",
+  "theme_color": "#050202",
   "orientation": "portrait",
   "icons": [
     {
