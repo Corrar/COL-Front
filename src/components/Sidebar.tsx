@@ -195,7 +195,7 @@ export function Sidebar({ isCollapsed, toggleSidebar, onItemClick, isMobileMenu 
               <div className="h-10 w-10 flex items-center justify-center shrink-0 rounded-[12px] bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5">
                 <img src="/favicon.png" alt="Logo" className="h-6 w-6 object-contain hover:scale-105 transition-transform duration-300" />
               </div>
-              <h1 className="text-[18px] font-black tracking-tight text-slate-900 dark:text-white leading-none">Fluxo Royale</h1>
+              <h1 className="text-[18px] font-black tracking-tight text-slate-900 dark:text-white leading-none">COL</h1>
             </div>
           )}
           <Button 
