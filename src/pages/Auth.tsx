@@ -90,7 +90,7 @@ export default function Auth() {
   // --- BOOT SEQUENCE ---
   useEffect(() => {
     const lines = [
-      "INITIALIZING COL_CORE v3.0...",
+      "INITIALIZING CLO_CORE v3.0...",
       "LOADING OPERATIONAL PHYSICS... OK",
       "CHECKING LOGICAL LINK... ESTABLISHED",
       "SECURITY PROTOCOLS... ACTIVE",
@@ -632,7 +632,7 @@ export default function Auth() {
                         <Cpu className="h-6 w-6 text-red-500" />
                     </div>
                     <div>
-                        <h2 className="text-xl font-black text-white tracking-tight">COL</h2>
+                        <h2 className="text-xl font-black text-white tracking-tight">CLO</h2>
                         <p className="text-[10px] text-red-400/60 uppercase tracking-widest font-bold">Controle Operacional</p>
                     </div>
                 </div>
@@ -703,7 +703,7 @@ export default function Auth() {
 
             {/* Rodapé Mobile (Fica no fim da rolagem, não sobrepõe a tela) */}
             <div className="mt-auto pt-10 pb-2 w-full text-center lg:hidden">
-                 <p className="text-[10px] font-mono text-neutral-600 tracking-widest uppercase">© 2025 COL - Dev Bruno Corral</p>
+                 <p className="text-[10px] font-mono text-neutral-600 tracking-widest uppercase">© 2025 CLO - Dev Bruno Corral</p>
             </div>
 
         </div>
