@@ -608,8 +608,8 @@ export default function Auth() {
 
         {/* Tipografia da Vitrine */}
         <div className="absolute bottom-12 left-12 text-left z-20">
-             <h1 className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-red-100 to-red-600 tracking-tighter mb-2">COL</h1>
-             <p className="text-red-300/80 text-sm font-medium tracking-[0.3em] uppercase">Controle Operacional Lógico</p>
+             <h1 className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-red-100 to-red-600 tracking-tighter mb-2">CLO</h1>
+             <p className="text-red-300/80 text-sm font-medium tracking-[0.3em] uppercase">Controle Lógico Operacional</p>
         </div>
       </div>
 
