@@ -139,15 +139,18 @@ export default function TelaInicialPremium() {
   };
 
   // --- UI: Botão com Glass Highlight (Borda de Vidro) ---
-  const QuickAction = ({ icon: Icon, label, onClick }: { icon: any, label: string, onClick: () => void }) => (
+    const QuickAction = ({ icon: Icon, label, onClick }) => (
     <button 
       onClick={onClick}
-      className="flex flex-col items-center gap-3 min-w-[80px] md:min-w-[96px] snap-center group outline-none focus-visible:ring-4 focus-visible:ring-blue-500/30 rounded-2xl transition-all"
+      className="flex flex-col items-center gap-3 min-w-[80px] md:min-w-[96px] snap-center group outline-none focus-visible:ring-4 focus-visible:ring-red-500/30 rounded-2xl transition-all"
     >
-      <div className="h-16 w-16 md:h-[72px] md:w-[72px] rounded-[1.5rem] bg-white dark:bg-slate-900 shadow-[0_4px_12px_rgba(0,0,0,0.03),inset_0_1px_1px_rgba(255,255,255,1)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.2),inset_0_1px_1px_rgba(255,255,255,0.05)] border border-slate-200/50 dark:border-white/5 flex items-center justify-center transition-all duration-500 ease-out group-hover:bg-[#F8FAFC] dark:group-hover:bg-blue-900/20 group-hover:-translate-y-1 group-hover:shadow-[0_12px_30px_-8px_rgba(37,99,235,0.2),inset_0_1px_1px_rgba(255,255,255,1)] active:scale-[0.92] active:duration-150 relative overflow-hidden">
-        <Icon className="h-[26px] w-[26px] md:h-7 md:w-7 text-blue-600 dark:text-blue-400 group-hover:scale-110 group-hover:text-blue-700 transition-all duration-500 ease-out relative z-10" strokeWidth={1.5} />
+      <div className="h-16 w-16 md:h-[72px] md:w-[72px] rounded-[1.5rem] bg-white dark:bg-slate-900 shadow-[0_4px_12px_rgba(0,0,0,0.03),inset_0_1px_1px_rgba(255,255,255,1)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.05)] border border-slate-200/50 dark:border-white/5 flex items-center justify-center transition-all duration-500 ease-out group-hover:bg-[#FEF2F2] dark:group-hover:bg-red-900/20 group-hover:-translate-y-1 group-hover:shadow-[0_12px_30px_-8px_rgba(239,68,68,0.35),inset_0_1px_1px_rgba(255,255,255,1)] active:scale-[0.92] active:duration-150 relative overflow-hidden">
+        
+        <Icon className="h-[26px] w-[26px] md:h-7 md:w-7 text-red-600 dark:text-red-400 group-hover:scale-110 group-hover:text-red-700 transition-all duration-500 ease-out relative z-10" strokeWidth={1.5} />
+      
       </div>
-      <span className="text-[12px] md:text-[13px] font-semibold text-slate-500 dark:text-slate-400 text-center leading-tight tracking-tight group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors duration-300">
+  
+      <span className="text-[12px] md:text-[13px] font-semibold text-slate-500 dark:text-slate-400 text-center leading-tight tracking-tight group-hover:text-red-700 dark:group-hover:text-red-400 transition-colors duration-300">
         {label}
       </span>
     </button>
