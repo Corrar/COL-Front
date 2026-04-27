@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { 
   Home, Package, ShoppingCart, FileText, Users, BarChart3, LogOut, 
-  Calculator, Eye, ClipboardList, Bell, ChevronLeft, ChevronRight,
-  AlertTriangle, ShieldCheck, Lock, Sparkles, Kanban, Zap, ChevronDown, Search, ArrowUpCircle,
+  Eye, ClipboardList, Bell, ChevronLeft, ChevronRight,
+  AlertTriangle, ShieldCheck, Lock, Kanban, ChevronDown, Search, ArrowUpCircle,
   Briefcase, RefreshCw 
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -97,8 +97,7 @@ export function Sidebar({ isCollapsed, toggleSidebar, onItemClick, isMobileMenu 
   const isAdmin = profile?.role === "admin";
   const isSetor = profile?.role === "setor";
   const isEscritorio = profile?.role === "escritorio"; 
-  const isFinanceiro = profile?.role === "financeiro"; // <--- NOVO: Cargo Financeiro
-  const isEletrica = profile?.sector?.toLowerCase() === 'elétrica' || profile?.sector?.toLowerCase() === 'eletrica';
+  const isFinanceiro = profile?.role === "financeiro";
 
   const desktopBaseClass = "flex items-center gap-3.5 rounded-[14px] px-3.5 py-3 text-[15px] font-semibold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100/80 dark:hover:bg-white/5 active:scale-[0.98] group relative";
   const desktopActiveClass = "bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-400 font-bold hover:bg-emerald-50 dark:hover:bg-emerald-500/10";
@@ -236,8 +235,6 @@ export function Sidebar({ isCollapsed, toggleSidebar, onItemClick, isMobileMenu 
                 {canAccess('produtos') && <QuickAccessCard to="/products" icon={<Package className="h-8 w-8"/>} label="Produtos" onClick={onItemClick} />}
                 {canAccess('solicitacoes') && <QuickAccessCard to="/requests" icon={<FileText className="h-8 w-8"/>} label="Pedidos" onClick={onItemClick} />}
                 {canAccess('consultar') && <QuickAccessCard to="/stock-view" icon={<Eye className="h-8 w-8"/>} label="Consulta" onClick={onItemClick} />}
-                {canAccess('calculadora') && <QuickAccessCard to="/calculator" icon={<Calculator className="h-8 w-8"/>} label="Cálculos" onClick={onItemClick} />}
-                {canAccess('dashboard') && <QuickAccessCard to="/tasks" icon={<Sparkles className="h-8 w-8"/>} label="Tarefas" onClick={onItemClick} />}
               </div>
             </div>
           )}
@@ -247,19 +244,13 @@ export function Sidebar({ isCollapsed, toggleSidebar, onItemClick, isMobileMenu 
             <NavGroup title="Principal" isCollapsed={isCollapsed} isMobileMenu={isMobileMenu}>
               {renderLink(isSetor ? "/stock-view" : "/inicio", <Home className="h-6 w-6" strokeWidth={2.2} />, "Início")}
               {canAccess('dashboard') && renderLink("/", <BarChart3 className="h-6 w-6" strokeWidth={2.2} />, "Dashboard")}
-              {canAccess('dashboard') && renderLink("/tasks", <Sparkles className="h-6 w-6" strokeWidth={2.2} />, "Quadro de Tarefas")}
-              {(canAccess('tarefas_eletrica') || isEletrica) && renderLink("/tasks-eletrica", <Zap className="h-6 w-6 text-amber-500" strokeWidth={2.2} />, "Quadro Elétrica")}
               {canAccess('avisos') && renderLink("/reminders", <Bell className="h-6 w-6" strokeWidth={2.2} />, "Avisos")}
-              {canAccess('calculadora') && renderLink("/calculator", <Calculator className="h-6 w-6" strokeWidth={2.2} />, "Calculadora")}
             </NavGroup>
           ) : (
             <div className="px-2">
               {renderLink(isSetor ? "/stock-view" : "/inicio", <Home className="h-[22px] w-[22px]" strokeWidth={2.2} />, "Início")}
               {canAccess('dashboard') && renderLink("/", <BarChart3 className="h-[22px] w-[22px]" strokeWidth={2.2} />, "Dashboard")}
-              {canAccess('dashboard') && renderLink("/tasks", <Sparkles className="h-[22px] w-[22px]" strokeWidth={2.2} />, "Quadro de Tarefas")}
-              {(canAccess('tarefas_eletrica') || isEletrica) && renderLink("/tasks-eletrica", <Zap className="h-[22px] w-[22px] text-amber-500" strokeWidth={2.2} />, "Quadro Elétrica")}
               {canAccess('avisos') && renderLink("/reminders", <Bell className="h-[22px] w-[22px]" strokeWidth={2.2} />, "Avisos")}
-              {canAccess('calculadora') && renderLink("/calculator", <Calculator className="h-[22px] w-[22px]" strokeWidth={2.2} />, "Calculadora")}
             </div>
           )}
 
