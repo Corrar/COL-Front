@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 
 // ==========================================
-// TIPAGENS E CONFIGURAÇÕES VISUAIS
+// TIPAGENS E CONFIGURAÇÕES VISUAIS PREMIUM
 // ==========================================
 interface StatusConfig {
   label: string;
@@ -33,22 +33,22 @@ interface StatusConfig {
 const statusStyles: Record<string, StatusConfig> = {
   aberto: { 
     label: "Em Análise", 
-    color: "text-amber-600 bg-amber-100/50 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20",
+    color: "text-zinc-400 bg-zinc-900/80 border-zinc-800",
     icon: Clock,
   },
   aprovado: { 
     label: "A Separar", 
-    color: "text-blue-600 bg-blue-100/50 border-blue-200 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20",
+    color: "text-red-400 bg-red-950/30 border-red-900/50",
     icon: Package,
   },
   rejeitado: { 
     label: "Recusado", 
-    color: "text-rose-600 bg-rose-100/50 border-rose-200 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/20",
+    color: "text-zinc-500 bg-zinc-950/50 border-zinc-800/50",
     icon: XCircle,
   },
   entregue: { 
     label: "Concluído", 
-    color: "text-emerald-600 bg-emerald-100/50 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20",
+    color: "text-emerald-400 bg-emerald-950/30 border-emerald-900/50",
     icon: CheckCircle2,
   },
 };
@@ -57,17 +57,17 @@ const statusStyles: Record<string, StatusConfig> = {
 // COMPONENTE: EMPTY STATE
 // ==========================================
 const EmptyState = ({ title, description }: { title: string; description: string }) => (
-  <div className="flex flex-col items-center justify-center p-6 sm:p-12 text-center rounded-[2rem] sm:rounded-[2.5rem] bg-white/50 dark:bg-[#111]/50 border border-slate-200/50 dark:border-white/5 backdrop-blur-xl min-h-[250px] sm:min-h-[300px] animate-in fade-in duration-700 w-full mt-4">
-    <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-slate-100 dark:bg-white/5 flex items-center justify-center mb-4 sm:mb-6 shadow-inner">
-      <Inbox className="h-8 w-8 text-slate-400 dark:text-slate-500" />
+  <div className="flex flex-col items-center justify-center p-6 sm:p-12 text-center rounded-[2rem] sm:rounded-[2.5rem] bg-zinc-900/50 border border-zinc-800/50 backdrop-blur-xl min-h-[250px] sm:min-h-[300px] animate-in fade-in duration-700 w-full mt-4">
+    <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-zinc-800/80 flex items-center justify-center mb-4 sm:mb-6 shadow-inner border border-zinc-700/50">
+      <Inbox className="h-8 w-8 text-zinc-500" />
     </div>
-    <h3 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white">{title}</h3>
-    <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 max-w-sm mt-2 sm:mt-3">{description}</p>
+    <h3 className="text-xl sm:text-2xl font-black tracking-tight text-zinc-100">{title}</h3>
+    <p className="text-sm sm:text-base text-zinc-400 max-w-sm mt-2 sm:mt-3">{description}</p>
   </div>
 );
 
 // ==========================================
-// COMPONENTE: TIMELINE ESTILO MERCADO LIVRE
+// COMPONENTE: TIMELINE (Modo Escuro / Vermelho)
 // ==========================================
 const MLTimeline = ({ request }: { request: any }) => {
   const { status, created_at, rejection_reason } = request;
@@ -121,50 +121,50 @@ const MLTimeline = ({ request }: { request: any }) => {
              {!isLast && (
                <div className={cn(
                  "absolute left-[11px] top-8 bottom-[-8px] w-[2px] rounded-full transition-colors duration-500",
-                 lineCompleted && !step.isRejected ? "bg-emerald-500" : "bg-slate-200 dark:bg-slate-800"
+                 lineCompleted && !step.isRejected ? "bg-red-600" : "bg-zinc-800"
                )} />
              )}
 
              {/* Indicador Visual (Bolinha) */}
              <div className="relative flex flex-col items-center z-10 pt-1 shrink-0">
                {step.isCompleted && !step.isActive && !step.isRejected ? (
-                 <div className="h-6 w-6 rounded-full bg-emerald-500 flex items-center justify-center ring-4 ring-white dark:ring-[#0A0A0A] shadow-sm">
+                 <div className="h-6 w-6 rounded-full bg-red-600 flex items-center justify-center ring-4 ring-zinc-950 shadow-sm">
                    <Check className="h-3.5 w-3.5 text-white" strokeWidth={3} />
                  </div>
                ) : step.isActive && !step.isRejected ? (
-                 <div className="relative h-6 w-6 rounded-full bg-white dark:bg-[#111] border-[3px] border-emerald-500 flex items-center justify-center ring-4 ring-white dark:ring-[#0A0A0A] shadow-sm">
-                   <div className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
-                   <div className="absolute inset-[-4px] rounded-full border border-emerald-500/50 animate-ping" />
+                 <div className="relative h-6 w-6 rounded-full bg-zinc-900 border-[3px] border-red-500 flex items-center justify-center ring-4 ring-zinc-950 shadow-sm">
+                   <div className="h-2.5 w-2.5 rounded-full bg-red-500" />
+                   <div className="absolute inset-[-4px] rounded-full border border-red-500/50 animate-ping" />
                  </div>
                ) : step.isRejected ? (
-                 <div className="h-6 w-6 rounded-full bg-rose-500 flex items-center justify-center ring-4 ring-white dark:ring-[#0A0A0A] shadow-sm">
-                   <X className="h-3.5 w-3.5 text-white" strokeWidth={3} />
+                 <div className="h-6 w-6 rounded-full bg-zinc-800 flex items-center justify-center ring-4 ring-zinc-950 shadow-sm border border-zinc-700">
+                   <X className="h-3.5 w-3.5 text-zinc-500" strokeWidth={3} />
                  </div>
                ) : (
-                 <div className="h-6 w-6 rounded-full bg-white dark:bg-[#111] border-[3px] border-slate-200 dark:border-slate-800 flex items-center justify-center ring-4 ring-white dark:ring-[#0A0A0A]" />
+                 <div className="h-6 w-6 rounded-full bg-zinc-900 border-[3px] border-zinc-800 flex items-center justify-center ring-4 ring-zinc-950" />
                )}
              </div>
 
              {/* Textos */}
              <div className={cn(
                "flex flex-col pb-8 min-w-0 flex-1",
-               !step.isCompleted && !step.isActive && "opacity-50 dark:opacity-40" 
+               !step.isCompleted && !step.isActive && "opacity-40" 
              )}>
                <h4 className={cn(
                  "text-base sm:text-lg font-bold leading-tight tracking-tight",
-                 step.isRejected ? "text-rose-600 dark:text-rose-400" : 
-                 step.isActive ? "text-emerald-600 dark:text-emerald-400" : "text-slate-900 dark:text-white"
+                 step.isRejected ? "text-zinc-500" : 
+                 step.isActive ? "text-red-500" : "text-zinc-300"
                )}>
                  {step.title}
                </h4>
                
                {step.date && (
-                 <span className="text-[10px] sm:text-xs font-bold text-slate-400 mt-1 uppercase tracking-wider">
+                 <span className="text-[10px] sm:text-xs font-bold text-zinc-500 mt-1 uppercase tracking-wider">
                    {step.date}
                  </span>
                )}
                
-               <p className="text-xs sm:text-sm mt-1 sm:mt-1.5 text-slate-500 leading-snug pr-2">
+               <p className="text-xs sm:text-sm mt-1 sm:mt-1.5 text-zinc-400 leading-snug pr-2">
                  {step.desc}
                </p>
              </div>
@@ -222,7 +222,7 @@ export default function Requests() {
     };
 
     const handleRefresh = () => {
-      // Técnica de Jitter: espalha as requisições dos vários admins num intervalo de 1.5 segundos
+      // Técnica de Jitter: espalha as requisições
       setTimeout(() => {
         queryClient.invalidateQueries({ queryKey: ["requests"] });
       }, Math.random() * 1500);
@@ -249,7 +249,7 @@ export default function Requests() {
   const { data: requests, isLoading } = useQuery({
     queryKey: ["requests"],
     queryFn: async () => (await api.get("/requests")).data,
-    staleTime: Infinity, // Confiamos no Socket para nos avisar das mudanças!
+    staleTime: Infinity,
     placeholderData: keepPreviousData, 
   });
 
@@ -269,12 +269,10 @@ export default function Requests() {
     },
   });
 
-  // 🔄 ATUALIZADO: Agora reflete o Soft Delete do Backend
   const deleteRequestMutation = useMutation({
     mutationFn: async (id: string) => await api.delete(`/requests/${id}`),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["requests"] });
-      // Lemos a mensagem de sucesso enviada pelo backend
       toast.success(data?.data?.message || "Pedido cancelado com sucesso.");
       closeAllDialogs();
     },
@@ -340,16 +338,16 @@ export default function Requests() {
   const canManage = profile?.role === "admin" || profile?.role === "almoxarife";
 
   return (
-    <div className="w-full mx-auto px-4 md:px-8 py-6 space-y-6 animate-in fade-in duration-1000 pb-32 min-h-screen bg-[#F8FAFC] dark:bg-[#000000] selection:bg-blue-500/30">
+    <div className="w-full mx-auto px-4 md:px-8 py-6 space-y-6 animate-in fade-in duration-1000 pb-32 min-h-screen bg-zinc-950 selection:bg-red-500/30">
       
       {/* HEADER PREMIUM */}
       <div className="flex flex-col mb-4">
-        <h1 className="text-3xl md:text-[44px] font-black text-slate-900 dark:text-white tracking-tighter flex items-center gap-3 leading-none mb-3">
-            <ClipboardList className="h-8 w-8 text-blue-600 dark:text-blue-500 shrink-0" strokeWidth={2.5} /> 
+        <h1 className="text-3xl md:text-[44px] font-black text-white tracking-tighter flex items-center gap-3 leading-none mb-3">
+            <ClipboardList className="h-8 w-8 text-red-500 shrink-0" strokeWidth={2.5} /> 
             Solicitações
         </h1>
-        <p className="text-sm md:text-[15px] font-medium text-slate-500 dark:text-slate-400 flex items-center gap-2">
-          <ShieldAlert className="h-4 w-4 text-blue-500 shrink-0" />
+        <p className="text-sm md:text-[15px] font-medium text-zinc-400 flex items-center gap-2">
+          <ShieldAlert className="h-4 w-4 text-red-500 shrink-0" />
           O histórico arquiva automaticamente itens inativos há mais de 30 dias.
         </p>
       </div>
@@ -358,18 +356,18 @@ export default function Requests() {
       <div className="flex flex-col xl:flex-row gap-4 justify-between items-start xl:items-center w-full mb-8">
          {/* Input Pill-Shape */}
          <div className="relative w-full xl:w-96 group shrink-0">
-            <Search className="absolute left-4 top-3.5 h-5 w-5 text-slate-400 group-focus-within:text-blue-500 transition-colors" strokeWidth={2.5} />
+            <Search className="absolute left-4 top-3.5 h-5 w-5 text-zinc-500 group-focus-within:text-red-500 transition-colors" strokeWidth={2.5} />
             <Input 
                 placeholder="Procurar por setor, solicitante ou item..." 
-                className="pl-11 h-12 bg-white dark:bg-[#111] border border-slate-200/60 dark:border-white/5 rounded-full focus:bg-white dark:focus:bg-[#111] focus:ring-2 focus:ring-blue-500/30 transition-all font-medium text-[14px] w-full shadow-[0_4px_20px_rgba(0,0,0,0.03),inset_0_1px_1px_rgba(255,255,255,1)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]"
+                className="pl-11 h-12 bg-zinc-900 border border-zinc-800 rounded-full text-zinc-100 placeholder:text-zinc-500 focus:bg-zinc-900 focus:ring-2 focus:ring-red-500/30 transition-all font-medium text-[14px] w-full shadow-inner"
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
             />
          </div>
          
-         {/* Segmented Control de Status - Scroll Smooth no Mobile */}
+         {/* Segmented Control de Status */}
          <div className="w-full overflow-x-auto custom-scrollbar pb-1 sm:pb-0 snap-x scroll-smooth">
-            <div className="flex bg-white dark:bg-[#111] p-1.5 rounded-full w-max min-w-full xl:min-w-fit gap-1 shadow-[0_4px_20px_rgba(0,0,0,0.03),inset_0_1px_1px_rgba(255,255,255,1)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] border border-slate-200/60 dark:border-white/5">
+            <div className="flex bg-zinc-900 p-1.5 rounded-full w-max min-w-full xl:min-w-fit gap-1 shadow-inner border border-zinc-800">
                 {['all', 'aberto', 'aprovado', 'entregue', 'rejeitado'].map((status) => {
                     const isActive = statusFilter === status;
                     const config = statusStyles[status] || { label: "Todas" };
@@ -380,8 +378,8 @@ export default function Requests() {
                             className={cn(
                                 "snap-start flex-1 px-5 py-2 text-[13px] font-bold rounded-full transition-all capitalize tracking-wide whitespace-nowrap active:scale-95 outline-none",
                                 isActive 
-                                  ? "bg-blue-600 text-white shadow-md" 
-                                  : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5"
+                                  ? "bg-red-600 text-white shadow-md shadow-red-900/20" 
+                                  : "text-zinc-400 hover:text-white hover:bg-zinc-800"
                             )}
                         >
                             {status === 'all' ? 'Todas' : config.label}
@@ -395,7 +393,7 @@ export default function Requests() {
       {/* GRID DE CARTÕES DE SOLICITAÇÃO */}
       {isLoading ? (
          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 w-full">
-            {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-[280px] rounded-[2.5rem] bg-white/50 dark:bg-[#111] animate-pulse" />)}
+            {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-[280px] rounded-[2.5rem] bg-zinc-900 animate-pulse border border-zinc-800" />)}
          </div>
       ) : filteredRequests?.length === 0 ? (
          <EmptyState title="Tudo Limpo!" description="Ajuste os filtros de pesquisa ou aguarde novos pedidos dos setores." />
@@ -411,8 +409,8 @@ export default function Requests() {
                   <Card 
                      key={request.id} 
                      className={cn(
-                         "group cursor-pointer rounded-[2rem] sm:rounded-[2.5rem] border border-slate-200/60 dark:border-white/5 bg-white/70 dark:bg-[#0A0A0A]/70 backdrop-blur-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04),inset_0_1px_1px_rgba(255,255,255,1)] dark:shadow-[0_16px_40px_rgb(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.05)] hover:-translate-y-1.5 transition-all duration-500 ease-out active:scale-[0.98] flex flex-col justify-between overflow-hidden min-w-0",
-                         request.status === 'aberto' && "ring-2 ring-amber-400/50 dark:ring-amber-500/30" 
+                         "group cursor-pointer rounded-[2rem] sm:rounded-[2.5rem] border border-zinc-800 bg-zinc-900/80 backdrop-blur-3xl shadow-lg hover:shadow-xl hover:-translate-y-1.5 transition-all duration-500 ease-out active:scale-[0.98] flex flex-col justify-between overflow-hidden min-w-0",
+                         request.status === 'aberto' && "ring-1 ring-red-500/30" 
                      )}
                      onClick={() => setSelectedRequest(request)}
                   >
@@ -423,46 +421,46 @@ export default function Requests() {
                                  <Badge variant="outline" className={cn("shrink-0 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg sm:rounded-xl text-[9px] sm:text-[10px] uppercase font-black tracking-widest border border-transparent", style.color)}>
                                      <StatusIcon className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1.5" strokeWidth={2.5} /> {style.label}
                                  </Badge>
-                                 <span className="shrink-0 text-[10px] sm:text-[11px] font-bold text-slate-400 flex items-center gap-1 sm:gap-1.5 pt-0.5">
+                                 <span className="shrink-0 text-[10px] sm:text-[11px] font-bold text-zinc-500 flex items-center gap-1 sm:gap-1.5 pt-0.5">
                                      <Clock className="h-3 w-3 sm:h-3.5 sm:w-3.5" /> {timeAgo}
                                  </span>
                              </div>
                              
                              <div className="w-full min-w-0 mt-2">
                                  <div className="flex items-center gap-3">
-                                   <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl sm:rounded-2xl bg-slate-100 dark:bg-white/5 flex items-center justify-center shrink-0">
-                                     <UserCircle className="h-5 w-5 sm:h-6 sm:w-6 text-slate-400" />
+                                   <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl sm:rounded-2xl bg-zinc-800 flex items-center justify-center shrink-0 border border-zinc-700/50">
+                                     <UserCircle className="h-5 w-5 sm:h-6 sm:w-6 text-zinc-400" />
                                    </div>
                                    <div className="flex flex-col overflow-hidden">
-                                     <h3 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white leading-tight truncate">
+                                     <h3 className="text-lg sm:text-xl font-black text-zinc-100 leading-tight truncate">
                                         {request.requester?.name || "Sistema"}
                                      </h3>
-                                     <span className="text-[12px] sm:text-[13px] font-semibold text-slate-500 truncate">{request.sector || "Setor Geral"}</span>
+                                     <span className="text-[12px] sm:text-[13px] font-semibold text-zinc-500 truncate">{request.sector || "Setor Geral"}</span>
                                    </div>
                                  </div>
                              </div>
                          </div>
 
                          {/* RESUMO DE ITENS */}
-                         <div className="px-5 sm:px-6 py-4 bg-slate-50/50 dark:bg-black/20 border-t border-slate-100 dark:border-white/5 flex items-center justify-between w-full min-w-0 mt-auto">
+                         <div className="px-5 sm:px-6 py-4 bg-zinc-950/50 border-t border-zinc-800 flex items-center justify-between w-full min-w-0 mt-auto">
                             <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
-                                <div className="h-8 w-8 rounded-full bg-white dark:bg-[#111] shadow-sm flex items-center justify-center shrink-0 border border-slate-100 dark:border-white/5">
-                                    <Package className="h-4 w-4 text-slate-500" strokeWidth={2.5} />
+                                <div className="h-8 w-8 rounded-full bg-zinc-900 shadow-sm flex items-center justify-center shrink-0 border border-zinc-800">
+                                    <Package className="h-4 w-4 text-zinc-400" strokeWidth={2.5} />
                                 </div>
-                                <span className="text-[12px] sm:text-[14px] font-black text-slate-700 dark:text-slate-300 truncate">{itemCount} Itens Solicitados</span>
+                                <span className="text-[12px] sm:text-[14px] font-black text-zinc-300 truncate">{itemCount} Itens Solicitados</span>
                             </div>
                             
                             <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
                                 {canManage && (
                                     <Button 
                                         variant="ghost" size="icon" 
-                                        className="h-8 w-8 sm:h-9 sm:w-9 text-slate-400 hover:bg-rose-100 hover:text-rose-600 dark:hover:bg-rose-500/10 dark:hover:text-rose-400 rounded-full z-20 transition-colors"
+                                        className="h-8 w-8 sm:h-9 sm:w-9 text-zinc-500 hover:bg-red-950/30 hover:text-red-500 rounded-full z-20 transition-colors"
                                         onClick={(e) => openDeleteDialog(request.id, e)}
                                     >
                                         <Trash2 className="h-4 w-4" strokeWidth={2.5} />
                                     </Button>
                                 )}
-                                <div className="h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-slate-900 text-white dark:bg-white dark:text-black flex items-center justify-center group-hover:bg-blue-600 dark:group-hover:bg-blue-500 transition-colors shadow-sm">
+                                <div className="h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-zinc-800 text-zinc-300 flex items-center justify-center group-hover:bg-red-600 group-hover:text-white transition-colors shadow-sm">
                                     <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={3} />
                                 </div>
                             </div>
@@ -475,34 +473,34 @@ export default function Requests() {
       )}
 
       {/* ================================================================= */}
-      {/* MODAL DETALHADO (NUBANK STYLE) */}
+      {/* MODAL DETALHADO PREMIUM */}
       {/* ================================================================= */}
       <Dialog open={!!selectedRequest} onOpenChange={() => closeAllDialogs()}>
-        <DialogContent className="w-[95vw] sm:w-full max-w-2xl bg-[#FAFAFA] dark:bg-[#0A0A0A] border-none p-0 overflow-hidden shadow-[0_24px_64px_rgba(0,0,0,0.2)] dark:shadow-[0_24px_64px_rgba(0,0,0,0.8)] rounded-[1.5rem] sm:rounded-[2rem] flex flex-col max-h-[90dvh]">
+        <DialogContent className="w-[95vw] sm:w-full max-w-2xl bg-zinc-950 border-zinc-800 p-0 overflow-hidden shadow-2xl rounded-[1.5rem] sm:rounded-[2rem] flex flex-col max-h-[90dvh]">
           
           {selectedRequest && (
             <div className={cn(
-              "px-5 sm:px-10 py-6 sm:py-8 border-b border-black/5 dark:border-white/5 flex flex-col shrink-0 relative overflow-hidden",
-              selectedRequest.status === 'entregue' ? "bg-emerald-600 dark:bg-emerald-900/40 text-white" :
-              selectedRequest.status === 'rejeitado' ? "bg-rose-600 dark:bg-rose-900/40 text-white" :
-              selectedRequest.status === 'aprovado' ? "bg-blue-600 dark:bg-blue-900/40 text-white" : "bg-amber-500 dark:bg-amber-900/40 text-white"
+              "px-5 sm:px-10 py-6 sm:py-8 border-b border-zinc-800 flex flex-col shrink-0 relative overflow-hidden",
+              selectedRequest.status === 'entregue' ? "bg-emerald-950/30 text-emerald-400" :
+              selectedRequest.status === 'rejeitado' ? "bg-zinc-900/50 text-zinc-400" :
+              selectedRequest.status === 'aprovado' ? "bg-red-950/30 text-red-400" : "bg-zinc-900 text-zinc-100"
             )}>
-                <div className="absolute -right-6 -bottom-6 opacity-10 pointer-events-none hidden sm:block">
+                <div className="absolute -right-6 -bottom-6 opacity-5 pointer-events-none hidden sm:block">
                     <PackageOpen className="w-40 h-40" />
                 </div>
 
-                <DialogTitle className="text-2xl sm:text-4xl font-black z-10 tracking-tighter leading-none mb-1 sm:mb-2">
+                <DialogTitle className="text-2xl sm:text-4xl font-black z-10 tracking-tighter leading-none mb-1 sm:mb-2 text-white">
                     {selectedRequest.status === 'entregue' ? "Pedido Concluído" :
                      selectedRequest.status === 'rejeitado' ? "Pedido Recusado" :
                      selectedRequest.status === 'aprovado' ? "Em Preparação" : "Aguardando Análise"}
                 </DialogTitle>
 
-                <p className="text-xs sm:text-base font-medium opacity-90 z-10 max-w-md">
+                <p className="text-xs sm:text-base font-medium opacity-80 z-10 max-w-md">
                     {selectedRequest.status === 'entregue' ? "Os materiais já foram entregues ao setor." :
                      selectedRequest.status === 'rejeitado' ? "A solicitação não pôde ser atendida nesta ocasião." :
                      selectedRequest.status === 'aprovado' ? "O almoxarifado já aprovou e está a preparar a entrega." : "A sua solicitação foi recebida e será analisada em breve."}
                 </p>
-                <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] opacity-70 mt-3 sm:mt-4 z-10">
+                <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] opacity-50 mt-3 sm:mt-4 z-10">
                     REQ-{selectedRequest.id.substring(0, 8)}
                 </span>
             </div>
@@ -510,45 +508,45 @@ export default function Requests() {
 
           <div className="flex-1 overflow-y-auto p-0 custom-scrollbar">
             {selectedRequest && (
-                <div className="p-5 sm:p-10 border-b border-slate-200/60 dark:border-white/5 bg-white dark:bg-transparent">
+                <div className="p-5 sm:p-10 border-b border-zinc-800 bg-zinc-950">
                     <MLTimeline request={selectedRequest} />
                 </div>
             )}
 
-            <div className="p-5 sm:p-10 border-b border-slate-200/60 dark:border-white/5 flex gap-3 sm:gap-4 items-start bg-slate-50 dark:bg-transparent">
-                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl sm:rounded-2xl bg-white dark:bg-white/5 flex items-center justify-center text-slate-400 shrink-0 border border-slate-200/50 dark:border-transparent shadow-sm">
+            <div className="p-5 sm:p-10 border-b border-zinc-800 flex gap-3 sm:gap-4 items-start bg-zinc-900/50">
+                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl sm:rounded-2xl bg-zinc-900 flex items-center justify-center text-zinc-500 shrink-0 border border-zinc-800 shadow-sm">
                     <MapPin className="h-5 w-5" />
                 </div>
                 <div className="flex flex-col min-w-0">
-                    <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-0.5 sm:mb-1">Local de Entrega</span>
-                    <span className="text-base sm:text-lg font-black text-slate-900 dark:text-white truncate leading-tight">{selectedRequest?.requester?.name || "Desconhecido"}</span>
-                    <span className="text-xs sm:text-[13px] font-semibold text-slate-500 truncate">{selectedRequest?.sector || "Geral"}</span>
+                    <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-zinc-500 mb-0.5 sm:mb-1">Local de Entrega</span>
+                    <span className="text-base sm:text-lg font-black text-zinc-100 truncate leading-tight">{selectedRequest?.requester?.name || "Desconhecido"}</span>
+                    <span className="text-xs sm:text-[13px] font-semibold text-zinc-400 truncate">{selectedRequest?.sector || "Geral"}</span>
                 </div>
             </div>
 
             {/* LISTA DE ITENS SOLICITADOS */}
-            <div className="p-5 sm:p-10 bg-white dark:bg-transparent">
-              <h4 className="font-bold text-[10px] sm:text-[11px] mb-3 sm:mb-4 text-slate-400 uppercase tracking-widest">
+            <div className="p-5 sm:p-10 bg-zinc-950">
+              <h4 className="font-bold text-[10px] sm:text-[11px] mb-3 sm:mb-4 text-zinc-500 uppercase tracking-widest">
                 Produtos Solicitados ({selectedRequest?.request_items?.length})
               </h4>
               
               <div className="space-y-2 sm:space-y-3">
                 {selectedRequest?.request_items?.map((item: any, i: number) => (
-                  <div key={i} className="flex items-center justify-between p-3 sm:p-4 bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5 rounded-xl sm:rounded-2xl w-full min-w-0 group">
+                  <div key={i} className="flex items-center justify-between p-3 sm:p-4 bg-zinc-900 border border-zinc-800 rounded-xl sm:rounded-2xl w-full min-w-0 group">
                       <div className="flex flex-col pr-3 sm:pr-4 min-w-0 flex-1">
-                          <span className="font-bold text-sm sm:text-[15px] text-slate-900 dark:text-white leading-tight truncate">
+                          <span className="font-bold text-sm sm:text-[15px] text-zinc-200 leading-tight truncate">
                               {item.products?.name || item.custom_product_name}
                           </span>
                           {item.products?.sku && (
-                              <span className="font-mono text-[9px] sm:text-[10px] text-slate-400 mt-1">
+                              <span className="font-mono text-[9px] sm:text-[10px] text-zinc-500 mt-1">
                                   SKU: {item.products.sku}
                               </span>
                           )}
                       </div>
                       <div className="flex flex-col items-end shrink-0">
-                          <span className="text-[9px] sm:text-[10px] uppercase font-bold text-slate-400 mb-0.5">Qtd</span>
-                          <span className="text-base sm:text-lg font-black text-slate-900 dark:text-white tabular-nums">
-                              {item.quantity_requested} <span className="text-[10px] sm:text-[11px] text-slate-500 font-bold ml-0.5">{item.products?.unit || "un"}</span>
+                          <span className="text-[9px] sm:text-[10px] uppercase font-bold text-zinc-500 mb-0.5">Qtd</span>
+                          <span className="text-base sm:text-lg font-black text-zinc-100 tabular-nums">
+                              {item.quantity_requested} <span className="text-[10px] sm:text-[11px] text-zinc-500 font-bold ml-0.5">{item.products?.unit || "un"}</span>
                           </span>
                       </div>
                   </div>
@@ -558,18 +556,18 @@ export default function Requests() {
           </div>
 
           {/* RODAPÉ E AÇÕES DE FLUXO */}
-          <div className="p-4 sm:p-6 bg-white dark:bg-[#111] border-t border-slate-200/60 dark:border-white/5 flex flex-col sm:flex-row gap-2 sm:gap-3 shrink-0">
+          <div className="p-4 sm:p-6 bg-zinc-900 border-t border-zinc-800 flex flex-col sm:flex-row gap-2 sm:gap-3 shrink-0">
             {canManage && selectedRequest?.status === 'aberto' ? (
               <>
                 <Button 
                   variant="outline" 
-                  className="flex-1 rounded-xl sm:rounded-2xl h-12 sm:h-14 border-rose-200 dark:border-rose-900/50 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-900/30 font-bold text-sm sm:text-[15px] tracking-tight" 
+                  className="flex-1 rounded-xl sm:rounded-2xl h-12 sm:h-14 border-zinc-700 bg-zinc-800 text-zinc-300 hover:bg-red-950/30 hover:text-red-500 hover:border-red-900/50 font-bold text-sm sm:text-[15px] tracking-tight transition-all" 
                   onClick={() => openRejectDialog(selectedRequest.id)}
                 >
                   <X className="mr-2 h-4 w-4 sm:h-5 sm:w-5" /> Recusar
                 </Button>
                 <Button 
-                  className="flex-[2] rounded-xl sm:rounded-2xl h-12 sm:h-14 bg-blue-600 hover:bg-blue-700 text-white font-black text-sm sm:text-[15px] tracking-tight shadow-[0_4px_20px_rgba(37,99,235,0.4)]" 
+                  className="flex-[2] rounded-xl sm:rounded-2xl h-12 sm:h-14 bg-red-600 hover:bg-red-700 text-white font-black text-sm sm:text-[15px] tracking-tight shadow-[0_4px_20px_rgba(220,38,38,0.3)] border-none" 
                   onClick={() => handleApprove(selectedRequest.id)}
                 >
                   <Check className="mr-2 h-4 w-4 sm:h-5 sm:w-5" /> Aprovar Pedido
@@ -577,13 +575,13 @@ export default function Requests() {
               </>
             ) : canManage && selectedRequest?.status === 'aprovado' ? (
               <Button 
-                  className="w-full rounded-xl sm:rounded-2xl h-12 sm:h-14 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-sm sm:text-[15px] tracking-tight shadow-[0_4px_20px_rgba(16,185,129,0.4)]" 
+                  className="w-full rounded-xl sm:rounded-2xl h-12 sm:h-14 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-sm sm:text-[15px] tracking-tight shadow-[0_4px_20px_rgba(16,185,129,0.3)] border-none" 
                   onClick={() => handleDeliver(selectedRequest.id)}
                 >
                   <Truck className="mr-2 h-4 w-4 sm:h-5 sm:w-5" /> Confirmar Entrega
               </Button>
             ) : (
-              <Button variant="secondary" className="w-full rounded-xl sm:rounded-2xl h-12 sm:h-14 font-bold text-sm sm:text-[15px] bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/20 text-slate-900 dark:text-white" onClick={closeAllDialogs}>
+              <Button variant="secondary" className="w-full rounded-xl sm:rounded-2xl h-12 sm:h-14 font-bold text-sm sm:text-[15px] bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border border-zinc-700" onClick={closeAllDialogs}>
                 Fechar Menu
               </Button>
             )}
@@ -593,13 +591,13 @@ export default function Requests() {
 
       {/* --- DIALOG DE RECUSA COM MOTIVO --- */}
       <Dialog open={isRejectDialogOpen} onOpenChange={setIsRejectDialogOpen}>
-        <DialogContent className="w-[90vw] bg-white dark:bg-[#111] border-none rounded-[1.5rem] sm:rounded-[2rem] p-6 sm:p-8 sm:max-w-md shadow-2xl">
+        <DialogContent className="w-[90vw] bg-zinc-950 border border-zinc-800 rounded-[1.5rem] sm:rounded-[2rem] p-6 sm:p-8 sm:max-w-md shadow-2xl">
           <div className="flex flex-col items-center text-center space-y-2 sm:space-y-3 mb-4 sm:mb-6">
-              <div className="h-14 w-14 sm:h-16 sm:w-16 bg-rose-100 dark:bg-rose-500/10 text-rose-600 dark:text-rose-500 rounded-full flex items-center justify-center mb-1 sm:mb-2">
+              <div className="h-14 w-14 sm:h-16 sm:w-16 bg-red-950/30 text-red-500 rounded-full flex items-center justify-center mb-1 sm:mb-2 border border-red-900/50">
                   <AlertTriangle className="h-6 w-6 sm:h-8 sm:w-8" strokeWidth={2.5} />
               </div>
-              <DialogTitle className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tighter">Recusar Solicitação</DialogTitle>
-              <DialogDescription className="text-xs sm:text-[14px] font-medium text-slate-500">
+              <DialogTitle className="text-xl sm:text-2xl font-black text-zinc-100 tracking-tighter">Recusar Solicitação</DialogTitle>
+              <DialogDescription className="text-xs sm:text-[14px] font-medium text-zinc-500">
                   Indique o motivo para que o setor entenda a recusa.
               </DialogDescription>
           </div>
@@ -608,11 +606,11 @@ export default function Requests() {
             placeholder="Ex: Produto fora de stock, limite excedido..." 
             value={rejectionReason}
             onChange={(e) => setRejectionReason(e.target.value)}
-            className="bg-slate-50 dark:bg-black/50 min-h-[100px] sm:min-h-[120px] rounded-xl sm:rounded-2xl border-slate-200 dark:border-white/5 focus:ring-2 focus:ring-rose-500/30 text-sm sm:text-[14px] p-3 sm:p-4 resize-none shadow-inner"
+            className="bg-zinc-900 min-h-[100px] sm:min-h-[120px] rounded-xl sm:rounded-2xl border-zinc-800 focus:ring-2 focus:ring-red-500/30 text-sm sm:text-[14px] p-3 sm:p-4 resize-none shadow-inner text-zinc-100 placeholder:text-zinc-600"
           />
           <DialogFooter className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-2 sm:gap-3">
-            <Button variant="outline" className="w-full sm:flex-1 rounded-xl sm:rounded-2xl h-12 font-bold text-sm sm:text-[14px] border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5" onClick={() => setIsRejectDialogOpen(false)}>Cancelar</Button>
-            <Button variant="destructive" className="w-full sm:flex-1 rounded-xl sm:rounded-2xl h-12 font-bold text-sm sm:text-[14px] bg-rose-600 hover:bg-rose-700 shadow-md" onClick={() => requestActionId && updateStatusMutation.mutate({ id: requestActionId, status: "rejeitado", reason: rejectionReason })}>
+            <Button variant="outline" className="w-full sm:flex-1 rounded-xl sm:rounded-2xl h-12 font-bold text-sm sm:text-[14px] border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-white" onClick={() => setIsRejectDialogOpen(false)}>Cancelar</Button>
+            <Button variant="destructive" className="w-full sm:flex-1 rounded-xl sm:rounded-2xl h-12 font-bold text-sm sm:text-[14px] bg-red-600 hover:bg-red-700 shadow-md border-none" onClick={() => requestActionId && updateStatusMutation.mutate({ id: requestActionId, status: "rejeitado", reason: rejectionReason })}>
               Confirmar
             </Button>
           </DialogFooter>
@@ -621,19 +619,19 @@ export default function Requests() {
 
       {/* --- DIALOG DE CANCELAMENTO (SOFT DELETE) --- */}
       <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <DialogContent className="w-[90vw] bg-white dark:bg-[#111] border-none rounded-[1.5rem] sm:rounded-[2rem] p-6 sm:p-8 sm:max-w-md shadow-2xl">
+        <DialogContent className="w-[90vw] bg-zinc-950 border border-zinc-800 rounded-[1.5rem] sm:rounded-[2rem] p-6 sm:p-8 sm:max-w-md shadow-2xl">
           <div className="flex flex-col items-center text-center space-y-2 sm:space-y-3 mb-4 sm:mb-6">
-              <div className="h-14 w-14 sm:h-16 sm:w-16 bg-rose-100 dark:bg-rose-500/10 text-rose-600 dark:text-rose-500 rounded-full flex items-center justify-center mb-1 sm:mb-2">
+              <div className="h-14 w-14 sm:h-16 sm:w-16 bg-red-950/30 text-red-500 rounded-full flex items-center justify-center mb-1 sm:mb-2 border border-red-900/50">
                   <Trash2 className="h-6 w-6 sm:h-8 sm:w-8" strokeWidth={2.5} />
               </div>
-              <DialogTitle className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tighter">Cancelar Pedido?</DialogTitle>
-              <DialogDescription className="text-xs sm:text-[14px] font-medium text-slate-500">
+              <DialogTitle className="text-xl sm:text-2xl font-black text-zinc-100 tracking-tighter">Cancelar Pedido?</DialogTitle>
+              <DialogDescription className="text-xs sm:text-[14px] font-medium text-zinc-400">
                   Esta ação irá inativar o pedido, alterar o status para "Recusado" e devolver os materiais reservados ao stock. Deseja prosseguir?
               </DialogDescription>
           </div>
           <DialogFooter className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full">
-            <Button variant="outline" className="w-full sm:flex-1 rounded-xl sm:rounded-2xl h-12 font-bold text-sm sm:text-[14px] border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5" onClick={() => setDeleteDialogOpen(false)}>Voltar</Button>
-            <Button variant="destructive" className="w-full sm:flex-1 rounded-xl sm:rounded-2xl h-12 font-bold text-sm sm:text-[14px] bg-rose-600 hover:bg-rose-700 shadow-md" onClick={() => requestActionId && deleteRequestMutation.mutate(requestActionId)}>
+            <Button variant="outline" className="w-full sm:flex-1 rounded-xl sm:rounded-2xl h-12 font-bold text-sm sm:text-[14px] border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-white" onClick={() => setDeleteDialogOpen(false)}>Voltar</Button>
+            <Button variant="destructive" className="w-full sm:flex-1 rounded-xl sm:rounded-2xl h-12 font-bold text-sm sm:text-[14px] bg-red-600 hover:bg-red-700 shadow-md border-none" onClick={() => requestActionId && deleteRequestMutation.mutate(requestActionId)}>
                 Sim, Cancelar
             </Button>
           </DialogFooter>
