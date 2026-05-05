@@ -31,7 +31,7 @@ const AnimatedCounter = ({ value }: { value: number }) => {
 
   useEffect(() => {
     let startTimestamp: number | null = null;
-    const duration = 1800; // Tempo prolongado para o efeito dramático Apple
+    const duration = 1800; 
     const startValue = 0;
 
     const step = (timestamp: number) => {
@@ -47,7 +47,6 @@ const AnimatedCounter = ({ value }: { value: number }) => {
   }, [value]);
 
   return (
-    // tabular-nums é CRUCIAL aqui para a largura dos números não tremer durante a animação
     <span className="tabular-nums">
       {new Intl.NumberFormat("pt-BR", {
         style: "currency",
@@ -107,19 +106,15 @@ export default function TelaInicialPremium() {
     queryFn: async () => {
       try {
         const response = await api.get("/transactions/recent"); 
-        
-        // Formata os dados vindos da API
         return response.data.map((item: any) => {
           const isEntrada = item.type === 'in' || item.type === 'ENTRADA' || item.quantidade > 0;
           const nomeProduto = item.product_name || item.produto?.nome || item.name || 'Produto Desconhecido';
-          
-          // Captura o SKU, mas NÃO o mistura com o título
           const skuProduto = item.product_sku || item.produto?.sku || item.sku || item.codigo || item.produto?.codigo || '';
           
           return {
             id: item.id,
-            title: `${isEntrada ? 'Entrada' : 'Retirada'}: ${nomeProduto}`, // Título limpo e legível
-            sku: skuProduto, // Enviamos o SKU de forma independente
+            title: `${isEntrada ? 'Entrada' : 'Retirada'}: ${nomeProduto}`,
+            sku: skuProduto,
             type: isEntrada ? 'in' : 'out',
             amount: Math.abs(item.amount || item.quantity || item.quantidade || 0),
             time: formatRelativeTime(item.created_at || item.createdAt || item.data)
@@ -138,18 +133,14 @@ export default function TelaInicialPremium() {
     refetchActivity();
   };
 
-  // --- UI: Botão com Glass Highlight (Borda de Vidro) ---
-    const QuickAction = ({ icon: Icon, label, onClick }: any) => (
+  const QuickAction = ({ icon: Icon, label, onClick }: any) => (
     <button 
       onClick={onClick}
       className="flex flex-col items-center gap-3 min-w-[80px] md:min-w-[96px] snap-center group outline-none focus-visible:ring-4 focus-visible:ring-red-500/30 rounded-2xl transition-all"
     >
-      <div className="h-16 w-16 md:h-[72px] md:w-[72px] rounded-[1.5rem] bg-white dark:bg-slate-900 shadow-[0_4px_12px_rgba(0,0,0,0.03),inset_0_1px_1px_rgba(255,255,255,1)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.05)] border border-slate-200/50 dark:border-white/5 flex items-center justify-center transition-all duration-500 ease-out group-hover:bg-[#FEF2F2] dark:group-hover:bg-red-900/20 group-hover:-translate-y-1 group-hover:shadow-[0_12px_30px_-8px_rgba(239,68,68,0.35),inset_0_1px_1px_rgba(255,255,255,1)] active:scale-[0.92] active:duration-150 relative overflow-hidden">
-        
+      <div className="h-16 w-16 md:h-[72px] md:w-[72px] rounded-[1.5rem] bg-white dark:bg-slate-900 shadow-[0_4px_12px_rgba(0,0,0,0.03),inset_0_1px_1px_rgba(255,255,255,1)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.05)] border border-slate-200/50 dark:border-white/5 flex items-center justify-center transition-all duration-500 ease-out group-hover:bg-red-50 dark:group-hover:bg-red-900/20 group-hover:-translate-y-1 group-hover:shadow-[0_12px_30px_-8px_rgba(239,68,68,0.35),inset_0_1px_1px_rgba(255,255,255,1)] active:scale-[0.92] active:duration-150 relative overflow-hidden">
         <Icon className="h-[26px] w-[26px] md:h-7 md:w-7 text-red-600 dark:text-red-400 group-hover:scale-110 group-hover:text-red-700 transition-all duration-500 ease-out relative z-10" strokeWidth={1.5} />
-      
       </div>
-  
       <span className="text-[12px] md:text-[13px] font-semibold text-slate-500 dark:text-slate-400 text-center leading-tight tracking-tight group-hover:text-red-700 dark:group-hover:text-red-400 transition-colors duration-300">
         {label}
       </span>
@@ -176,16 +167,13 @@ export default function TelaInicialPremium() {
       {/* 1. O CARTÃO MASTER ULTRA PREMIUM */}
       <section className="animate-in fade-in slide-in-from-top-6 duration-1000 ease-out bg-gradient-to-br from-[#991B1B] via-[#DC2626] to-[#450A0A] dark:from-[#2a0808] dark:via-[#450a0a] dark:to-[#1a0505] rounded-[2.5rem] p-7 md:p-10 text-white shadow-[0_24px_48px_-12px_rgba(220,38,38,0.4),inset_0_1px_1px_rgba(255,255,255,0.2)] dark:shadow-[0_24px_48px_-12px_rgba(0,0,0,1),inset_0_1px_1px_rgba(255,255,255,0.05)] relative overflow-hidden flex flex-col justify-between min-h-[220px] md:min-h-[260px] border border-red-600/20 dark:border-white/5 group">
         
-        {/* Luzes Refractivas que reagem subtilmente */}
         <div className="absolute top-0 right-0 -mr-32 -mt-32 w-[600px] h-[600px] rounded-full bg-red-400/20 blur-[100px] pointer-events-none mix-blend-screen group-hover:bg-red-400/30 transition-colors duration-1000" />
         <div className="absolute bottom-0 left-0 -ml-24 -mb-24 w-[400px] h-[400px] rounded-full bg-red-400/10 blur-[80px] pointer-events-none mix-blend-screen" />
         
         {canSeeValues ? (
           <div className="relative z-10 flex flex-col gap-8 h-full justify-between">
             <div className="flex items-center justify-between">
-              
               <div className="flex items-center gap-2.5 bg-black/10 backdrop-blur-2xl px-4 py-2 rounded-full border border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]">
-                {/* UX: Ponto "Live" de ligação em tempo real */}
                 <span className="relative flex h-2 w-2 mr-1">
                   <span className={`animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75 ${isSyncing ? 'duration-75' : 'duration-1000'}`}></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
@@ -199,14 +187,14 @@ export default function TelaInicialPremium() {
               <div className="flex items-center gap-2">
                 <button 
                   onClick={handleManualSync}
-                  className="p-3 text-white bg-white/5 hover:bg-white/15 rounded-full transition-all duration-300 active:scale-90 backdrop-blur-xl border border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+                  className="p-3 text-white bg-white/5 hover:bg-white/15 rounded-full transition-all duration-300 active:scale-90 backdrop-blur-xl border border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] outline-none focus-visible:ring-2 focus-visible:ring-red-400/50"
                   aria-label="Sincronizar dados"
                 >
                   <RefreshCw className={`h-[18px] w-[18px] opacity-90 ${isSyncing ? 'animate-spin' : ''}`} />
                 </button>
                 <button 
                   onClick={() => setShowValues(!showValues)}
-                  className="p-3 text-white bg-white/5 hover:bg-white/15 rounded-full transition-all duration-300 active:scale-90 backdrop-blur-xl border border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+                  className="p-3 text-white bg-white/5 hover:bg-white/15 rounded-full transition-all duration-300 active:scale-90 backdrop-blur-xl border border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] outline-none focus-visible:ring-2 focus-visible:ring-red-400/50"
                   aria-label={showValues ? "Ocultar valores" : "Mostrar valores"}
                 >
                   {showValues ? <Eye className="h-[18px] w-[18px] opacity-90" /> : <EyeOff className="h-[18px] w-[18px] opacity-90" />}
@@ -300,8 +288,8 @@ export default function TelaInicialPremium() {
                 ))
               ) : recentActivity.length === 0 ? (
                 <div className="p-12 text-center text-slate-400 flex flex-col items-center gap-4">
-                  <div className="h-16 w-16 rounded-3xl bg-slate-50 dark:bg-slate-900 flex items-center justify-center">
-                    <Clock className="h-7 w-7 text-slate-400" strokeWidth={1.5} />
+                  <div className="h-16 w-16 rounded-3xl bg-red-50 dark:bg-red-900/10 flex items-center justify-center">
+                    <Clock className="h-7 w-7 text-red-300 dark:text-red-800" strokeWidth={1.5} />
                   </div>
                   <p className="font-semibold text-[13px] tracking-tight">O seu extrato está vazio.</p>
                 </div>
@@ -309,7 +297,7 @@ export default function TelaInicialPremium() {
                 recentActivity.map((activity: any, index: number) => (
                   <div 
                     key={activity.id} 
-                    className={`flex items-center justify-between p-4 hover:bg-slate-50/80 dark:hover:bg-white/[0.02] rounded-[1.5rem] transition-colors duration-300 cursor-pointer group ${index !== recentActivity.length - 1 ? 'border-b border-slate-50 dark:border-white/5' : ''}`}
+                    className={`flex items-center justify-between p-4 hover:bg-red-50/30 dark:hover:bg-red-900/5 rounded-[1.5rem] transition-colors duration-300 cursor-pointer group ${index !== recentActivity.length - 1 ? 'border-b border-slate-50 dark:border-white/5' : ''}`}
                   >
                     <div className="flex items-center gap-4">
                       <div className={`h-[44px] w-[44px] flex items-center justify-center rounded-2xl transition-all duration-500 ease-out shadow-[inset_0_1px_1px_rgba(255,255,255,1)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] ${activity.type === 'in' ? 'bg-[#FEF2F2] border border-red-100/50 text-[#DC2626] dark:bg-red-900/20 dark:border-red-800/30 dark:text-red-400' : 'bg-slate-50 border border-slate-200/50 text-slate-500 dark:bg-slate-800/30 dark:border-slate-700/30 dark:text-slate-400'}`}>
@@ -317,10 +305,8 @@ export default function TelaInicialPremium() {
                       </div>
                       
                       <div className="flex flex-col">
-                        {/* 1. O Título limpo e visível */}
                         <p className="font-bold text-slate-900 dark:text-slate-100 text-[14px] group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors tracking-tight">{activity.title}</p>
                         
-                        {/* 2. Os Meta-dados (SKU e Hora) perfeitamente alinhados */}
                         <div className="flex items-center gap-1.5 mt-0.5">
                           {activity.sku && (
                             <>
