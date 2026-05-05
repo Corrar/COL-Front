@@ -10,37 +10,35 @@ import {
   EyeOff,
   PackagePlus,
   ArrowDownUp,
-  AlertCircle,
-  FileText,
   ChevronRight,
   TrendingDown,
   TrendingUp,
   Search,
-  Wallet,
-  Clock,
   RefreshCw,
   Sun,
   Moon,
   Sunrise,
-  Activity
 } from "lucide-react";
 
+// 🔥 COUNTER MELHORADO
 const AnimatedCounter = ({ value }: { value: number }) => {
   const [displayValue, setDisplayValue] = useState(0);
 
   useEffect(() => {
-    let startTimestamp: number | null = null;
-    const duration = 1800;
+    let start: number | null = null;
+    const duration = 1200;
 
-    const step = (timestamp: number) => {
-      if (!startTimestamp) startTimestamp = timestamp;
-      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-      const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-      setDisplayValue(value * ease);
-      if (progress < 1) window.requestAnimationFrame(step);
+    const animate = (time: number) => {
+      if (!start) start = time;
+      const progress = Math.min((time - start) / duration, 1);
+
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setDisplayValue(value * eased);
+
+      if (progress < 1) requestAnimationFrame(animate);
     };
 
-    window.requestAnimationFrame(step);
+    requestAnimationFrame(animate);
   }, [value]);
 
   return (
@@ -53,42 +51,35 @@ const AnimatedCounter = ({ value }: { value: number }) => {
   );
 };
 
+// 🔥 DATA BONITA
 const formatRelativeTime = (dateString: string) => {
-  if (!dateString) return "Data desconhecida";
+  if (!dateString) return "Sem data";
+
   const date = new Date(dateString);
   const now = new Date();
 
-  const isToday =
-    date.toDateString() === now.toDateString();
+  if (date.toDateString() === now.toDateString()) {
+    return `Hoje, ${date.toLocaleTimeString("pt-BR", {
+      hour: "2-digit",
+      minute: "2-digit",
+    })}`;
+  }
 
-  const yesterday = new Date();
-  yesterday.setDate(now.getDate() - 1);
-
-  const isYesterday =
-    date.toDateString() === yesterday.toDateString();
-
-  const timeStr = date.toLocaleTimeString("pt-PT", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-
-  if (isToday) return `Hoje, ${timeStr}`;
-  if (isYesterday) return `Ontem, ${timeStr}`;
-
-  return `${date.toLocaleDateString("pt-PT", {
-    day: "2-digit",
-    month: "short",
-  })}, ${timeStr}`;
+  return date.toLocaleDateString("pt-BR");
 };
 
 export default function TelaInicialPremium() {
   const { profile } = useAuth();
   const navigate = useNavigate();
+
   const [showValues, setShowValues] = useState(true);
   const [timeState, setTimeState] = useState({ greeting: "Olá", Icon: Sun });
 
-  const canSeeValues = ['admin', 'chefe', 'compras', 'almoxarife'].includes(profile?.role || '');
+  const canSeeValues = ["admin", "chefe", "compras", "almoxarife"].includes(
+    profile?.role || ""
+  );
 
+  // 🔥 Saudação dinâmica
   useEffect(() => {
     const hour = new Date().getHours();
     if (hour < 12) setTimeState({ greeting: "Bom dia", Icon: Sunrise });
@@ -96,55 +87,79 @@ export default function TelaInicialPremium() {
     else setTimeState({ greeting: "Boa noite", Icon: Moon });
   }, []);
 
-  const { data: stats, isLoading: loadingStats } = useQuery({
+  // 🔥 STATS
+  const {
+    data: stats,
+    isLoading,
+    refetch,
+    isRefetching,
+  } = useQuery({
     queryKey: ["dashboard"],
     queryFn: async () => (await api.get("/dashboard/stats")).data,
   });
 
+  // 🔥 TRANSAÇÕES TRATADAS
   const { data: recentActivity = [] } = useQuery({
     queryKey: ["transactions"],
-    queryFn: async () => (await api.get("/transactions/recent")).data,
+    queryFn: async () => {
+      const res = await api.get("/transactions/recent");
+
+      return res.data.map((item: any) => {
+        const isEntrada =
+          item.type === "in" || item.quantidade > 0;
+
+        return {
+          id: item.id,
+          title: `${isEntrada ? "Entrada" : "Saída"}: ${
+            item.product_name || item.name || "Produto"
+          }`,
+          amount: Math.abs(item.amount || item.quantidade || 0),
+          type: isEntrada ? "in" : "out",
+          time: formatRelativeTime(item.created_at),
+          sku: item.product_sku || "",
+        };
+      });
+    },
   });
 
+  // 🔥 BOTÃO
   const QuickAction = ({ icon: Icon, label, onClick }: any) => (
     <button
       onClick={onClick}
-      className="flex flex-col items-center gap-3 min-w-[80px] snap-center group
-      focus-visible:ring-2 focus-visible:ring-red-500/50 rounded-2xl
-      transition-all duration-300 hover:scale-[1.03] active:scale-95"
+      className="flex flex-col items-center gap-2 min-w-[90px] group"
     >
-      <div className="h-16 w-16 rounded-2xl bg-white/70 dark:bg-white/5 backdrop-blur-xl
-      border border-white/20 flex items-center justify-center
-      group-hover:bg-red-500/10 transition-all">
-        <Icon className="text-red-600 group-hover:scale-110 transition-all" />
+      <div className="h-16 w-16 rounded-2xl bg-white/10 flex items-center justify-center group-hover:bg-red-500/20 transition">
+        <Icon className="text-red-500 group-hover:scale-110 transition" />
       </div>
-      <span className="text-sm text-slate-500 group-hover:text-red-600">
+      <span className="text-sm text-gray-400 group-hover:text-red-500">
         {label}
       </span>
     </button>
   );
 
-  if (loadingStats) return <Skeleton className="h-40 w-full" />;
+  if (isLoading) return <Skeleton className="h-40 w-full" />;
 
   return (
-    <div className="p-6 space-y-8 bg-[#FAFAFA] dark:bg-black min-h-screen">
+    <div className="p-6 space-y-8 bg-[#0B0B0B] min-h-screen text-white">
 
-      {/* CARD PRINCIPAL */}
-      <section className="bg-gradient-to-br from-red-700 via-red-600 to-red-900
-      rounded-3xl p-8 text-white shadow-2xl backdrop-blur-xl">
-        
+      {/* 🔴 HEADER */}
+      <section className="bg-gradient-to-br from-red-700 via-red-600 to-red-900 rounded-3xl p-8 shadow-xl">
         <div className="flex justify-between items-center">
-          <h2 className="font-bold">
-            {timeState.greeting}, {profile?.name}
+          <h2 className="font-semibold text-lg">
+            {timeState.greeting}, {profile?.name?.split(" ")[0]}
           </h2>
 
           <div className="flex gap-2">
-            <button className="p-2 bg-white/10 rounded-full hover:scale-105 transition">
-              <RefreshCw />
+            <button
+              onClick={() => refetch()}
+              className="p-2 bg-white/10 rounded-full"
+            >
+              <RefreshCw className={isRefetching ? "animate-spin" : ""} />
             </button>
+
             <button
               onClick={() => setShowValues(!showValues)}
-              className="p-2 bg-white/10 rounded-full hover:scale-105 transition"
+              className="p-2 bg-white/10 rounded-full"
             >
               {showValues ? <Eye /> : <EyeOff />}
             </button>
@@ -152,37 +167,71 @@ export default function TelaInicialPremium() {
         </div>
 
         <div className="text-5xl font-bold mt-6">
-          {showValues ? <AnimatedCounter value={stats?.totalValue || 0} /> : "••••"}
+          {canSeeValues ? (
+            showValues ? (
+              <AnimatedCounter value={stats?.totalValue || 0} />
+            ) : (
+              "••••"
+            )
+          ) : (
+            "Sem permissão"
+          )}
         </div>
       </section>
 
-      {/* AÇÕES */}
+      {/* 🔥 AÇÕES */}
       <div className="flex gap-4 overflow-x-auto">
-        <QuickAction icon={ArrowDownUp} label="Movimentar" onClick={() => navigate('/withdrawal')} />
-        <QuickAction icon={PackagePlus} label="Produto" onClick={() => navigate('/products')} />
-        <QuickAction icon={Search} label="Consultar" onClick={() => navigate('/stock-view')} />
+        <QuickAction icon={ArrowDownUp} label="Movimentar" onClick={() => navigate("/withdrawal")} />
+        {canSeeValues && (
+          <QuickAction icon={PackagePlus} label="Produto" onClick={() => navigate("/products")} />
+        )}
+        <QuickAction icon={Search} label="Consultar" onClick={() => navigate("/stock-view")} />
       </div>
 
-      {/* EXTRATO */}
-      <div className="bg-white/70 backdrop-blur-xl rounded-3xl p-4">
-        <h3 className="font-bold mb-4">Extrato</h3>
+      {/* 📊 EXTRATO */}
+      <div className="bg-[#111] rounded-3xl p-4">
+        <div className="flex justify-between mb-4">
+          <h3 className="font-bold">Extrato Recente</h3>
+          <button onClick={() => navigate("/reports")} className="text-red-500 text-sm">
+            Ver tudo
+          </button>
+        </div>
 
-        {recentActivity.map((item: any) => (
-          <div key={item.id} className="flex justify-between p-3 hover:bg-red-500/5 rounded-xl transition">
-            <span>{item.name}</span>
-            <span className="text-red-600">{item.amount}</span>
-          </div>
-        ))}
+        {recentActivity.length === 0 ? (
+          <p className="text-gray-500">Nenhuma movimentação</p>
+        ) : (
+          recentActivity.map((item: any) => (
+            <div
+              key={item.id}
+              className="flex justify-between p-3 hover:bg-white/5 rounded-xl transition"
+            >
+              <div>
+                <p className="font-medium">{item.title}</p>
+                <p className="text-xs text-gray-500">
+                  {item.sku && `SKU: ${item.sku} •`} {item.time}
+                </p>
+              </div>
+
+              <span
+                className={`font-bold ${
+                  item.type === "in" ? "text-green-400" : "text-red-400"
+                }`}
+              >
+                {item.type === "in" ? "+" : "-"}
+                {item.amount}
+              </span>
+            </div>
+          ))
+        )}
       </div>
 
-      {/* CARD LATERAL */}
-      <Card className="bg-red-700 text-white rounded-3xl shadow-xl">
+      {/* ⚠️ ESTOQUE */}
+      <Card className="bg-red-700 rounded-3xl">
         <CardContent className="p-6">
-          <p className="text-sm">Estoque crítico</p>
-          <p className="text-4xl font-bold">{stats?.lowStock}</p>
+          <p className="text-sm opacity-80">Estoque crítico</p>
+          <p className="text-4xl font-bold">{stats?.lowStock || 0}</p>
         </CardContent>
       </Card>
-
     </div>
   );
 }
