@@ -55,7 +55,7 @@ const AVAILABLE_PAGES: PermissionItem[] = [
   { key: "relatorios", label: "Relatórios BI", category: "Relatórios", description: "Gráficos gerenciais e analíticos" },
 
   // Admin
-  { key: "office_dashboard", label: "Controle de Saída", category: "Administração", description: "Dashboard do escritório e verificação de EPIs" }, // <--- NOVA PERMISSÃO ADICIONADA
+  { key: "office_dashboard", label: "Controle de Saída", category: "Administração", description: "Dashboard do escritório e verificação de EPIs" },
   { key: "usuarios", label: "Usuários", category: "Administração", description: "Cadastro de logins e senhas" },
   { key: "logs", label: "Auditoria", category: "Administração", description: "Log de segurança e rastreio" },
   { key: "permissoes", label: "Permissões", category: "Administração", description: "Gerenciamento de acesso (esta tela)" },
@@ -71,7 +71,7 @@ const ROLES = [
   "financeiro",
   "chefe", 
   "assistente_tecnico",
-  "engenharia",      
+  "engenharia",     
   "prototipo",       
   "desenvolvimento"  
 ];
@@ -179,18 +179,18 @@ export default function PermissionsPage() {
   const totalCount = AVAILABLE_PAGES.length;
 
   return (
-    // Container Principal com Background Royale Profundo
+    // Container Principal com Background Preto/Zinc
     <div className="flex flex-col gap-6 animate-in fade-in duration-500 pb-32 lg:h-[calc(100vh-6rem)] lg:pb-0">
       
       {/* --- HEADER --- */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shrink-0 px-1">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold flex items-center gap-3 text-white">
-            <Lock className="h-6 w-6 md:h-8 md:w-8 text-yellow-400" /> 
+            <Lock className="h-6 w-6 md:h-8 md:w-8 text-red-500" /> 
             <span className="hidden md:inline">Controle de Acesso</span>
             <span className="md:hidden">Acessos</span>
           </h1>
-          <p className="text-sm text-slate-400 mt-1 hidden md:block">Gerencie o que cada cargo pode acessar no sistema.</p>
+          <p className="text-sm text-zinc-400 mt-1 hidden md:block">Gerencie o que cada cargo pode acessar no sistema.</p>
         </div>
         
         <div className="flex items-center gap-3 w-full md:w-auto">
@@ -202,7 +202,7 @@ export default function PermissionsPage() {
             <Button 
                 onClick={handleSave} 
                 disabled={!hasChanges || saving} 
-                className={`flex-1 md:flex-none h-10 rounded-xl font-bold shadow-lg transition-all ${hasChanges ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-blue-900/50' : 'bg-slate-700 text-slate-400 cursor-not-allowed'}`}
+                className={`flex-1 md:flex-none h-10 rounded-xl font-bold shadow-lg transition-all ${hasChanges ? 'bg-red-600 hover:bg-red-700 text-white shadow-red-900/50' : 'bg-zinc-800 text-zinc-500 cursor-not-allowed hover:bg-zinc-800'}`}
             >
                 {saving ? <RefreshCw className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
                 {hasChanges ? "Salvar Alterações" : "Salvo"}
@@ -211,23 +211,23 @@ export default function PermissionsPage() {
       </div>
 
       {/* --- MOBILE: DROPDOWN DE CARGOS PREMIUM --- */}
-      <div className="lg:hidden w-full space-y-2 px-1 sticky top-0 z-30 bg-[#09090b]/80 backdrop-blur-md pb-4 pt-2 -mx-4 px-4 border-b border-white/5">
-          <label className="text-xs font-bold text-yellow-500 uppercase tracking-widest pl-1">Selecionar Cargo</label>
+      <div className="lg:hidden w-full space-y-2 px-1 sticky top-0 z-30 bg-black/80 backdrop-blur-md pb-4 pt-2 -mx-4 px-4 border-b border-white/5">
+          <label className="text-xs font-bold text-red-500 uppercase tracking-widest pl-1">Selecionar Cargo</label>
           <Select value={selectedRole} onValueChange={setSelectedRole}>
-              <SelectTrigger className="w-full h-14 rounded-2xl border-white/10 bg-[#0f172a] text-white focus:ring-yellow-500/50 shadow-xl">
+              <SelectTrigger className="w-full h-14 rounded-2xl border-white/10 bg-zinc-900 text-white focus:ring-red-500/50 shadow-xl">
                   <div className="flex items-center gap-3">
-                      <div className="h-8 w-8 rounded-full bg-blue-900/50 flex items-center justify-center border border-blue-500/30">
-                        <UserCog className="h-5 w-5 text-yellow-400" />
+                      <div className="h-8 w-8 rounded-full bg-red-950/30 flex items-center justify-center border border-red-900/50">
+                        <UserCog className="h-5 w-5 text-red-500" />
                       </div>
                       <div className="flex flex-col items-start">
                         <span className="capitalize font-bold text-sm">{selectedRole.replace('_', ' ')}</span>
-                        <span className="text-[10px] text-slate-400 font-normal">Editando permissões</span>
+                        <span className="text-[10px] text-zinc-400 font-normal">Editando permissões</span>
                       </div>
                   </div>
               </SelectTrigger>
-              <SelectContent className="bg-[#0f172a] border-white/10 text-white">
+              <SelectContent className="bg-zinc-900 border-white/10 text-white">
                   {ROLES.map(role => (
-                      <SelectItem key={role} value={role} className="capitalize py-3 focus:bg-white/5 focus:text-yellow-400 cursor-pointer">
+                      <SelectItem key={role} value={role} className="capitalize py-3 focus:bg-zinc-800 focus:text-red-400 cursor-pointer">
                           {role.replace('_', ' ')}
                       </SelectItem>
                   ))}
@@ -235,8 +235,8 @@ export default function PermissionsPage() {
           </Select>
           
           <div className="flex justify-between items-center px-2 mt-2">
-             <div className="text-xs text-slate-500">Permissões Ativas</div>
-             <Badge variant="outline" className="bg-blue-900/20 text-blue-400 border-blue-800">{activeCount} de {totalCount}</Badge>
+             <div className="text-xs text-zinc-500">Permissões Ativas</div>
+             <Badge variant="outline" className="bg-red-950/20 text-red-400 border-red-900/50">{activeCount} de {totalCount}</Badge>
           </div>
       </div>
 
@@ -244,12 +244,12 @@ export default function PermissionsPage() {
       <div className="flex flex-col lg:flex-row gap-6 h-full min-h-0">
         
         {/* ESQUERDA (Desktop Sidebar) */}
-        <Card className="hidden lg:flex w-72 flex-col border-none shadow-2xl bg-[#0f172a] shrink-0 h-full rounded-3xl overflow-hidden border border-white/5">
-            <CardHeader className="pb-4 pt-6 border-b border-white/5">
+        <Card className="hidden lg:flex w-72 flex-col border-none shadow-2xl bg-zinc-950 shrink-0 h-full rounded-3xl overflow-hidden border border-white/5">
+            <CardHeader className="pb-4 pt-6 border-b border-zinc-800">
                 <CardTitle className="text-xl flex items-center gap-2 text-white">
-                    <UserCog className="h-6 w-6 text-yellow-400" /> Cargos
+                    <UserCog className="h-6 w-6 text-red-500" /> Cargos
                 </CardTitle>
-                <CardDescription className="text-slate-400">Selecione para configurar</CardDescription>
+                <CardDescription className="text-zinc-400">Selecione para configurar</CardDescription>
             </CardHeader>
             <ScrollArea className="h-full">
                 <div className="flex flex-col gap-2 p-4">
@@ -263,12 +263,12 @@ export default function PermissionsPage() {
                                 className={cn(
                                     "relative flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all group w-full border",
                                     isSelected 
-                                        ? 'bg-blue-600 border-blue-500 text-white shadow-lg shadow-blue-900/50' 
-                                        : 'bg-white/5 border-transparent text-slate-400 hover:bg-white/10 hover:text-white'
+                                        ? 'bg-red-600 border-red-500 text-white shadow-lg shadow-red-900/50' 
+                                        : 'bg-white/5 border-transparent text-zinc-400 hover:bg-zinc-800 hover:text-white'
                                 )}
                             >
                                 <span className="capitalize">{role.replace('_', ' ')}</span>
-                                <Badge variant="secondary" className={cn("text-[10px] h-5 px-1.5 border-0", isSelected ? "bg-white/20 text-white" : "bg-black/40 text-slate-400")}>
+                                <Badge variant="secondary" className={cn("text-[10px] h-5 px-1.5 border-0", isSelected ? "bg-white/20 text-white" : "bg-black/40 text-zinc-400")}>
                                     {count}
                                 </Badge>
                             </button>
@@ -279,30 +279,30 @@ export default function PermissionsPage() {
         </Card>
 
         {/* DIREITA (Área de Permissões) */}
-        <Card className="flex-1 flex flex-col border border-white/5 shadow-2xl bg-[#0f172a]/60 backdrop-blur-xl rounded-3xl overflow-hidden min-h-[500px]">
+        <Card className="flex-1 flex flex-col border border-white/5 shadow-2xl bg-zinc-950/80 backdrop-blur-xl rounded-3xl overflow-hidden min-h-[500px]">
             {/* Header da Lista */}
-            <div className="p-4 md:p-6 border-b border-white/5 bg-[#0f172a]/80 flex flex-col sm:flex-row justify-between items-center gap-4 sticky top-0 z-10">
+            <div className="p-4 md:p-6 border-b border-zinc-800 bg-zinc-950 flex flex-col sm:flex-row justify-between items-center gap-4 sticky top-0 z-10">
                 <div className="hidden lg:flex items-center gap-4">
-                    <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-blue-600 to-blue-900 flex items-center justify-center text-yellow-400 shadow-lg border border-white/10">
+                    <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-red-600 to-red-950 flex items-center justify-center text-white shadow-lg border border-red-500/20">
                         <Shield className="h-6 w-6" />
                     </div>
                     <div>
                         <h2 className="text-2xl font-bold capitalize text-white leading-none">
                             {selectedRole.replace('_', ' ')}
                         </h2>
-                        <p className="text-sm text-slate-400 mt-1">
+                        <p className="text-sm text-zinc-400 mt-1">
                             Gerenciando acessos
                         </p>
                     </div>
                 </div>
                 
                 <div className="relative w-full sm:w-72">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
                     <Input 
                         placeholder="Buscar permissão..." 
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-10 h-11 rounded-xl bg-white/5 border-white/10 text-white placeholder:text-slate-600 focus:ring-yellow-500/50"
+                        className="pl-10 h-11 rounded-xl bg-zinc-900 border-zinc-800 text-white placeholder:text-zinc-600 focus:ring-red-500/50"
                     />
                 </div>
             </div>
@@ -311,7 +311,7 @@ export default function PermissionsPage() {
             <ScrollArea className="flex-1 h-full">
                 {loading ? (
                     <div className="space-y-4 p-6">
-                        {[1,2,3].map(i => <Skeleton key={i} className="h-32 w-full rounded-xl bg-white/5" />)}
+                        {[1,2,3].map(i => <Skeleton key={i} className="h-32 w-full rounded-xl bg-zinc-900" />)}
                     </div>
                 ) : (
                     <div className="space-y-8 pb-20 p-4 lg:p-8">
@@ -322,11 +322,11 @@ export default function PermissionsPage() {
                             const isAllActive = allInCategory.every(k => rolePerms.includes(k));
 
                             return (
-                                <div key={category} className="rounded-2xl border border-white/5 bg-[#0f172a]/40 overflow-hidden">
+                                <div key={category} className="rounded-2xl border border-zinc-800 bg-zinc-900/50 overflow-hidden">
                                     {/* Cabeçalho da Categoria */}
-                                    <div className="px-5 py-4 bg-white/5 border-b border-white/5 flex justify-between items-center">
+                                    <div className="px-5 py-4 bg-zinc-900 border-b border-zinc-800 flex justify-between items-center">
                                         <div className="flex items-center gap-3 text-white font-bold text-sm uppercase tracking-wide">
-                                            <div className="p-1.5 rounded-lg bg-blue-500/10 text-blue-400">
+                                            <div className="p-1.5 rounded-lg bg-red-950/50 text-red-500">
                                                 <CatIcon className="h-4 w-4" />
                                             </div>
                                             {category}
@@ -335,14 +335,14 @@ export default function PermissionsPage() {
                                             variant="ghost" 
                                             size="sm" 
                                             onClick={() => toggleCategoryForRole(selectedRole, category, !isAllActive)}
-                                            className={`text-[10px] h-8 px-3 rounded-lg font-bold uppercase tracking-wider border ${isAllActive ? 'border-red-900/30 text-red-400 hover:bg-red-900/20' : 'border-emerald-900/30 text-emerald-400 hover:bg-emerald-900/20'}`}
+                                            className={`text-[10px] h-8 px-3 rounded-lg font-bold uppercase tracking-wider border transition-colors ${isAllActive ? 'border-red-900/50 text-red-500 hover:bg-red-950/50' : 'border-zinc-700 text-zinc-400 hover:bg-zinc-800 hover:text-white'}`}
                                         >
                                             {isAllActive ? "Remover Todos" : "Ativar Todos"}
                                         </Button>
                                     </div>
 
                                     {/* Itens */}
-                                    <div className="divide-y divide-white/5">
+                                    <div className="divide-y divide-zinc-800">
                                         {items.map((item) => {
                                             const isChecked = rolePerms.includes(item.key);
                                             // Trava o Admin nas páginas críticas dele
@@ -353,19 +353,19 @@ export default function PermissionsPage() {
                                                     key={item.key} 
                                                     className={cn(
                                                         "px-5 py-4 flex items-center justify-between transition-all cursor-pointer active:scale-[0.98]",
-                                                        isChecked ? 'bg-blue-500/5' : 'hover:bg-white/5'
+                                                        isChecked ? 'bg-red-950/20' : 'hover:bg-zinc-800/50'
                                                     )}
                                                     onClick={() => !isLocked && togglePermission(selectedRole, item.key)}
                                                 >
                                                     <div className="flex flex-col gap-1 pr-4 flex-1">
                                                         <span className={cn(
                                                             "font-medium text-sm transition-colors",
-                                                            isChecked ? 'text-blue-400' : 'text-slate-300'
+                                                            isChecked ? 'text-red-400' : 'text-zinc-300'
                                                         )}>
                                                             {item.label}
                                                         </span>
                                                         {item.description && (
-                                                            <span className="text-xs text-slate-500 leading-tight block">
+                                                            <span className="text-xs text-zinc-500 leading-tight block">
                                                                 {item.description}
                                                             </span>
                                                         )}
@@ -375,18 +375,18 @@ export default function PermissionsPage() {
                                                     <div className="flex items-center shrink-0 ml-2">
                                                      {isLocked ? (
                                                        <div title="Acesso obrigatório para Admin" className="cursor-help">
-                                                      <Lock className="h-5 w-5 text-yellow-600 opacity-50" />
+                                                          <Lock className="h-5 w-5 text-red-500 opacity-50" />
                                                         </div>
                                                             ) : (
                                                             <div className={cn(
                                                                 "w-12 h-7 rounded-full flex items-center p-1 transition-colors duration-300 border",
                                                                 isChecked 
-                                                                    ? "bg-blue-600 border-blue-500 justify-end" 
-                                                                    : "bg-slate-800 border-slate-700 justify-start"
+                                                                    ? "bg-red-600 border-red-500 justify-end" 
+                                                                    : "bg-zinc-800 border-zinc-700 justify-start"
                                                             )}>
                                                                 <div className={cn(
                                                                     "w-5 h-5 rounded-full shadow-md transition-all duration-300",
-                                                                    isChecked ? "bg-white" : "bg-slate-500"
+                                                                    isChecked ? "bg-white" : "bg-zinc-500"
                                                                 )} />
                                                             </div>
                                                         )}
@@ -400,7 +400,7 @@ export default function PermissionsPage() {
                         })}
                         
                         {Object.keys(groupedPermissions).length === 0 && (
-                            <div className="flex flex-col items-center justify-center py-20 text-slate-500 text-center">
+                            <div className="flex flex-col items-center justify-center py-20 text-zinc-500 text-center">
                                 <Search className="h-12 w-12 mb-3 opacity-20" />
                                 <p>Nenhuma permissão encontrada</p>
                             </div>
