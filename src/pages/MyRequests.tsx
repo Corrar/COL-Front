@@ -23,14 +23,13 @@ import { format } from "date-fns";
 import { useAuth } from "@/contexts/AuthContext";
 import { useSocket } from "@/contexts/SocketContext";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { cn } from "@/lib/utils";
 
-// --- Configuração de Status Premium ---
+// --- Configuração de Status Premium (Adaptado para Vermelho/Preto) ---
 const statusConfig = {
-  aberto: { label: "Em Análise", color: "bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/30", icon: Clock },
+  aberto: { label: "Em Análise", color: "bg-zinc-100 text-zinc-800 border-zinc-300 dark:bg-zinc-800 dark:text-zinc-300 dark:border-zinc-600", icon: Clock },
   aprovado: { label: "Aprovado", color: "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30", icon: CheckCircle2 },
-  rejeitado: { label: "Rejeitado", color: "bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/30", icon: XCircle },
-  entregue: { label: "Entregue", color: "bg-slate-100 text-slate-700 border-slate-300 dark:bg-white/10 dark:text-slate-300 dark:border-white/20", icon: Truck },
+  rejeitado: { label: "Rejeitado", color: "bg-red-50 text-red-700 border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/30", icon: XCircle },
+  entregue: { label: "Entregue", color: "bg-zinc-900 text-white border-zinc-800 dark:bg-white/10 dark:text-zinc-300 dark:border-white/20", icon: Truck },
 };
 
 interface CartItem {
@@ -222,7 +221,6 @@ export default function MyRequests() {
 
   const setExactQuantity = (productId: string, value: string, available: number, e?: React.ChangeEvent<HTMLInputElement>) => {
     if (e) e.stopPropagation();
-    // 🛡️ Segurança: Removemos qualquer caractere que não seja número (impede negativos e letras)
     const newQtyStr = value.replace(/\D/g, ''); 
     
     if (newQtyStr === '') {
@@ -242,7 +240,6 @@ export default function MyRequests() {
 
   const handleQuantityBlur = (productId: string) => {
      const item = cart.find(i => i.product_id === productId);
-     // UX Inteligente: Se o utilizador apagar e deixar a zero, removemos do carrinho.
      if (item && item.quantity === 0) handleRemoveItem(productId);
   };
 
@@ -250,11 +247,9 @@ export default function MyRequests() {
     if (!sector) return toast.error("Erro: Setor não identificado.");
     if (cart.length === 0) return toast.error("Carrinho vazio.");
     
-    // 🛡️ Segurança: Garantimos que nada com quantidade 0 ou negativa é enviado para o Back-end
     const validItems = cart.filter(i => i.quantity > 0);
     if (validItems.length === 0) return toast.error("Adicione quantidades válidas.");
 
-    // Validação de EPI / CAMISETA obrigatória
     const isMissingObs = validItems.some(i => i.tags?.some(t => ['EPI', 'CAMISETA'].includes(t.toUpperCase())) && (!i.observation || i.observation.trim() === ''));
     if (isMissingObs) return toast.error("Preencha para quem é o item (EPI/Camiseta) nos itens assinalados com aviso.");
 
@@ -269,14 +264,14 @@ export default function MyRequests() {
   };
 
   // ==========================================
-  // COMPONENTE VISUAL DO CARRINHO (100% Responsivo)
+  // COMPONENTE VISUAL DO CARRINHO (Vermelho & Preto)
   // ==========================================
   const CartListContent = () => (
     <div className="flex flex-col h-full bg-background">
         {cart.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full text-slate-400 space-y-4">
-            <div className="bg-slate-100 dark:bg-white/5 p-6 rounded-full">
-              <ShoppingCart className="h-10 w-10 text-slate-300 dark:text-slate-600" />
+          <div className="flex flex-col items-center justify-center h-full text-zinc-400 space-y-4">
+            <div className="bg-zinc-100 dark:bg-white/5 p-6 rounded-full">
+              <ShoppingCart className="h-10 w-10 text-zinc-300 dark:text-zinc-600" />
             </div>
             <p className="font-medium">O seu carrinho está vazio.</p>
           </div>
@@ -287,7 +282,6 @@ export default function MyRequests() {
                 const productData = products?.find((p: any) => p.id === item.product_id);
                 const available = productData ? getAvailableStock(productData) : item.quantity;
                 
-                // VERIFICA SE PRECISA DE OBSERVAÇÃO
                 const requiresObs = item.tags?.some(t => ['EPI', 'CAMISETA'].includes(t.toUpperCase()));
                 const obsLabel = item.tags?.some(t => t.toUpperCase() === 'CAMISETA') ? 'esta Camiseta' : 'este EPI';
 
@@ -299,27 +293,27 @@ export default function MyRequests() {
                 };
 
                 return (
-                  <div key={item.product_id} className={`flex flex-col gap-3 bg-white dark:bg-[#111] p-4 rounded-[1.25rem] border ${requiresObs && !item.observation ? 'border-rose-400 dark:border-rose-500 shadow-[0_0_15px_rgba(244,63,94,0.15)]' : 'border-slate-200/60 dark:border-white/5'} shadow-sm overflow-hidden group hover:border-blue-500/30 transition-colors`}>
+                  <div key={item.product_id} className={`flex flex-col gap-3 bg-white dark:bg-[#111] p-4 rounded-[1.25rem] border ${requiresObs && !item.observation ? 'border-red-400 dark:border-red-500 shadow-[0_0_15px_rgba(220,38,38,0.15)]' : 'border-zinc-200/60 dark:border-white/5'} shadow-sm overflow-hidden group hover:border-red-500/30 transition-colors`}>
                     
                     {/* Linha 1: Info e Lixo */}
                     <div className="flex items-start justify-between gap-3 w-full">
                       <div className="flex items-start gap-3 flex-1 min-w-0">
-                        <div className="h-10 w-10 bg-blue-50 dark:bg-blue-500/10 rounded-full flex items-center justify-center text-blue-600 shrink-0">
+                        <div className="h-10 w-10 bg-red-50 dark:bg-red-500/10 rounded-full flex items-center justify-center text-red-600 shrink-0">
                           <Package className="h-5 w-5" />
                         </div>
                         
                         <div className="flex-1 min-w-0 pt-0.5">
-                          <p className="font-bold text-sm leading-snug text-slate-900 dark:text-white line-clamp-2 break-words" title={item.name}>
+                          <p className="font-bold text-sm leading-snug text-zinc-900 dark:text-white line-clamp-2 break-words" title={item.name}>
                             {item.name}
                           </p>
                           <div className="flex items-center gap-2 mt-1 flex-wrap">
-                              <span className="text-[10px] text-slate-500 font-mono bg-slate-100 dark:bg-white/5 px-1.5 py-0.5 rounded">{item.sku}</span>
-                              <span className="block text-[10px] text-slate-400 font-bold uppercase">{item.unit}</span>
+                              <span className="text-[10px] text-zinc-500 font-mono bg-zinc-100 dark:bg-white/5 px-1.5 py-0.5 rounded">{item.sku}</span>
+                              <span className="block text-[10px] text-zinc-400 font-bold uppercase">{item.unit}</span>
                           </div>
                         </div>
                       </div>
 
-                      <Button variant="ghost" size="icon" className="h-8 w-8 text-rose-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-full shrink-0 -mt-1 -mr-1" onClick={() => handleRemoveItem(item.product_id)}>
+                      <Button variant="ghost" size="icon" className="h-8 w-8 text-red-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-full shrink-0 -mt-1 -mr-1" onClick={() => handleRemoveItem(item.product_id)}>
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
@@ -327,26 +321,25 @@ export default function MyRequests() {
                     {/* OBSERVAÇÃO OBRIGATÓRIA (EPI / CAMISETA) */}
                     {requiresObs && (
                         <div className="px-1 py-1 animate-in fade-in slide-in-from-top-2">
-                           <Label className="text-[10px] text-amber-600 dark:text-amber-500 font-bold uppercase mb-1 flex items-center gap-1">
+                           <Label className="text-[10px] text-red-600 dark:text-red-500 font-bold uppercase mb-1 flex items-center gap-1">
                              <AlertTriangle className="w-3 h-3" /> Para quem é {obsLabel}? *
                            </Label>
                            <Input 
                               placeholder="Nome do colaborador..."
                               value={item.observation || ''}
                               onChange={(e) => setCart(cart.map(i => i.product_id === item.product_id ? { ...i, observation: e.target.value } : i))}
-                              className="h-9 text-xs border-amber-300 focus:ring-amber-500/50 bg-amber-50/50 dark:bg-amber-900/10 dark:border-amber-900/50 text-amber-900 dark:text-amber-100"
+                              className="h-9 text-xs border-red-300 focus:ring-red-500/50 bg-red-50/50 dark:bg-red-900/10 dark:border-red-900/50 text-red-900 dark:text-red-100"
                            />
                         </div>
                     )}
 
                     {/* Linha 2: Controlos de Quantidade */}
-                    <div className="flex justify-end items-center pt-3 border-t border-slate-100 dark:border-white/5">
-                      <div className="flex items-center bg-slate-100 dark:bg-white/10 rounded-full border border-slate-200/60 dark:border-white/5 p-1 shadow-inner">
-                        <button onClick={() => updateQty(-1)} className="h-8 w-8 flex items-center justify-center rounded-full bg-white dark:bg-[#222] text-slate-700 dark:text-slate-300 shadow-sm active:scale-90 transition-transform font-bold hover:bg-slate-200 dark:hover:bg-[#333]">
+                    <div className="flex justify-end items-center pt-3 border-t border-zinc-100 dark:border-white/5">
+                      <div className="flex items-center bg-zinc-100 dark:bg-white/10 rounded-full border border-zinc-200/60 dark:border-white/5 p-1 shadow-inner">
+                        <button onClick={() => updateQty(-1)} className="h-8 w-8 flex items-center justify-center rounded-full bg-white dark:bg-[#222] text-zinc-700 dark:text-zinc-300 shadow-sm active:scale-90 transition-transform font-bold hover:bg-zinc-200 dark:hover:bg-[#333]">
                           -
                         </button>
                         
-                        {/* 🛡️ MUDANÇA DE SEGURANÇA: type="number" e min="1" */}
                         <input 
                           type="number" 
                           min="1"
@@ -354,10 +347,10 @@ export default function MyRequests() {
                           value={item.quantity || ''} 
                           onChange={(e) => setExactQuantity(item.product_id, e.target.value, available, e)}
                           onBlur={() => handleQuantityBlur(item.product_id)}
-                          className="w-12 text-center text-[15px] font-black text-blue-700 dark:text-blue-400 bg-transparent border-none focus:outline-none focus:ring-2 focus:ring-blue-500/50 rounded p-1 tabular-nums [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          className="w-12 text-center text-[15px] font-black text-red-700 dark:text-red-400 bg-transparent border-none focus:outline-none focus:ring-2 focus:ring-red-500/50 rounded p-1 tabular-nums [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                         />
                         
-                        <button onClick={() => updateQty(1)} className="h-8 w-8 flex items-center justify-center rounded-full bg-blue-600 text-white shadow-sm active:scale-90 transition-transform font-bold hover:bg-blue-700">
+                        <button onClick={() => updateQty(1)} className="h-8 w-8 flex items-center justify-center rounded-full bg-red-600 text-white shadow-sm active:scale-90 transition-transform font-bold hover:bg-red-700">
                           +
                         </button>
                       </div>
@@ -370,13 +363,13 @@ export default function MyRequests() {
           </ScrollArea>
         )}
 
-      <div className="p-4 border-t border-slate-200/50 dark:border-white/5 bg-white dark:bg-[#111] mt-auto pb-8 md:pb-4">
+      <div className="p-4 border-t border-zinc-200/50 dark:border-white/5 bg-white dark:bg-[#111] mt-auto pb-8 md:pb-4">
          <div className="flex justify-between items-center mb-4">
-            <span className="text-sm font-medium text-slate-500">Total de Itens</span>
-            <span className="text-xl font-black text-slate-900 dark:text-white">{cart.length}</span>
+            <span className="text-sm font-medium text-zinc-500">Total de Itens</span>
+            <span className="text-xl font-black text-zinc-900 dark:text-white">{cart.length}</span>
          </div>
          <Button 
-            className={`w-full h-14 text-base font-bold rounded-2xl transition-all duration-300 ${cart.length > 0 ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-[0_4px_20px_rgba(37,99,235,0.4)]' : 'bg-slate-200 dark:bg-white/10 text-slate-400'}`} 
+            className={`w-full h-14 text-base font-bold rounded-2xl transition-all duration-300 ${cart.length > 0 ? 'bg-red-600 hover:bg-red-700 text-white shadow-[0_4px_20px_rgba(220,38,38,0.4)]' : 'bg-zinc-200 dark:bg-white/10 text-zinc-400'}`} 
             onClick={handleSubmit} 
             disabled={cart.length === 0 || createRequestMutation.isPending}
          >
@@ -388,28 +381,28 @@ export default function MyRequests() {
   );
 
   return (
-    <div className="flex flex-col h-[calc(100vh-6rem)] gap-4 animate-in fade-in duration-500 bg-[#F8FAFC] dark:bg-black selection:bg-blue-500/30">
+    <div className="flex flex-col h-[calc(100vh-6rem)] gap-4 animate-in fade-in duration-500 bg-[#fafafa] dark:bg-black selection:bg-red-500/30">
       
       {/* ========================================== */}
       {/* CABEÇALHO */}
       {/* ========================================== */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shrink-0 px-4 md:px-0 mt-4 md:mt-0">
         <div>
-          <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tight">Minhas Solicitações</h1>
-          <div className="text-sm md:text-base text-slate-500 font-medium mt-1.5 flex items-center gap-2">
+          <h1 className="text-2xl md:text-3xl font-black text-zinc-900 dark:text-white tracking-tight">Minhas Solicitações</h1>
+          <div className="text-sm md:text-base text-zinc-500 font-medium mt-1.5 flex items-center gap-2">
             Setor: 
-            <Badge variant="secondary" className="font-bold bg-slate-200/50 dark:bg-white/10 text-slate-700 dark:text-slate-300">
+            <Badge variant="secondary" className="font-bold bg-zinc-200/50 dark:bg-white/10 text-zinc-700 dark:text-zinc-300">
               {sector}
             </Badge>
           </div>
         </div>
         
-        <div className="flex bg-white dark:bg-[#111] p-1.5 rounded-full border border-slate-200/60 dark:border-white/5 shadow-sm w-full md:w-auto">
+        <div className="flex bg-white dark:bg-[#111] p-1.5 rounded-full border border-zinc-200/60 dark:border-white/5 shadow-sm w-full md:w-auto">
           <Button 
             variant={activeTab === "new" ? "default" : "ghost"} 
             size="sm"
             onClick={() => setActiveTab("new")}
-            className={`flex-1 md:flex-none gap-2 rounded-full font-bold transition-all ${activeTab === 'new' ? 'bg-slate-900 text-white dark:bg-white dark:text-black shadow-md' : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'}`}
+            className={`flex-1 md:flex-none gap-2 rounded-full font-bold transition-all ${activeTab === 'new' ? 'bg-zinc-900 text-white dark:bg-white dark:text-black shadow-md' : 'text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200'}`}
           >
             <Plus className="h-4 w-4" /> Novo Pedido
           </Button>
@@ -417,7 +410,7 @@ export default function MyRequests() {
             variant={activeTab === "history" ? "default" : "ghost"} 
             size="sm"
             onClick={() => setActiveTab("history")}
-            className={`flex-1 md:flex-none gap-2 rounded-full font-bold transition-all ${activeTab === 'history' ? 'bg-slate-900 text-white dark:bg-white dark:text-black shadow-md' : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'}`}
+            className={`flex-1 md:flex-none gap-2 rounded-full font-bold transition-all ${activeTab === 'history' ? 'bg-zinc-900 text-white dark:bg-white dark:text-black shadow-md' : 'text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200'}`}
           >
             <History className="h-4 w-4" /> Histórico
           </Button>
@@ -431,22 +424,22 @@ export default function MyRequests() {
         <div className="flex flex-col lg:flex-row gap-6 flex-1 min-h-0 relative">
           
           {/* ESQUERDA: LISTA DE PRODUTOS */}
-          <Card className="flex flex-col flex-[2] h-full border-slate-200/60 dark:border-white/5 shadow-sm overflow-hidden bg-white/50 dark:bg-[#0A0A0A]/50 backdrop-blur-xl rounded-[2rem] pb-24 lg:pb-0 mx-2 md:mx-0">
+          <Card className="flex flex-col flex-[2] h-full border-zinc-200/60 dark:border-white/5 shadow-sm overflow-hidden bg-white/50 dark:bg-[#0A0A0A]/50 backdrop-blur-xl rounded-[2rem] pb-24 lg:pb-0 mx-2 md:mx-0">
             
-            <CardHeader className="pb-3 shrink-0 border-b border-slate-200/50 dark:border-white/5 p-4 sm:p-6 bg-white/30 dark:bg-white/5">
+            <CardHeader className="pb-3 shrink-0 border-b border-zinc-200/50 dark:border-white/5 p-4 sm:p-6 bg-white/30 dark:bg-white/5">
               {/* Barra de Pesquisa */}
               <div className="relative group">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-zinc-400 group-focus-within:text-red-500 transition-colors" />
                 <Input 
                   placeholder="Procurar por nome (ex: fio) ou código..." 
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-12 pr-10 h-12 bg-white dark:bg-[#111] border border-slate-200/60 dark:border-white/5 rounded-full focus:ring-2 focus:ring-blue-500/30 transition-all font-medium text-[14px] w-full shadow-inner"
+                  className="pl-12 pr-10 h-12 bg-white dark:bg-[#111] border border-zinc-200/60 dark:border-white/5 rounded-full focus:ring-2 focus:ring-red-500/30 transition-all font-medium text-[14px] w-full shadow-inner"
                 />
                 {searchTerm && (
                   <button 
                     onClick={() => setSearchTerm("")}
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-300 hover:text-slate-500 dark:hover:text-slate-100 transition-colors bg-slate-100 dark:bg-white/10 rounded-full p-0.5"
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 text-zinc-300 hover:text-zinc-500 dark:hover:text-zinc-100 transition-colors bg-zinc-100 dark:bg-white/10 rounded-full p-0.5"
                   >
                     <X className="h-4 w-4" />
                   </button>
@@ -456,7 +449,7 @@ export default function MyRequests() {
               {/* LISTA HORIZONTAL DE ETIQUETAS (TAGS) */}
               {availableTags.length > 0 && (
                 <div className="flex items-center gap-2 mt-4 overflow-x-auto pb-1 custom-scrollbar scrollbar-hide -mx-2 px-2 sm:mx-0 sm:px-0">
-                  <div className="flex items-center gap-1.5 shrink-0 text-slate-400 mr-1">
+                  <div className="flex items-center gap-1.5 shrink-0 text-zinc-400 mr-1">
                     <Tag className="h-4 w-4" />
                     <span className="text-xs font-bold uppercase tracking-wider">Filtros:</span>
                   </div>
@@ -469,8 +462,8 @@ export default function MyRequests() {
                         onClick={() => toggleTag(tag)}
                         className={`cursor-pointer px-3 py-1.5 text-xs font-bold transition-all shrink-0 border ${
                           isSelected 
-                            ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-md border-blue-600 dark:border-blue-500' 
-                            : 'bg-white dark:bg-[#111] text-slate-600 dark:text-slate-300 border-slate-200 dark:border-white/10 hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-white/5'
+                            ? 'bg-red-600 hover:bg-red-700 text-white shadow-md border-red-600 dark:border-red-500' 
+                            : 'bg-white dark:bg-[#111] text-zinc-600 dark:text-zinc-300 border-zinc-200 dark:border-white/10 hover:border-red-300 hover:bg-red-50 dark:hover:bg-white/5'
                         }`}
                       >
                         {tag}
@@ -484,18 +477,18 @@ export default function MyRequests() {
             <ScrollArea className="flex-1">
               <div className="flex flex-col gap-3 p-3 sm:p-4">
                 {isLoadingProducts ? (
-                  <div className="flex flex-col items-center justify-center h-64 text-slate-400">
-                    <Box className="h-8 w-8 animate-bounce mb-3 text-blue-500" /> 
+                  <div className="flex flex-col items-center justify-center h-64 text-zinc-400">
+                    <Box className="h-8 w-8 animate-bounce mb-3 text-red-500" /> 
                     <span className="font-bold">A carregar catálogo...</span>
                   </div>
                 ) : filteredProducts.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
-                    <div className="bg-slate-100 dark:bg-white/5 p-4 rounded-full mb-4">
-                      <Search className="h-8 w-8 text-slate-300 dark:text-slate-600" />
+                    <div className="bg-zinc-100 dark:bg-white/5 p-4 rounded-full mb-4">
+                      <Search className="h-8 w-8 text-zinc-300 dark:text-zinc-600" />
                     </div>
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">Nenhum produto encontrado</h3>
-                    <p className="text-slate-500 text-sm max-w-xs">Não encontrámos resultados para a sua procura.</p>
-                    <Button variant="link" onClick={() => {setSearchTerm(""); setSelectedTags([])}} className="mt-2 text-blue-600">Limpar todos os filtros</Button>
+                    <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-1">Nenhum produto encontrado</h3>
+                    <p className="text-zinc-500 text-sm max-w-xs">Não encontrámos resultados para a sua procura.</p>
+                    <Button variant="link" onClick={() => {setSearchTerm(""); setSelectedTags([])}} className="mt-2 text-red-600">Limpar todos os filtros</Button>
                   </div>
                 ) : (
                   filteredProducts.map((product: any) => {
@@ -504,7 +497,6 @@ export default function MyRequests() {
                     const inCart = !!cartItem;
                     const pTags = getProductTags(product);
                     
-                    // --- CORREÇÃO: REGRA VISUAL E LÓGICA DE RESTRIÇÃO CASE-INSENSITIVE ---
                     const isRestricted = pTags.some((t: string) => t.toUpperCase() === 'CAMISETA') && profile?.role !== "escritorio";
                     
                     const updateQuantity = (change: number, e: React.MouseEvent) => {
@@ -532,10 +524,10 @@ export default function MyRequests() {
                       <div 
                         key={product.id} 
                         className={`flex flex-col p-4 rounded-[1.25rem] shadow-[0_2px_10px_rgba(0,0,0,0.02)] transition-all duration-300 ${
-                          isRestricted ? "opacity-60 cursor-not-allowed bg-slate-50 dark:bg-[#111] border-slate-200/60 dark:border-white/5" :
-                          available <= 0 ? "opacity-50 grayscale bg-white dark:bg-[#111] border-slate-200/60 dark:border-white/5" : 
-                          inCart ? "bg-blue-50/50 dark:bg-blue-900/10 border-blue-300 dark:border-blue-500/50 ring-1 ring-blue-300 dark:ring-blue-500/50" : 
-                          "bg-white dark:bg-[#111] border border-slate-200/60 dark:border-white/5 hover:shadow-md hover:border-blue-500/30"
+                          isRestricted ? "opacity-60 cursor-not-allowed bg-zinc-50 dark:bg-[#111] border-zinc-200/60 dark:border-white/5" :
+                          available <= 0 ? "opacity-50 grayscale bg-white dark:bg-[#111] border-zinc-200/60 dark:border-white/5" : 
+                          inCart ? "bg-red-50/50 dark:bg-red-900/10 border-red-300 dark:border-red-500/50 ring-1 ring-red-300 dark:ring-red-500/50" : 
+                          "bg-white dark:bg-[#111] border border-zinc-200/60 dark:border-white/5 hover:shadow-md hover:border-red-500/30"
                         }`}
                         onClick={() => {
                           if (isRestricted) {
@@ -544,19 +536,19 @@ export default function MyRequests() {
                         }}
                       >
                         <div className="flex items-start gap-3 w-full">
-                          <div className={`h-14 w-14 rounded-2xl flex items-center justify-center shrink-0 border ${inCart ? 'bg-blue-100 dark:bg-blue-500/20 border-blue-200 dark:border-blue-500/30' : 'bg-slate-50 dark:bg-white/5 border-slate-100 dark:border-transparent'}`}>
-                            <Package className={`h-6 w-6 ${inCart ? 'text-blue-600 dark:text-blue-400' : 'text-slate-400 dark:text-slate-500'}`} strokeWidth={1.5} />
+                          <div className={`h-14 w-14 rounded-2xl flex items-center justify-center shrink-0 border ${inCart ? 'bg-red-100 dark:bg-red-500/20 border-red-200 dark:border-red-500/30' : 'bg-zinc-50 dark:bg-white/5 border-zinc-100 dark:border-transparent'}`}>
+                            <Package className={`h-6 w-6 ${inCart ? 'text-red-600 dark:text-red-400' : 'text-zinc-400 dark:text-zinc-500'}`} strokeWidth={1.5} />
                           </div>
                   
                           <div className="flex-1 min-w-0">
-                            <h3 className="font-bold text-[15px] text-slate-900 dark:text-white leading-snug mb-1.5 break-words whitespace-normal">
+                            <h3 className="font-bold text-[15px] text-zinc-900 dark:text-white leading-snug mb-1.5 break-words whitespace-normal">
                               {product.name}
                               {pTags.some((t: string) => t.toUpperCase() === 'CAMISETA') && (
                                 <Badge variant="outline" className="ml-2 text-[10px] bg-white dark:bg-black">Camiseta</Badge>
                               )}
                             </h3>
                             <div className="flex items-center gap-2 flex-wrap">
-                              <span className={`text-[10px] sm:text-[11px] font-mono font-bold px-1.5 py-0.5 rounded-md ${inCart ? 'text-blue-700 bg-blue-100/50 dark:text-blue-300 dark:bg-blue-500/20' : 'text-slate-400 bg-slate-100 dark:bg-white/10'}`}>
+                              <span className={`text-[10px] sm:text-[11px] font-mono font-bold px-1.5 py-0.5 rounded-md ${inCart ? 'text-red-700 bg-red-100/50 dark:text-red-300 dark:bg-red-500/20' : 'text-zinc-400 bg-zinc-100 dark:bg-white/10'}`}>
                                 {product.sku}
                               </span>
                               {available > 0 ? (
@@ -564,7 +556,7 @@ export default function MyRequests() {
                                   {Math.floor(available)} {product.unit} disp.
                                 </span>
                               ) : (
-                                <span className="text-[10px] sm:text-[11px] font-black text-rose-500">
+                                <span className="text-[10px] sm:text-[11px] font-black text-red-500">
                                   Esgotado
                                 </span>
                               )}
@@ -572,19 +564,18 @@ export default function MyRequests() {
                           </div>
                         </div>
                 
-                        <div className={`mt-3 pt-3 flex justify-end items-center border-t ${inCart ? 'border-blue-200/50 dark:border-blue-500/20' : 'border-slate-100 dark:border-white/5'}`}>
+                        <div className={`mt-3 pt-3 flex justify-end items-center border-t ${inCart ? 'border-red-200/50 dark:border-red-500/20' : 'border-zinc-100 dark:border-white/5'}`}>
                           {isRestricted ? (
-                             <span className="text-xs font-bold text-rose-500 dark:text-rose-400 flex items-center gap-1">
+                             <span className="text-xs font-bold text-red-500 dark:text-red-400 flex items-center gap-1">
                                <AlertTriangle className="w-3 h-3" /> Restrito ao Escritório
                              </span>
                           ) : available > 0 && (
                             inCart ? (
-                              <div className="flex items-center bg-white dark:bg-[#111] rounded-full border border-blue-200/60 dark:border-blue-500/30 shadow-inner p-1">
-                                <button onClick={(e) => updateQuantity(-1, e)} className="h-8 w-8 flex items-center justify-center rounded-full bg-slate-100 dark:bg-[#222] text-slate-700 dark:text-slate-300 shadow-sm active:scale-90 transition-transform font-bold hover:bg-slate-200 dark:hover:bg-[#333]">
+                              <div className="flex items-center bg-white dark:bg-[#111] rounded-full border border-red-200/60 dark:border-red-500/30 shadow-inner p-1">
+                                <button onClick={(e) => updateQuantity(-1, e)} className="h-8 w-8 flex items-center justify-center rounded-full bg-zinc-100 dark:bg-[#222] text-zinc-700 dark:text-zinc-300 shadow-sm active:scale-90 transition-transform font-bold hover:bg-zinc-200 dark:hover:bg-[#333]">
                                   -
                                 </button>
                                 
-                                {/* 🛡️ MUDANÇA DE SEGURANÇA: type="number" e min="1" */}
                                 <input 
                                   type="number" 
                                   min="1"
@@ -593,10 +584,10 @@ export default function MyRequests() {
                                   onChange={(e) => setExactQuantity(product.id, e.target.value, available, e)}
                                   onBlur={() => handleQuantityBlur(product.id)}
                                   onClick={(e) => e.stopPropagation()}
-                                  className="w-12 text-center text-[15px] font-black text-blue-700 dark:text-blue-400 bg-transparent border-none focus:outline-none focus:ring-2 focus:ring-blue-500/50 rounded p-1 tabular-nums [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                  className="w-12 text-center text-[15px] font-black text-red-700 dark:text-red-400 bg-transparent border-none focus:outline-none focus:ring-2 focus:ring-red-500/50 rounded p-1 tabular-nums [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 
-                                <button onClick={(e) => updateQuantity(1, e)} className="h-8 w-8 flex items-center justify-center rounded-full bg-blue-600 text-white shadow-sm active:scale-90 transition-transform font-bold hover:bg-blue-700">
+                                <button onClick={(e) => updateQuantity(1, e)} className="h-8 w-8 flex items-center justify-center rounded-full bg-red-600 text-white shadow-sm active:scale-90 transition-transform font-bold hover:bg-red-700">
                                   +
                                 </button>
                               </div>
@@ -604,7 +595,7 @@ export default function MyRequests() {
                               <Button
                                 variant="ghost"
                                 onClick={(e) => updateQuantity(1, e)}
-                                className="h-10 px-4 rounded-full bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-500/20 font-bold text-sm transition-all"
+                                className="h-10 px-4 rounded-full bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-500/20 font-bold text-sm transition-all"
                               >
                                 <Plus className="h-4 w-4 mr-1" /> Adicionar
                               </Button>
@@ -620,10 +611,10 @@ export default function MyRequests() {
           </Card>
 
           {/* DIREITA: CARRINHO (Apenas Desktop) */}
-          <Card className="hidden lg:flex flex-col flex-1 h-full border-slate-200/60 dark:border-white/5 shadow-lg bg-white dark:bg-[#0A0A0A] overflow-hidden rounded-[2rem]">
-            <CardHeader className="pb-3 bg-slate-50 dark:bg-white/5 border-b border-slate-200/50 dark:border-white/5 p-6">
-              <CardTitle className="flex items-center gap-2 text-xl font-black text-slate-900 dark:text-white">
-                <ShoppingCart className="h-6 w-6 text-blue-600 dark:text-blue-500" /> Carrinho
+          <Card className="hidden lg:flex flex-col flex-1 h-full border-zinc-200/60 dark:border-white/5 shadow-lg bg-white dark:bg-[#0A0A0A] overflow-hidden rounded-[2rem]">
+            <CardHeader className="pb-3 bg-zinc-50 dark:bg-white/5 border-b border-zinc-200/50 dark:border-white/5 p-6">
+              <CardTitle className="flex items-center gap-2 text-xl font-black text-zinc-900 dark:text-white">
+                <ShoppingCart className="h-6 w-6 text-red-600 dark:text-red-500" /> Carrinho
               </CardTitle>
             </CardHeader>
             <CardContent className="flex-1 p-0 overflow-hidden flex flex-col">
@@ -633,15 +624,15 @@ export default function MyRequests() {
 
           {/* === BARRA FIXA INFERIOR (Apenas Mobile) === */}
           {cart.length > 0 && (
-            <div className="fixed bottom-28 left-4 right-4 bg-white/90 dark:bg-black/90 backdrop-blur-xl border border-slate-200/60 dark:border-white/10 p-4 z-30 lg:hidden shadow-[0_10px_40px_rgba(0,0,0,0.15)] rounded-[2rem] animate-in slide-in-from-bottom-10 fade-in duration-300">
+            <div className="fixed bottom-28 left-4 right-4 bg-white/90 dark:bg-black/90 backdrop-blur-xl border border-zinc-200/60 dark:border-white/10 p-4 z-30 lg:hidden shadow-[0_10px_40px_rgba(0,0,0,0.15)] rounded-[2rem] animate-in slide-in-from-bottom-10 fade-in duration-300">
                <div className="flex items-center gap-4 max-w-md mx-auto">
                  <div className="flex-1">
-                    <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Total</p>
-                    <p className="font-black text-xl text-slate-900 dark:text-white leading-none mt-0.5">{cart.length} item(s)</p>
+                    <p className="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Total</p>
+                    <p className="font-black text-xl text-zinc-900 dark:text-white leading-none mt-0.5">{cart.length} item(s)</p>
                  </div>
                  <Button 
                     size="lg" 
-                    className="gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 rounded-xl h-14 shadow-[0_4px_20px_rgba(37,99,235,0.4)]"
+                    className="gap-2 bg-red-600 hover:bg-red-700 text-white font-bold px-6 rounded-xl h-14 shadow-[0_4px_20px_rgba(220,38,38,0.4)]"
                     onClick={() => setIsMobileCartOpen(true)}
                  >
                     Ver Carrinho <ChevronUp className="h-5 w-5" strokeWidth={3} />
@@ -656,30 +647,30 @@ export default function MyRequests() {
       {/* ABA: HISTÓRICO (UI Premium) */}
       {/* ========================================== */}
       {activeTab === "history" && (
-        <Card className="flex-1 overflow-hidden border-slate-200/60 dark:border-white/5 shadow-sm bg-white/50 dark:bg-[#0A0A0A]/50 backdrop-blur-xl rounded-[2rem] mx-2 md:mx-0">
+        <Card className="flex-1 overflow-hidden border-zinc-200/60 dark:border-white/5 shadow-sm bg-white/50 dark:bg-[#0A0A0A]/50 backdrop-blur-xl rounded-[2rem] mx-2 md:mx-0">
           
           {/* === DESKTOP TABLE === */}
           <div className="hidden md:block h-full overflow-auto rounded-[2rem] bg-white dark:bg-[#111]">
             <Table>
-              <TableHeader className="bg-slate-50 dark:bg-white/5 sticky top-0 z-10 shadow-sm">
-                <TableRow className="border-slate-200/50 dark:border-white/5">
-                  <TableHead className="w-[160px] text-center font-bold text-slate-500 uppercase tracking-wider text-xs">Data do Pedido</TableHead>
-                  <TableHead className="font-bold text-slate-500 uppercase tracking-wider text-xs">Itens Solicitados</TableHead>
-                  <TableHead className="w-[160px] text-center font-bold text-slate-500 uppercase tracking-wider text-xs">Status</TableHead>
+              <TableHeader className="bg-zinc-50 dark:bg-white/5 sticky top-0 z-10 shadow-sm">
+                <TableRow className="border-zinc-200/50 dark:border-white/5">
+                  <TableHead className="w-[160px] text-center font-bold text-zinc-500 uppercase tracking-wider text-xs">Data do Pedido</TableHead>
+                  <TableHead className="font-bold text-zinc-500 uppercase tracking-wider text-xs">Itens Solicitados</TableHead>
+                  <TableHead className="w-[160px] text-center font-bold text-zinc-500 uppercase tracking-wider text-xs">Status</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {isLoadingRequests ? (
-                  <TableRow><TableCell colSpan={3} className="text-center h-32 font-medium text-slate-400">A carregar histórico...</TableCell></TableRow>
+                  <TableRow><TableCell colSpan={3} className="text-center h-32 font-medium text-zinc-400">A carregar histórico...</TableCell></TableRow>
                 ) : requests?.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={3} className="text-center h-64">
                       <div className="flex flex-col items-center justify-center">
-                        <div className="bg-slate-100 dark:bg-white/5 p-4 rounded-full mb-4">
-                          <History className="h-8 w-8 text-slate-300 dark:text-slate-600" />
+                        <div className="bg-zinc-100 dark:bg-white/5 p-4 rounded-full mb-4">
+                          <History className="h-8 w-8 text-zinc-300 dark:text-zinc-600" />
                         </div>
-                        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">Nenhum histórico disponível</h3>
-                        <p className="text-slate-500 text-sm">Você ainda não realizou nenhuma solicitação de material.</p>
+                        <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-1">Nenhum histórico disponível</h3>
+                        <p className="text-zinc-500 text-sm">Você ainda não realizou nenhuma solicitação de material.</p>
                       </div>
                     </TableCell>
                   </TableRow>
@@ -688,13 +679,13 @@ export default function MyRequests() {
                     const status = statusConfig[request.status as keyof typeof statusConfig] || statusConfig.aberto;
                     const StatusIcon = status.icon;
                     return (
-                      <TableRow key={request.id} className="hover:bg-slate-50 dark:hover:bg-white/5 border-slate-100 dark:border-white/5 transition-colors group">
+                      <TableRow key={request.id} className="hover:bg-zinc-50 dark:hover:bg-white/5 border-zinc-100 dark:border-white/5 transition-colors group">
                         
                         {/* Coluna Data */}
                         <TableCell className="align-top text-center p-5">
-                          <div className="flex flex-col items-center justify-center bg-slate-50 dark:bg-white/5 rounded-xl p-3 border border-slate-100 dark:border-white/5 group-hover:bg-white dark:group-hover:bg-[#222] transition-colors">
-                            <span className="font-black text-slate-900 dark:text-white text-[15px]">{format(new Date(request.created_at), "dd/MM/yyyy")}</span>
-                            <div className="flex items-center text-xs font-bold text-slate-400 mt-1 gap-1">
+                          <div className="flex flex-col items-center justify-center bg-zinc-50 dark:bg-white/5 rounded-xl p-3 border border-zinc-100 dark:border-white/5 group-hover:bg-white dark:group-hover:bg-[#222] transition-colors">
+                            <span className="font-black text-zinc-900 dark:text-white text-[15px]">{format(new Date(request.created_at), "dd/MM/yyyy")}</span>
+                            <div className="flex items-center text-xs font-bold text-zinc-400 mt-1 gap-1">
                               <Clock className="h-3 w-3" />
                               {format(new Date(request.created_at), "HH:mm")}
                             </div>
@@ -705,11 +696,11 @@ export default function MyRequests() {
                         <TableCell className="align-top p-5">
                           <div className="space-y-2">
                             {request.request_items?.map((item: any) => (
-                              <div key={item.id} className="flex gap-3 items-center bg-white dark:bg-[#0A0A0A] border border-slate-100 dark:border-white/5 p-2 rounded-lg shadow-sm">
-                                <Badge variant="secondary" className="h-6 px-2 font-mono text-[11px] bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-300 border-transparent shrink-0 font-bold">
+                              <div key={item.id} className="flex gap-3 items-center bg-white dark:bg-[#0A0A0A] border border-zinc-100 dark:border-white/5 p-2 rounded-lg shadow-sm">
+                                <Badge variant="secondary" className="h-6 px-2 font-mono text-[11px] bg-zinc-100 dark:bg-white/10 text-zinc-700 dark:text-zinc-300 border-transparent shrink-0 font-bold">
                                   {Math.floor(item.quantity_requested)} {item.products?.unit}
                                 </Badge>
-                                <span className="font-bold text-sm text-slate-700 dark:text-slate-200 line-clamp-1">
+                                <span className="font-bold text-sm text-zinc-700 dark:text-zinc-200 line-clamp-1">
                                     {item.products?.name || item.custom_product_name}
                                     {item.observation && <span className="ml-2 text-[10px] text-amber-600 bg-amber-50 dark:bg-amber-900/30 px-1.5 py-0.5 rounded-sm">Para: {item.observation}</span>}
                                 </span>
@@ -717,10 +708,10 @@ export default function MyRequests() {
                             ))}
                             {/* Alerta de Recusa Destacado */}
                             {request.rejection_reason && (
-                              <div className="mt-3 text-sm font-medium text-rose-700 bg-rose-50 border border-rose-200 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/20 p-3 rounded-xl flex items-start gap-3 shadow-sm">
-                                <AlertTriangle className="h-5 w-5 shrink-0 text-rose-500"/> 
+                              <div className="mt-3 text-sm font-medium text-red-700 bg-red-50 border border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20 p-3 rounded-xl flex items-start gap-3 shadow-sm">
+                                <AlertTriangle className="h-5 w-5 shrink-0 text-red-500"/> 
                                 <div>
-                                  <strong className="block text-rose-800 dark:text-rose-300 mb-0.5">Motivo da Recusa</strong>
+                                  <strong className="block text-red-800 dark:text-red-300 mb-0.5">Motivo da Recusa</strong>
                                   <span className="opacity-90">{request.rejection_reason}</span>
                                 </div>
                               </div>
@@ -744,14 +735,14 @@ export default function MyRequests() {
 
           {/* === MOBILE CARDS HISTÓRICO === */}
           <div className="md:hidden space-y-4 overflow-auto pb-6 p-4">
-            {isLoadingRequests ? <div className="text-center p-4 font-medium text-slate-400">A carregar...</div> : 
+            {isLoadingRequests ? <div className="text-center p-4 font-medium text-zinc-400">A carregar...</div> : 
              requests?.length === 0 ? (
-               <div className="flex flex-col items-center justify-center py-16 px-4 text-center bg-white/50 dark:bg-[#111] rounded-[2rem] border border-slate-200/50 dark:border-white/5">
-                 <div className="bg-slate-100 dark:bg-white/5 p-4 rounded-full mb-4">
-                   <History className="h-8 w-8 text-slate-300 dark:text-slate-600" />
+               <div className="flex flex-col items-center justify-center py-16 px-4 text-center bg-white/50 dark:bg-[#111] rounded-[2rem] border border-zinc-200/50 dark:border-white/5">
+                 <div className="bg-zinc-100 dark:bg-white/5 p-4 rounded-full mb-4">
+                   <History className="h-8 w-8 text-zinc-300 dark:text-zinc-600" />
                  </div>
-                 <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">Nenhum histórico</h3>
-                 <p className="text-slate-500 text-sm">Ainda não solicitou materiais.</p>
+                 <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-1">Nenhum histórico</h3>
+                 <p className="text-zinc-500 text-sm">Ainda não solicitou materiais.</p>
                </div>
              ) :
              requests?.map((request: any) => {
@@ -759,19 +750,19 @@ export default function MyRequests() {
                const StatusIcon = status.icon;
                
                return (
-                <Card key={request.id} className="shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-slate-200/60 dark:border-white/5 rounded-[1.5rem] overflow-hidden bg-white dark:bg-[#111]">
+                <Card key={request.id} className="shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-zinc-200/60 dark:border-white/5 rounded-[1.5rem] overflow-hidden bg-white dark:bg-[#111]">
                   
                   {/* Cabeçalho do Card */}
-                  <CardHeader className="p-4 pb-3 flex flex-row justify-between items-center space-y-0 border-b border-slate-100 dark:border-white/5 bg-slate-50/50 dark:bg-[#0A0A0A]">
+                  <CardHeader className="p-4 pb-3 flex flex-row justify-between items-center space-y-0 border-b border-zinc-100 dark:border-white/5 bg-zinc-50/50 dark:bg-[#0A0A0A]">
                     <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 bg-white dark:bg-[#222] border border-slate-200/60 dark:border-white/10 rounded-full flex items-center justify-center shadow-sm">
-                        <Hash className="h-4 w-4 text-slate-400" />
+                      <div className="h-10 w-10 bg-white dark:bg-[#222] border border-zinc-200/60 dark:border-white/10 rounded-full flex items-center justify-center shadow-sm">
+                        <Hash className="h-4 w-4 text-zinc-400" />
                       </div>
                       <div>
-                        <CardTitle className="text-sm font-black text-slate-900 dark:text-white">
+                        <CardTitle className="text-sm font-black text-zinc-900 dark:text-white">
                           #{request.id.toString().substring(0,6)}
                         </CardTitle>
-                        <CardDescription className="text-[11px] font-bold text-slate-400 mt-0.5 flex items-center gap-1">
+                        <CardDescription className="text-[11px] font-bold text-zinc-400 mt-0.5 flex items-center gap-1">
                           <CalendarDays className="h-3 w-3" /> {format(new Date(request.created_at), "dd MMM, HH:mm")}
                         </CardDescription>
                       </div>
@@ -786,12 +777,12 @@ export default function MyRequests() {
                   <CardContent className="p-4">
                     <div className="space-y-2">
                       {request.request_items?.map((item: any) => (
-                        <div key={item.id} className="flex justify-between items-start gap-3 text-sm bg-slate-50/50 dark:bg-white/5 p-2.5 rounded-xl border border-slate-100 dark:border-white/5 flex-col sm:flex-row">
+                        <div key={item.id} className="flex justify-between items-start gap-3 text-sm bg-zinc-50/50 dark:bg-white/5 p-2.5 rounded-xl border border-zinc-100 dark:border-white/5 flex-col sm:flex-row">
                           <div className="flex justify-between w-full">
-                              <span className="font-bold text-slate-700 dark:text-slate-200 line-clamp-2 leading-snug flex-1">
+                              <span className="font-bold text-zinc-700 dark:text-zinc-200 line-clamp-2 leading-snug flex-1">
                                 {item.products?.name || item.custom_product_name}
                               </span>
-                              <span className="font-mono text-[12px] font-black text-slate-600 dark:text-slate-300 whitespace-nowrap bg-white dark:bg-black px-2 py-1 rounded-md shadow-sm border border-slate-200/50 dark:border-white/10 shrink-0">
+                              <span className="font-mono text-[12px] font-black text-zinc-600 dark:text-zinc-300 whitespace-nowrap bg-white dark:bg-black px-2 py-1 rounded-md shadow-sm border border-zinc-200/50 dark:border-white/10 shrink-0">
                                 {Math.floor(item.quantity_requested)} {item.products?.unit}
                               </span>
                           </div>
@@ -802,9 +793,9 @@ export default function MyRequests() {
                     
                     {/* Alerta de Recusa Mobile */}
                     {request.rejection_reason && (
-                      <div className="mt-3 text-xs font-medium text-rose-700 bg-rose-50 border border-rose-200 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/20 p-3 rounded-xl flex items-start gap-2 shadow-sm">
-                        <AlertTriangle className="h-4 w-4 shrink-0 text-rose-500 mt-0.5"/> 
-                        <span className="leading-snug"><strong className="text-rose-800 dark:text-rose-300">Recusado:</strong> {request.rejection_reason}</span>
+                      <div className="mt-3 text-xs font-medium text-red-700 bg-red-50 border border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20 p-3 rounded-xl flex items-start gap-2 shadow-sm">
+                        <AlertTriangle className="h-4 w-4 shrink-0 text-red-500 mt-0.5"/> 
+                        <span className="leading-snug"><strong className="text-red-800 dark:text-red-300">Recusado:</strong> {request.rejection_reason}</span>
                       </div>
                     )}
                   </CardContent>
@@ -820,14 +811,14 @@ export default function MyRequests() {
       {/* DRAWER CARRINHO MOBILE (Design Premium) */}
       {/* ========================================== */}
       <Drawer open={isMobileCartOpen} onOpenChange={setIsMobileCartOpen}>
-        <DrawerContent className="bg-[#FAFAFA] dark:bg-[#0A0A0A] border-t border-slate-200/60 dark:border-white/10 rounded-t-[2rem]">
-          <div className="mx-auto w-12 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700 mt-4 mb-2" />
-          <DrawerHeader className="text-left px-6 pb-4 border-b border-slate-200/50 dark:border-white/5">
-            <DrawerTitle className="text-xl font-black flex items-center gap-2 text-slate-900 dark:text-white">
-              <ShoppingCart className="h-6 w-6 text-blue-600 dark:text-blue-500" strokeWidth={2.5} /> 
+        <DrawerContent className="bg-[#FAFAFA] dark:bg-[#0A0A0A] border-t border-zinc-200/60 dark:border-white/10 rounded-t-[2rem]">
+          <div className="mx-auto w-12 h-1.5 rounded-full bg-zinc-300 dark:bg-zinc-700 mt-4 mb-2" />
+          <DrawerHeader className="text-left px-6 pb-4 border-b border-zinc-200/50 dark:border-white/5">
+            <DrawerTitle className="text-xl font-black flex items-center gap-2 text-zinc-900 dark:text-white">
+              <ShoppingCart className="h-6 w-6 text-red-600 dark:text-red-500" strokeWidth={2.5} /> 
               Seu Carrinho
             </DrawerTitle>
-            <p className="text-sm text-slate-500 font-medium mt-1">
+            <p className="text-sm text-zinc-500 font-medium mt-1">
               Revise os itens antes de enviar para o almoxarifado.
             </p>
           </DrawerHeader>
