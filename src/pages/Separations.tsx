@@ -1,8 +1,6 @@
 import React, {
   useState,
   useMemo,
-  useEffect,
-  useCallback,
   type ChangeEvent,
 } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -10,53 +8,41 @@ import { api } from "@/services/api";
 import { useAuth } from "@/contexts/AuthContext";
 import { useSocket } from "@/contexts/SocketContext";
 
-// Utilitários de Documentos e Datas
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
-
-// Componentes de UI (Shadcn/UI)
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 
-// Ícones e Animação
 import {
-  Plus, Minus, Trash2, Search, Save, Check, 
-  Loader2, X, CheckCircle2, RotateCcw, Zap, 
-  Package, ShoppingCart, AlertTriangle
+  Search,
+  Save,
+  CheckCircle2,
+  RotateCcw,
+  Zap,
 } from "lucide-react";
-import { m, AnimatePresence, LazyMotion, domAnimation } from "framer-motion";
+import { m, LazyMotion, domAnimation } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-// ===================== INTERFACES (TIPAGEM) =====================
+// ===================== TYPES =====================
 interface IProduct {
   id: string;
   name: string;
   sku: string;
   unit: string;
-  stock?: { quantity_on_hand: number; quantity_reserved: number; };
   stock_available?: number;
-  unit_price?: number;
 }
 
 interface ISeparationItem {
   id: string;
   product_id: string;
-  quantity: number; // Quantidade já separada/reservada
-  qty_requested: number; // Quantidade total pedida
+  quantity: number; 
+  qty_requested: number; 
   products?: IProduct;
 }
 
-// ===================== COMPONENTES AUXILIARES =====================
+// ===================== HELPERS DE UI =====================
 
-/**
- * Barra de progresso customizada que muda de cor conforme o status
- */
 const CustomProgressBar = ({ value, max, indicatorColor }: { value: number, max: number, indicatorColor?: string }) => {
   const pct = max > 0 ? Math.min(100, Math.max(0, (value / max) * 100)) : 0;
   return (
@@ -69,16 +55,13 @@ const CustomProgressBar = ({ value, max, indicatorColor }: { value: number, max:
   );
 };
 
-/**
- * Linha detalhada do item de separação
- * Aqui aplicamos as mudanças de cores para estornos e devoluções
- */
+// ===================== COMPONENTE DE LINHA (CORES ALTERADAS) =====================
 const SeparationItemDetailedRow = ({
   item,
   inputValue,
   onChange,
   canEdit,
-  approvedDeduction = 0 // Valor vindo de devoluções aprovadas
+  approvedDeduction = 0 
 }: {
   item: ISeparationItem;
   inputValue: number;
@@ -86,69 +69,49 @@ const SeparationItemDetailedRow = ({
   canEdit: boolean;
   approvedDeduction?: number;
 }) => {
-  // Cálculos de estoque
   const dbAvailable = item.products?.stock_available ?? 0;
   const dbReservedHere = Math.max(0, (item.quantity || 0) - approvedDeduction);
   const projectedTotal = dbReservedHere + inputValue;
   const requested = item.qty_requested || 0;
   
   const isComplete = projectedTotal >= requested;
-  const isEstornando = inputValue < 0;
+  const isEstornando = inputValue < 0; // Identifica se é estorno
   const hasChange = inputValue !== 0;
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const rawVal = e.target.value;
-    if (rawVal === '-' || rawVal === '') { onChange(rawVal); return; }
-    
-    let val = parseInt(rawVal, 10);
-    if (isNaN(val)) val = 0;
-
-    // Regra de Negócio: Não pode estornar mais do que o que já foi reservado
-    if (val < 0 && Math.abs(val) > dbReservedHere) {
-      toast.error(`Você só pode estornar até ${dbReservedHere} unidades.`);
-      val = -dbReservedHere;
-    }
-
-    // Regra de Negócio: Não pode adicionar mais do que o disponível no estoque
-    if (val > 0 && val > dbAvailable) {
-      toast.warning("Quantidade superior ao estoque disponível.");
-      val = dbAvailable;
-    }
-
-    onChange(String(val));
-  };
 
   return (
     <m.div 
       layout
       className={cn(
         "p-4 rounded-xl border transition-all mb-3",
-        isEstornando ? "border-red-500 bg-red-50/50" : "border-border bg-card",
-        isComplete && "bg-emerald-50/30 border-emerald-200"
+        // Lógica de cores do CARD: Vermelho para estorno, Verde para completo, Padrão para o resto
+        isEstornando ? "border-red-500 bg-red-50/50 dark:bg-red-950/20" : 
+        isComplete ? "bg-emerald-50/30 border-emerald-200 dark:border-emerald-900/50" : 
+        "border-border bg-card"
       )}
     >
       <div className="flex flex-col md:flex-row justify-between gap-4">
-        {/* Lado Esquerdo: Info do Produto */}
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
-            <Badge variant="outline" className="font-mono">{item.products?.sku}</Badge>
-            {isComplete && <Badge className="bg-emerald-500">Concluído</Badge>}
+            <Badge variant="outline">{item.products?.sku}</Badge>
+            {isComplete && <Badge className="bg-emerald-500 hover:bg-emerald-600">Concluído</Badge>}
           </div>
           <h4 className="font-bold text-lg">{item.products?.name}</h4>
           
-          {/* Alerta de Devolução - Visual em Vermelho */}
+          {/* DEVOLUÇÃO EM VERMELHO - Chamando atenção para o erro/retorno */}
           {approvedDeduction > 0 && (
-            <div className="flex items-center gap-2 text-red-600 text-sm font-bold mt-2 bg-red-100 p-2 rounded-lg w-fit">
+            <div className="flex items-center gap-2 text-red-600 dark:text-red-400 text-sm font-black mt-2 bg-red-100 dark:bg-red-900/30 p-2 rounded-lg border border-red-200 dark:border-red-800 w-fit">
               <RotateCcw className="h-4 w-4" />
-              {approvedDeduction} un. devolvidas/abatidas
+              {approvedDeduction} un. devolvidas ao estoque
             </div>
           )}
         </div>
 
-        {/* Lado Direito: Controles e Status */}
         <div className="flex flex-col items-end gap-2">
           <div className="text-sm font-medium">
-            Status: <span className={cn(isEstornando ? "text-red-600" : "text-primary")}>
+            Reservado: <span className={cn(
+              "font-bold",
+              isEstornando ? "text-red-600" : isComplete ? "text-emerald-600" : "text-primary"
+            )}>
               {dbReservedHere} {hasChange && `(${inputValue > 0 ? '+' : ''}${inputValue})`} / {requested}
             </span>
           </div>
@@ -156,15 +119,19 @@ const SeparationItemDetailedRow = ({
           {canEdit && (
             <div className="flex items-center gap-2">
               <div className="relative">
+                {/* ETIQUETA DE ESTORNO EM CIMA DO INPUT */}
                 {isEstornando && (
-                  <span className="absolute -top-5 left-0 text-[10px] font-bold text-red-600 uppercase">Estornando</span>
+                  <span className="absolute -top-5 left-0 text-[10px] font-black text-red-600 uppercase tracking-tighter">
+                    ⚠️ Estornando
+                  </span>
                 )}
                 <Input 
                   type="number"
                   value={inputValue === 0 ? "" : inputValue}
-                  onChange={handleInputChange}
+                  onChange={(e) => onChange(e.target.value)}
                   className={cn(
-                    "w-24 text-center font-bold",
+                    "w-24 text-center font-bold transition-colors",
+                    // INPUT VERMELHO SE FOR ESTORNO
                     isEstornando ? "border-red-500 text-red-600 focus-visible:ring-red-500" : "focus-visible:ring-primary"
                   )}
                   placeholder="0"
@@ -174,9 +141,8 @@ const SeparationItemDetailedRow = ({
                 size="icon" 
                 variant="outline" 
                 onClick={() => onChange(String(Math.min(dbAvailable, requested - dbReservedHere)))}
-                title="Completar pedido"
               >
-                <Zap className="h-4 w-4 fill-current" />
+                <Zap className={cn("h-4 w-4 fill-current", isComplete ? "text-emerald-500" : "text-amber-500")} />
               </Button>
             </div>
           )}
@@ -187,6 +153,7 @@ const SeparationItemDetailedRow = ({
         <CustomProgressBar 
           value={projectedTotal} 
           max={requested} 
+          // BARRA DE PROGRESSO VERMELHA NO ESTORNO
           indicatorColor={isEstornando ? "bg-red-500" : isComplete ? "bg-emerald-500" : "bg-primary"}
         />
       </div>
@@ -194,32 +161,25 @@ const SeparationItemDetailedRow = ({
   );
 };
 
-// ===================== COMPONENTE PRINCIPAL =====================
+// ===================== PÁGINA PRINCIPAL =====================
 export default function Separations() {
   const [search, setSearch] = useState("");
   const [changes, setChanges] = useState<Record<string, number>>({});
 
-  // Simulação de carregamento de dados (aqui entraria seu useQuery)
+  // Mock de dados para demonstração
   const items: ISeparationItem[] = [
     {
       id: "1",
       product_id: "p1",
-      quantity: 5,
+      quantity: 8,
       qty_requested: 10,
-      products: { id: "p1", name: "Cabo Flexível 2.5mm", sku: "CAB-001", unit: "M", stock_available: 20 }
+      products: { id: "p1", name: "Cabo de Energia 10mm", sku: "CAB10", unit: "M", stock_available: 15 }
     }
   ];
 
   const handleValueChange = (itemId: string, value: string) => {
-    setChanges(prev => ({
-      ...prev,
-      [itemId]: value === "" || value === "-" ? 0 : parseInt(value, 10)
-    }));
-  };
-
-  const handleSave = () => {
-    toast.success("Alterações salvas com sucesso!");
-    setChanges({});
+    const val = value === "" || value === "-" ? 0 : parseInt(value, 10);
+    setChanges(prev => ({ ...prev, [itemId]: val }));
   };
 
   return (
@@ -227,11 +187,11 @@ export default function Separations() {
       <div className="p-6 max-w-5xl mx-auto space-y-6">
         <header className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-black tracking-tight">SEPARAÇÃO DE ESTOQUE</h1>
-            <p className="text-muted-foreground">Gerencie a saída e estorno de materiais.</p>
+            <h1 className="text-3xl font-black">SEPARAÇÃO</h1>
+            <p className="text-muted-foreground">Monitore saídas e estornos de estoque.</p>
           </div>
-          <Button onClick={handleSave} disabled={Object.keys(changes).length === 0} className="gap-2">
-            <Save className="h-4 w-4" /> Salvar Alterações
+          <Button className="gap-2 bg-primary hover:bg-primary/90">
+            <Save className="h-4 w-4" /> Salvar
           </Button>
         </header>
 
@@ -239,13 +199,11 @@ export default function Separations() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input 
             className="pl-10" 
-            placeholder="Filtrar por produto ou SKU..." 
+            placeholder="Pesquisar..." 
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-
-        <Separator />
 
         <div className="grid gap-2">
           {items.map(item => (
@@ -255,7 +213,7 @@ export default function Separations() {
               inputValue={changes[item.id] || 0}
               onChange={(val) => handleValueChange(item.id, val)}
               canEdit={true}
-              approvedDeduction={2} // Exemplo: 2 unidades foram devolvidas
+              approvedDeduction={2} // Simulação de 2 unidades devolvidas
             />
           ))}
         </div>
