@@ -416,12 +416,13 @@ const SeparationCard = ({
                 {sep.client_name}
             </h3>
             
+            {/* LINHA MODIFICADA: Substituição da cor azul pela cor rosa/vermelha */}
             {deadlineInfo && !isArchived && (
                 <div className={cn(
                     "mt-2 inline-flex items-center gap-1.5 rounded-md py-1 px-2 text-[11px] font-bold border animate-in fade-in slide-in-from-left-2",
                     deadlineInfo.expired ? "bg-red-500/10 border-red-500/30 text-red-600 dark:text-red-400" :
                     deadlineInfo.urgent ? "bg-amber-500/10 border-amber-500/30 text-amber-600 dark:text-amber-400" :
-                    "bg-blue-500/10 border-blue-500/30 text-blue-600 dark:text-blue-400"
+                    "bg-rose-500/10 border-rose-500/30 text-rose-600 dark:text-rose-400"
                 )}>
                     {deadlineInfo.expired ? <Ban className="h-3 w-3"/> : <Clock className="h-3 w-3"/>}
                     {deadlineInfo.expired ? "Prazo Expirado" : `${deadlineInfo.days} dias p/ devolver`}
@@ -751,7 +752,8 @@ const DetailedView = ({
            startY: 65,
            head: [['Produto / SKU', 'Solicitado', 'Separado', 'Falta', 'Estoque Atual', 'Status']],
            body: tableRows,
-           headStyles: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold' },
+           // LINHA MODIFICADA: Substituição da cor azul pela cor vermelha (RGB Tailwind red-600)
+           headStyles: { fillColor: [220, 38, 38], textColor: 255, fontStyle: 'bold' },
            styles: { fontSize: 9, valign: 'middle', cellPadding: 3 },
            columnStyles: {
                0: { cellWidth: 70 }, 1: { halign: 'center' }, 2: { halign: 'center', fontStyle: 'bold' },
@@ -839,7 +841,8 @@ const DetailedView = ({
                       {isDelivered && !isArchived && (
                          <div className={cn(
                              "hidden md:flex ml-4 items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold",
-                             returnStatus.expired ? "bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400" : "bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400"
+                             // LINHA MODIFICADA: Substituição da cor azul pela cor rosa/vermelha
+                             returnStatus.expired ? "bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400" : "bg-rose-50 text-rose-600 dark:bg-rose-900/20 dark:text-rose-400"
                          )}>
                              {returnStatus.expired ? <Ban className="h-4 w-4"/> : <Clock className="h-4 w-4"/>}
                              {returnStatus.label}
