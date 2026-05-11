@@ -222,7 +222,7 @@ const CatalogItem = ({
   const minStock = product.min_stock || 10;
   
   const isExceedingStock = quantityInCart > stock;
-  const stockColor = stock === 0 ? "bg-muted-foreground/20" : stock < minStock ? "bg-amber-400" : "bg-emerald-500";
+  const stockColor = stock === 0 ? "bg-muted-foreground/20" : stock < minStock ? "bg-orange-400" : "bg-red-500";
   const allowDecimal = isDecimalUnit(product.unit);
 
   const handleManualInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -240,7 +240,7 @@ const CatalogItem = ({
       className={cn(
         "group flex flex-col p-5 rounded-3xl transition-all duration-300",
         quantityInCart > 0 && !isExceedingStock ? "bg-primary/[0.03] shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-primary/10" : 
-        isExceedingStock ? "bg-amber-500/5 shadow-[0_4px_20px_-4px_rgba(245,158,11,0.1)] border border-amber-500/20" : 
+        isExceedingStock ? "bg-orange-500/5 shadow-[0_4px_20px_-4px_rgba(249,115,22,0.1)] border border-orange-500/20" : 
         "bg-card shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-transparent hover:shadow-[0_8px_30px_-4px_rgba(0,0,0,0.08)]"
       )}
     >
@@ -256,7 +256,7 @@ const CatalogItem = ({
                 <Badge variant="outline" className="text-[10px] font-semibold text-destructive border-destructive/30 bg-destructive/5 rounded-full px-2">Esgotado</Badge>
              )}
              {isExceedingStock && (
-                <Badge className="bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 border-0 text-[10px] font-bold px-2 py-0.5 flex items-center gap-1">
+                <Badge className="bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400 border-0 text-[10px] font-bold px-2 py-0.5 flex items-center gap-1">
                     <AlertTriangle className="h-3 w-3" /> Excede Estoque
                 </Badge>
              )}
@@ -275,7 +275,7 @@ const CatalogItem = ({
             {quantityInCart > 0 ? (
               <div className={cn(
                   "flex items-center bg-background rounded-2xl shadow-sm border p-1 transition-all",
-                  isExceedingStock ? "border-amber-300 ring-2 ring-amber-500/20" : "border-primary/20 ring-2 ring-primary/5"
+                  isExceedingStock ? "border-orange-300 ring-2 ring-orange-500/20" : "border-primary/20 ring-2 ring-primary/5"
               )}>
                 <m.button
                   whileTap={{ scale: 0.85 }}
@@ -290,7 +290,7 @@ const CatalogItem = ({
                     step={allowDecimal ? "any" : "1"}
                     className={cn(
                         "h-8 w-14 border-0 text-center font-black text-base p-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent shadow-none",
-                        isExceedingStock ? "text-amber-600 dark:text-amber-400" : "text-primary"
+                        isExceedingStock ? "text-orange-600 dark:text-orange-400" : "text-primary"
                     )}
                     value={quantityInCart === 0 ? "" : quantityInCart}
                     onChange={handleManualInput}
@@ -372,16 +372,16 @@ const SeparationCard = ({
   const isArchived = sep.status === 'finalizada' || (sep.status === 'entregue' && isExpired);
 
   const statusColors: any = {
-      pendente: "border-amber-500/50 hover:border-amber-500",
-      em_separacao: "border-amber-500/50 hover:border-amber-500", 
-      entregue: "border-emerald-500/50 hover:border-emerald-500",
+      pendente: "border-orange-500/50 hover:border-orange-500",
+      em_separacao: "border-orange-500/50 hover:border-orange-500", 
+      entregue: "border-red-500/50 hover:border-red-500",
       finalizado: "border-zinc-500/50 hover:border-zinc-500" 
   };
 
   const bgStatus: any = {
-      pendente: "bg-amber-500",
-      em_separacao: "bg-amber-500",
-      entregue: "bg-emerald-500",
+      pendente: "bg-orange-500",
+      em_separacao: "bg-orange-500",
+      entregue: "bg-red-500",
       finalizado: "bg-zinc-500"
   };
 
@@ -416,12 +416,11 @@ const SeparationCard = ({
                 {sep.client_name}
             </h3>
             
-            {/* LINHA MODIFICADA: Substituição da cor azul pela cor rosa/vermelha */}
             {deadlineInfo && !isArchived && (
                 <div className={cn(
                     "mt-2 inline-flex items-center gap-1.5 rounded-md py-1 px-2 text-[11px] font-bold border animate-in fade-in slide-in-from-left-2",
                     deadlineInfo.expired ? "bg-red-500/10 border-red-500/30 text-red-600 dark:text-red-400" :
-                    deadlineInfo.urgent ? "bg-amber-500/10 border-amber-500/30 text-amber-600 dark:text-amber-400" :
+                    deadlineInfo.urgent ? "bg-orange-500/10 border-orange-500/30 text-orange-600 dark:text-orange-400" :
                     "bg-rose-500/10 border-rose-500/30 text-rose-600 dark:text-rose-400"
                 )}>
                     {deadlineInfo.expired ? <Ban className="h-3 w-3"/> : <Clock className="h-3 w-3"/>}
@@ -441,7 +440,7 @@ const SeparationCard = ({
                     <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mb-1">Financeiro</span>
                     <div className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5">
                         <span 
-                            className="text-sm font-black text-emerald-600 truncate" 
+                            className="text-sm font-black text-red-600 truncate" 
                             title={formatCurrency(totalSeparatedValue)}
                         >
                             {formatCompactCurrency(totalSeparatedValue)}
@@ -470,7 +469,7 @@ const SeparationCard = ({
         </div>
 
         <div className="absolute -top-3 -right-2 pointer-events-none">
-             <Badge className={cn("shadow-md uppercase text-[10px] px-2 h-6", bgStatus[statusKey])}>
+             <Badge className={cn("shadow-md uppercase text-[10px] px-2 h-6 text-white", bgStatus[statusKey])}>
                 {displayStatus}
              </Badge>
         </div>
@@ -551,7 +550,7 @@ const SeparationItemDetailedRow = ({
       transition={{ duration: 0.4, ease: smoothCurve }}
       className={cn(
       "relative flex flex-col sm:flex-row gap-5 p-5 rounded-3xl transition-all duration-300",
-      isComplete ? "bg-emerald-50/50 dark:bg-emerald-950/10 border border-emerald-100 dark:border-emerald-900/30" : "bg-card border border-transparent shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] hover:shadow-md",
+      isComplete ? "bg-red-50/50 dark:bg-red-950/10 border border-red-100 dark:border-red-900/30" : "bg-card border border-transparent shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] hover:shadow-md",
       hasChange && "ring-2 ring-primary/30 border-primary/20 bg-primary/[0.02]"
     )}>
       
@@ -559,7 +558,7 @@ const SeparationItemDetailedRow = ({
         <div className="flex items-center gap-3">
            <Badge variant="secondary" className="text-[10px] font-mono font-medium px-2 py-0.5 bg-muted/50 border-0">{item.products?.sku}</Badge>
            {isComplete && (
-               <span className="text-emerald-700 dark:text-emerald-400 text-xs font-bold flex items-center gap-1 bg-emerald-100 dark:bg-emerald-900/40 px-2.5 py-0.5 rounded-full animate-in zoom-in">
+               <span className="text-red-700 dark:text-red-400 text-xs font-bold flex items-center gap-1 bg-red-100 dark:bg-red-900/40 px-2.5 py-0.5 rounded-full animate-in zoom-in">
                    <CheckCircle2 className="h-3.5 w-3.5"/> Completo
                </span>
            )}
@@ -568,7 +567,7 @@ const SeparationItemDetailedRow = ({
         <div>
             <div className="font-bold text-lg leading-snug">{item.products?.name}</div>
             {approvedDeduction > 0 && (
-                <span className="text-[11px] text-red-600 dark:text-red-400 font-semibold mt-1.5 flex items-center gap-1.5 bg-red-50 dark:bg-red-900/20 inline-flex px-2 py-0.5 rounded-md">
+                <span className="text-[11px] text-orange-600 dark:text-orange-400 font-semibold mt-1.5 flex items-center gap-1.5 bg-orange-50 dark:bg-orange-900/20 inline-flex px-2 py-0.5 rounded-md">
                     <RotateCcw className="h-3 w-3" /> {approvedDeduction} un. devolvida(s)
                 </span>
             )}
@@ -576,10 +575,10 @@ const SeparationItemDetailedRow = ({
 
         <div className="space-y-1.5 pt-2">
             <div className="flex justify-between text-xs font-semibold text-muted-foreground">
-                <span>Separado: <span className={cn("font-bold text-foreground", isComplete && "text-emerald-600 dark:text-emerald-400")}>{projectedTotal} / {requested}</span></span>
+                <span>Separado: <span className={cn("font-bold text-foreground", isComplete && "text-red-600 dark:text-red-400")}>{projectedTotal} / {requested}</span></span>
                 <span>{formatCurrency(totalValueSeparated)}</span>
             </div>
-            <CustomProgressBar value={projectedTotal} max={requested} indicatorColor={isComplete ? "bg-emerald-500" : "bg-primary"} className="h-1.5" />
+            <CustomProgressBar value={projectedTotal} max={requested} indicatorColor={isComplete ? "bg-red-500" : "bg-primary"} className="h-1.5" />
         </div>
       </div>
 
@@ -621,7 +620,7 @@ const SeparationItemDetailedRow = ({
                         step={allowDecimal ? "any" : "1"}
                         className={cn(
                             "h-full w-20 border-0 text-center font-black text-xl shadow-none focus-visible:ring-0 rounded-xl bg-transparent",
-                            inputValue < 0 ? "text-red-500" : inputValue > 0 ? "text-emerald-500" : "text-foreground"
+                            inputValue < 0 ? "text-orange-500" : inputValue > 0 ? "text-red-500" : "text-foreground"
                         )}
                         placeholder="0"
                         value={inputValue === 0 ? "" : inputValue}
@@ -761,8 +760,8 @@ const DetailedView = ({
            },
            didParseCell: function(data: any) {
                if (data.section === 'body' && data.column.index === 5) {
-                   if (data.cell.raw === 'Pendente') { data.cell.styles.textColor = [220, 53, 69]; } 
-                   else { data.cell.styles.textColor = [40, 167, 69]; }
+                   if (data.cell.raw === 'Pendente') { data.cell.styles.textColor = [245, 158, 11]; } // Laranja para pendente 
+                   else { data.cell.styles.textColor = [220, 38, 38]; } // Vermelho para concluído
                }
            }
        });
@@ -803,10 +802,10 @@ const DetailedView = ({
                       <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
                               <Badge variant="outline" className="text-[10px] font-mono bg-muted/30 border-0">OP: {sep.production_order}</Badge>
-                              <Badge className={cn("text-[10px] border-0 shadow-none", 
-                                  isArchived ? "bg-zinc-200 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300" : 
-                                  isPending ? "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400" : 
-                                  "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
+                              <Badge className={cn("text-[10px] border-0 shadow-none text-white", 
+                                  isArchived ? "bg-zinc-500 text-white dark:bg-zinc-800 dark:text-zinc-300" : 
+                                  isPending ? "bg-orange-500 text-white" : 
+                                  "bg-red-500 text-white"
                               )}>
                                   {isArchived ? "Finalizado" : (sep.status === 'em_separacao' ? 'Em Separação' : sep.status)}
                               </Badge>
@@ -816,7 +815,7 @@ const DetailedView = ({
                       
                       <div className="hidden lg:flex flex-col items-end mr-6 px-6 border-r border-border/50">
                           <span className="text-[10px] text-muted-foreground font-semibold uppercase tracking-widest mb-1">Valor Separado</span>
-                          <span className="text-2xl font-black text-emerald-600 dark:text-emerald-400 leading-none">
+                          <span className="text-2xl font-black text-red-600 dark:text-red-400 leading-none">
                               {formatCurrency(grandTotalSeparated)}
                           </span>
                       </div>
@@ -841,7 +840,6 @@ const DetailedView = ({
                       {isDelivered && !isArchived && (
                          <div className={cn(
                              "hidden md:flex ml-4 items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold",
-                             // LINHA MODIFICADA: Substituição da cor azul pela cor rosa/vermelha
                              returnStatus.expired ? "bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400" : "bg-rose-50 text-rose-600 dark:bg-rose-900/20 dark:text-rose-400"
                          )}>
                              {returnStatus.expired ? <Ban className="h-4 w-4"/> : <Clock className="h-4 w-4"/>}
@@ -935,9 +933,9 @@ const DetailedView = ({
                                   <p className="font-bold text-base mb-1">{ret.product_name}</p>
                                   <Badge variant="outline" className={cn(
                                       "border-0 px-2 py-0.5 text-[10px]",
-                                      ret.status === 'aprovado' ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30" : 
-                                      ret.status === 'rejeitado' ? "bg-red-100 text-red-700 dark:bg-red-900/30" : 
-                                      "bg-amber-100 text-amber-700 dark:bg-amber-900/30"
+                                      ret.status === 'aprovado' ? "bg-red-100 text-red-700 dark:bg-red-900/30" : 
+                                      ret.status === 'rejeitado' ? "bg-zinc-100 text-zinc-700 dark:bg-zinc-800/30" : 
+                                      "bg-orange-100 text-orange-700 dark:bg-orange-900/30"
                                   )}>
                                       {ret.status.toUpperCase()}
                                   </Badge>
@@ -949,10 +947,10 @@ const DetailedView = ({
                                   </div>
                                   {isWarehouseMode && ret.status === 'pendente' && (
                                       <div className="flex gap-2 pl-4 border-l border-border/50">
-                                         <m.button whileTap={{ scale: 0.85 }} className="flex items-center justify-center h-10 w-10 rounded-xl bg-emerald-100 hover:bg-emerald-200 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400" onClick={() => updateReturnStatusMutation.mutate({ separationId: sep.id, returnId: ret.id, status: 'aprovado' })}>
+                                         <m.button whileTap={{ scale: 0.85 }} className="flex items-center justify-center h-10 w-10 rounded-xl bg-red-100 hover:bg-red-200 text-red-700 dark:bg-red-900/30 dark:text-red-400" onClick={() => updateReturnStatusMutation.mutate({ separationId: sep.id, returnId: ret.id, status: 'aprovado' })}>
                                             <Check className="h-5 w-5" />
                                          </m.button>
-                                         <m.button whileTap={{ scale: 0.85 }} className="flex items-center justify-center h-10 w-10 rounded-xl bg-red-100 hover:bg-red-200 text-red-700 dark:bg-red-900/30 dark:text-red-400" onClick={() => updateReturnStatusMutation.mutate({ separationId: sep.id, returnId: ret.id, status: 'rejeitado' })}>
+                                         <m.button whileTap={{ scale: 0.85 }} className="flex items-center justify-center h-10 w-10 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-700 dark:bg-zinc-900/30 dark:text-zinc-400" onClick={() => updateReturnStatusMutation.mutate({ separationId: sep.id, returnId: ret.id, status: 'rejeitado' })}>
                                             <X className="h-5 w-5" />
                                          </m.button>
                                       </div>
@@ -984,7 +982,7 @@ const DetailedView = ({
                     <div className="hidden sm:flex flex-1 items-center px-4">
                         <div className="flex flex-col">
                             <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Valor Separado</span>
-                            <span className="font-bold text-lg text-emerald-600 dark:text-emerald-400">{formatCurrency(grandTotalSeparated)}</span>
+                            <span className="font-bold text-lg text-red-600 dark:text-red-400">{formatCurrency(grandTotalSeparated)}</span>
                         </div>
                     </div>
 
@@ -1604,7 +1602,7 @@ export default function Separations() {
                                             key={pid} 
                                             className={cn(
                                                 "flex flex-col p-4 rounded-3xl bg-background border transition-all",
-                                                isExceeding ? "border-amber-500/30 shadow-[0_4px_15px_-4px_rgba(245,158,11,0.1)]" : "border-border/50 shadow-sm"
+                                                isExceeding ? "border-orange-500/30 shadow-[0_4px_15px_-4px_rgba(249,115,22,0.1)]" : "border-border/50 shadow-sm"
                                             )}
                                         >
                                             <div className="flex justify-between items-start mb-3">
@@ -1616,7 +1614,7 @@ export default function Separations() {
                                             
                                             <div className="flex items-center justify-between mt-1">
                                                 {isExceeding ? (
-                                                    <span className="text-[11px] font-bold text-amber-600 dark:text-amber-500 flex items-center bg-amber-500/10 px-2 py-1 rounded-lg">
+                                                    <span className="text-[11px] font-bold text-orange-600 dark:text-orange-500 flex items-center bg-orange-500/10 px-2 py-1 rounded-lg">
                                                         <AlertTriangle className="h-3.5 w-3.5 mr-1.5" /> Faltam {Number((qty - stockAvailable).toFixed(2))} un.
                                                     </span>
                                                 ) : (
@@ -1625,7 +1623,7 @@ export default function Separations() {
 
                                                 <div className={cn(
                                                     "flex items-center bg-muted/30 border rounded-2xl shadow-sm h-10 p-1",
-                                                    isExceeding ? "border-amber-300 ring-2 ring-amber-500/10" : "border-border"
+                                                    isExceeding ? "border-orange-300 ring-2 ring-orange-500/10" : "border-border"
                                                 )}>
                                                     <m.button whileTap={{ scale: 0.8 }} className="flex items-center justify-center h-full w-8 rounded-xl hover:bg-background text-muted-foreground" onClick={() => removeItemFromCart(pid)}>
                                                         <Minus className="h-4 w-4" />
@@ -1641,7 +1639,7 @@ export default function Separations() {
                                                         }}
                                                         className={cn(
                                                             "h-full w-14 sm:w-16 border-0 p-0 text-center text-sm font-black shadow-none focus-visible:ring-0 rounded-none bg-transparent",
-                                                            isExceeding ? "text-amber-600 dark:text-amber-500" : "text-foreground"
+                                                            isExceeding ? "text-orange-600 dark:text-orange-500" : "text-foreground"
                                                         )}
                                                     />
                                                     <m.button whileTap={{ scale: 0.8 }} className="flex items-center justify-center h-full w-8 rounded-xl hover:bg-background text-foreground" onClick={() => addItemToCart(pid)}>
@@ -1661,7 +1659,7 @@ export default function Separations() {
                                     <m.div 
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
-                                        className="flex items-start gap-3 bg-amber-500/10 text-amber-700 dark:text-amber-400 p-3 sm:p-4 rounded-2xl"
+                                        className="flex items-start gap-3 bg-orange-500/10 text-orange-700 dark:text-orange-400 p-3 sm:p-4 rounded-2xl"
                                     >
                                         <AlertTriangle className="h-5 w-5 shrink-0 mt-0.5" />
                                         <p className="text-[11px] sm:text-xs font-bold leading-snug">
@@ -1747,7 +1745,7 @@ export default function Separations() {
         <AlertDialog open={isPartialDeliveryModalOpen} onOpenChange={setIsPartialDeliveryModalOpen}>
            <AlertDialogContent className="rounded-[2rem]">
                <AlertDialogHeader>
-                   <AlertDialogTitle className="flex items-center gap-2 text-amber-600 text-xl font-black">
+                   <AlertDialogTitle className="flex items-center gap-2 text-orange-600 text-xl font-black">
                        <AlertTriangle className="h-6 w-6" />
                        Entrega Parcial
                    </AlertDialogTitle>
@@ -1761,7 +1759,7 @@ export default function Separations() {
                    <AlertDialogCancel className="rounded-xl h-12 font-bold flex-1">Revisar</AlertDialogCancel>
                    <AlertDialogAction 
                        onClick={executeDelivery}
-                       className="bg-amber-500 hover:bg-amber-600 text-white rounded-xl h-12 font-bold flex-1"
+                       className="bg-orange-500 hover:bg-orange-600 text-white rounded-xl h-12 font-bold flex-1"
                    >
                        Confirmar Parcial
                    </AlertDialogAction>
