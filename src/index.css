@@ -17,7 +17,8 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 224 71% 4%;
 
-    --primary: 220 90% 56%;
+    /* Alterado para Vermelho (Tailwind red-600) */
+    --primary: 0 72% 51%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 220 14% 96%;
@@ -34,7 +35,9 @@ All colors MUST be HSL.
 
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 220 90% 56%;
+    
+    /* Alterado para Vermelho para manter o padrão de foco */
+    --ring: 0 72% 51%;
 
     --radius: 0.75rem;
 
@@ -55,7 +58,7 @@ All colors MUST be HSL.
     --sidebar-accent: 240 4.8% 95.9%;
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 220 90% 56%;
+    --sidebar-ring: 0 72% 51%;
   }
 
   .dark {
@@ -68,7 +71,8 @@ All colors MUST be HSL.
     --popover: 224 50% 8%;
     --popover-foreground: 220 14% 96%;
 
-    --primary: 220 90% 56%;
+    /* Alterado para Vermelho (Tailwind red-500) para melhor contraste no dark mode */
+    --primary: 0 84% 60%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 224 30% 15%;
@@ -85,7 +89,9 @@ All colors MUST be HSL.
 
     --border: 224 30% 18%;
     --input: 224 30% 18%;
-    --ring: 220 90% 56%;
+    
+    /* Alterado para Vermelho */
+    --ring: 0 84% 60%;
 
     /* Priority Colors - Dark Mode */
     --priority-low: 142 71% 50%;
@@ -104,7 +110,7 @@ All colors MUST be HSL.
     --sidebar-accent: 224 30% 15%;
     --sidebar-accent-foreground: 220 14% 96%;
     --sidebar-border: 224 30% 18%;
-    --sidebar-ring: 220 90% 56%;
+    --sidebar-ring: 0 84% 60%;
   }
 }
 
