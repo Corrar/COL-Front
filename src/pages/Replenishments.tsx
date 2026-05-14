@@ -146,7 +146,7 @@ const CustomProgressBar = ({ value, max, className, indicatorColor }: { value: n
     return (
         <div className={cn("h-1.5 w-full bg-secondary rounded-full overflow-hidden", className)}>
             <div 
-                className={cn("h-full transition-all duration-500 ease-out", indicatorColor || "bg-primary")}
+                className={cn("h-full transition-all duration-500 ease-out", indicatorColor || "bg-red-600")}
                 style={{ width: `${pct}%` }}
             />
         </div>
@@ -172,7 +172,7 @@ const CatalogItem = ({ product, quantityInCart, onAdd, onRemove, onUpdateQuantit
   const minStock = product.min_stock || 10;
   
   const isExceedingStock = quantityInCart > stock;
-  const stockColor = stock === 0 ? "bg-muted-foreground/20" : stock < minStock ? "bg-amber-400" : "bg-emerald-500";
+  const stockColor = stock === 0 ? "bg-muted-foreground/20" : stock < minStock ? "bg-red-500" : "bg-red-600";
   const allowDecimal = isDecimalUnit(product.unit);
 
   const handleManualInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -189,8 +189,8 @@ const CatalogItem = ({ product, quantityInCart, onAdd, onRemove, onUpdateQuantit
       transition={{ duration: 0.4, ease: smoothCurve }}
       className={cn(
         "group flex flex-col p-5 rounded-3xl transition-all duration-300",
-        quantityInCart > 0 && !isExceedingStock ? "bg-primary/[0.03] shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-primary/10" : 
-        isExceedingStock ? "bg-amber-500/5 shadow-[0_4px_20px_-4px_rgba(245,158,11,0.1)] border border-amber-500/20" : 
+        quantityInCart > 0 && !isExceedingStock ? "bg-red-600/[0.03] shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-red-500/10" : 
+        isExceedingStock ? "bg-red-600/5 shadow-[0_4px_20px_-4px_rgba(220,38,38,0.12)] border border-red-500/20" : 
         "bg-card shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-transparent hover:shadow-[0_8px_30px_-4px_rgba(0,0,0,0.08)]"
       )}
     >
@@ -206,7 +206,7 @@ const CatalogItem = ({ product, quantityInCart, onAdd, onRemove, onUpdateQuantit
                 <Badge variant="outline" className="text-[10px] font-semibold text-destructive border-destructive/30 bg-destructive/5 rounded-full px-2">Esgotado</Badge>
              )}
              {isExceedingStock && (
-                <Badge className="bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 border-0 text-[10px] font-bold px-2 py-0.5 flex items-center gap-1">
+                <Badge className="bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-0 text-[10px] font-bold px-2 py-0.5 flex items-center gap-1">
                     <AlertTriangle className="h-3 w-3" /> Excede Estoque
                 </Badge>
              )}
@@ -225,7 +225,7 @@ const CatalogItem = ({ product, quantityInCart, onAdd, onRemove, onUpdateQuantit
             {quantityInCart > 0 ? (
               <div className={cn(
                   "flex items-center bg-background rounded-2xl shadow-sm border p-1 transition-all",
-                  isExceedingStock ? "border-amber-300 ring-2 ring-amber-500/20" : "border-primary/20 ring-2 ring-primary/5"
+                  isExceedingStock ? "border-red-400 ring-2 ring-red-500/20" : "border-red-500/20 ring-2 ring-red-500/5"
               )}>
                 <m.button
                   whileTap={{ scale: 0.85 }}
@@ -240,7 +240,7 @@ const CatalogItem = ({ product, quantityInCart, onAdd, onRemove, onUpdateQuantit
                     step={allowDecimal ? "any" : "1"}
                     className={cn(
                         "h-8 w-14 border-0 text-center font-black text-base p-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent shadow-none",
-                        isExceedingStock ? "text-amber-600 dark:text-amber-400" : "text-primary"
+                        isExceedingStock ? "text-red-600 dark:text-red-400" : "text-red-500"
                     )}
                     value={quantityInCart === 0 ? "" : quantityInCart}
                     onChange={handleManualInput}
@@ -250,7 +250,7 @@ const CatalogItem = ({ product, quantityInCart, onAdd, onRemove, onUpdateQuantit
                 <m.button 
                   whileTap={{ scale: 0.85 }}
                   onClick={onAdd}
-                  className="flex items-center justify-center h-8 w-8 rounded-xl text-primary hover:bg-primary/10"
+                  className="flex items-center justify-center h-8 w-8 rounded-xl text-red-500 hover:bg-red-600/10"
                 >
                   <Plus className="h-4 w-4" />
                 </m.button>
@@ -260,7 +260,7 @@ const CatalogItem = ({ product, quantityInCart, onAdd, onRemove, onUpdateQuantit
                 whileTap={{ scale: 0.95 }}
                 className={cn(
                     "flex items-center justify-center rounded-2xl font-bold px-6 h-10 transition-all duration-300",
-                    hasStock ? "bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground shadow-none" : "bg-muted text-muted-foreground opacity-50 cursor-not-allowed"
+                    hasStock ? "bg-red-600/10 text-red-500 hover:bg-red-600 hover:text-white shadow-none" : "bg-muted text-muted-foreground opacity-50 cursor-not-allowed"
                 )}
                 onClick={onAdd}
               >
@@ -288,15 +288,15 @@ const ReplenishmentCard = ({ rep, onClick }: { rep: IReplenishment; onClick: () 
   });
 
   const bgStatus: Record<string, string> = {
-      pendente: "bg-amber-500",
-      em_preparo: "bg-blue-500",
-      concluido: "bg-emerald-500"
+      pendente: "bg-red-600",
+      em_preparo: "bg-red-600",
+      concluido: "bg-red-600"
   };
 
   const statusColors: Record<string, string> = {
-      pendente: "border-amber-500/50 hover:border-amber-500",
-      em_preparo: "border-blue-500/50 hover:border-blue-500", 
-      concluido: "border-emerald-500/50 hover:border-emerald-500",
+      pendente: "border-red-500/50 hover:border-red-500",
+      em_preparo: "border-red-500/50 hover:border-red-500", 
+      concluido: "border-red-500/50 hover:border-red-500",
   };
 
   const displayStatus = rep.status.replace("_", " ");
@@ -336,7 +336,7 @@ const ReplenishmentCard = ({ rep, onClick }: { rep: IReplenishment; onClick: () 
                 <span className="truncate">{rep.city_state}</span>
             </div>
             {rep.shipping_info && (
-               <div className="flex items-center gap-2 mt-1.5 text-xs text-primary/80 bg-primary/10 p-1.5 px-2.5 rounded-lg w-fit">
+               <div className="flex items-center gap-2 mt-1.5 text-xs text-red-500/80 bg-red-600/10 p-1.5 px-2.5 rounded-lg w-fit">
                    <Truck className="h-3.5 w-3.5" />
                    <span className="truncate font-semibold">{rep.shipping_info}</span>
                </div>
@@ -348,7 +348,7 @@ const ReplenishmentCard = ({ rep, onClick }: { rep: IReplenishment; onClick: () 
                 <div className="flex flex-col min-w-0">
                     <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mb-1">Itens</span>
                     <div className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5">
-                        <span className={cn("text-lg font-black truncate", progress === 100 ? "text-emerald-600" : "text-foreground")}>
+                        <span className={cn("text-lg font-black truncate", progress === 100 ? "text-red-600" : "text-foreground")}>
                             {totalSeparatedQty} / {totalRequestedQty}
                         </span>
                     </div>
@@ -362,7 +362,7 @@ const ReplenishmentCard = ({ rep, onClick }: { rep: IReplenishment; onClick: () 
             </div>
             <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
                 <div 
-                    className={cn("h-full transition-all duration-500", bgStatus[rep.status] || "bg-primary")} 
+                    className={cn("h-full transition-all duration-500", bgStatus[rep.status] || "bg-red-600")} 
                     style={{ width: `${progress}%` }} 
                 />
             </div>
@@ -438,15 +438,15 @@ const ReplenishmentDetailedRow = ({ item, inputValue, onChange, canEdit }: Reple
       transition={{ duration: 0.4, ease: smoothCurve }}
       className={cn(
       "relative flex flex-col sm:flex-row gap-5 p-5 rounded-3xl transition-all duration-300",
-      isComplete ? "bg-emerald-50/50 dark:bg-emerald-950/10 border border-emerald-100 dark:border-emerald-900/30" : "bg-card border border-transparent shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] hover:shadow-md",
-      hasChange && "ring-2 ring-primary/30 border-primary/20 bg-primary/[0.02]"
+      isComplete ? "bg-red-50/50 dark:bg-red-950/10 border border-red-100 dark:border-red-900/30" : "bg-card border border-transparent shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] hover:shadow-md",
+      hasChange && "ring-2 ring-red-500/30 border-red-500/20 bg-red-600/[0.02]"
     )}>
       
       <div className="flex-1 space-y-3">
         <div className="flex items-center gap-3">
            <Badge variant="secondary" className="text-[10px] font-mono font-medium px-2 py-0.5 bg-muted/50 border-0">{item.products?.sku}</Badge>
            {isComplete && (
-               <span className="text-emerald-700 dark:text-emerald-400 text-xs font-bold flex items-center gap-1 bg-emerald-100 dark:bg-emerald-900/40 px-2.5 py-0.5 rounded-full animate-in zoom-in">
+               <span className="text-red-700 dark:text-red-400 text-xs font-bold flex items-center gap-1 bg-red-100 dark:bg-red-900/40 px-2.5 py-0.5 rounded-full animate-in zoom-in">
                    <CheckCircle2 className="h-3.5 w-3.5"/> Completo
                </span>
            )}
@@ -458,9 +458,9 @@ const ReplenishmentDetailedRow = ({ item, inputValue, onChange, canEdit }: Reple
 
         <div className="space-y-1.5 pt-2">
             <div className="flex justify-between text-xs font-semibold text-muted-foreground">
-                <span>Separado: <span className={cn("font-bold text-foreground", isComplete && "text-emerald-600 dark:text-emerald-400")}>{projectedTotal} / {requested}</span></span>
+                <span>Separado: <span className={cn("font-bold text-foreground", isComplete && "text-red-600 dark:text-red-400")}>{projectedTotal} / {requested}</span></span>
             </div>
-            <CustomProgressBar value={projectedTotal} max={requested} indicatorColor={isComplete ? "bg-emerald-500" : "bg-primary"} className="h-1.5" />
+            <CustomProgressBar value={projectedTotal} max={requested} indicatorColor={isComplete ? "bg-red-600" : "bg-red-600"} className="h-1.5" />
         </div>
       </div>
 
@@ -473,9 +473,9 @@ const ReplenishmentDetailedRow = ({ item, inputValue, onChange, canEdit }: Reple
              </div>
              <div className="flex flex-col text-right">
                  <span className="text-[10px] text-muted-foreground font-semibold uppercase tracking-widest mb-0.5">Reservado</span>
-                 <span className={cn("font-bold text-base", hasChange && "text-primary")}>
+                 <span className={cn("font-bold text-base", hasChange && "text-red-500")}>
                     {dbReservedHere}
-                    {hasChange && <span className="text-xs ml-1 font-black bg-primary/10 px-1.5 py-0.5 rounded-md">({numericInput > 0 ? '+' : ''}{numericInput})</span>}
+                    {hasChange && <span className="text-xs ml-1 font-black bg-red-600/10 px-1.5 py-0.5 rounded-md">({numericInput > 0 ? '+' : ''}{numericInput})</span>}
                  </span>
              </div>
          </div>
@@ -485,7 +485,7 @@ const ReplenishmentDetailedRow = ({ item, inputValue, onChange, canEdit }: Reple
                 {!isComplete && maxAddable > 0 && (
                     <m.button 
                         whileTap={{ scale: 0.85 }}
-                        className="flex items-center justify-center h-12 w-12 rounded-2xl bg-muted/30 text-primary hover:bg-primary/10 hover:text-primary transition-colors"
+                        className="flex items-center justify-center h-12 w-12 rounded-2xl bg-muted/30 text-red-500 hover:bg-red-600/10 hover:text-red-500 transition-colors"
                         onClick={quickFill}
                         title="Completar Automaticamente"
                     >
@@ -494,7 +494,7 @@ const ReplenishmentDetailedRow = ({ item, inputValue, onChange, canEdit }: Reple
                 )}
                 
                 <div className="relative group flex items-center bg-background border shadow-sm rounded-2xl p-1 h-12">
-                    <span className="absolute -top-3 left-3 bg-background px-1.5 text-[10px] font-bold text-muted-foreground transition-colors group-focus-within:text-primary rounded-full">
+                    <span className="absolute -top-3 left-3 bg-background px-1.5 text-[10px] font-bold text-muted-foreground transition-colors group-focus-within:text-red-500 rounded-full">
                         {numericInput < 0 ? "Estornar" : "Adicionar"}
                     </span>
                     <Input 
@@ -502,7 +502,7 @@ const ReplenishmentDetailedRow = ({ item, inputValue, onChange, canEdit }: Reple
                         step={allowDecimal ? "any" : "1"}
                         className={cn(
                             "h-full w-20 border-0 text-center font-black text-xl shadow-none focus-visible:ring-0 rounded-xl bg-transparent",
-                            numericInput < 0 ? "text-red-500" : numericInput > 0 ? "text-emerald-500" : "text-foreground"
+                            numericInput < 0 ? "text-red-500" : numericInput > 0 ? "text-red-500" : "text-foreground"
                         )}
                         placeholder="0"
                         value={inputValue === 0 ? "" : inputValue}
@@ -621,7 +621,7 @@ const DetailedView = ({
            startY: 70,
            head: [['Produto / SKU', 'Solicitado', 'Separado', 'Falta', 'Estoque Atual', 'Status']],
            body: tableRows,
-           headStyles: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold' },
+           headStyles: { fillColor: [220, 38, 38], textColor: 255, fontStyle: 'bold' },
            styles: { fontSize: 9, valign: 'middle', cellPadding: 3 },
            columnStyles: {
                0: { cellWidth: 70 }, 1: { halign: 'center' }, 2: { halign: 'center', fontStyle: 'bold' },
@@ -630,7 +630,7 @@ const DetailedView = ({
            didParseCell: function(data: any) {
                if (data.section === 'body' && data.column.index === 5) {
                    if (data.cell.raw === 'Pendente') { data.cell.styles.textColor = [220, 53, 69]; } 
-                   else { data.cell.styles.textColor = [40, 167, 69]; }
+                   else { data.cell.styles.textColor = [220, 38, 38]; }
                }
            }
        });
@@ -672,8 +672,8 @@ const DetailedView = ({
                           <div className="flex items-center gap-2 mb-1">
                               <Badge variant="outline" className="text-[10px] font-mono bg-muted/30 border-0">{rep.order_number}</Badge>
                               <Badge className={cn("text-[10px] border-0 shadow-none", 
-                                  isArchived ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400" : 
-                                  "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
+                                  isArchived ? "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400" : 
+                                  "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
                               )}>
                                   {isArchived ? "Concluído" : "Em Preparo"}
                               </Badge>
@@ -690,7 +690,7 @@ const DetailedView = ({
                       
                       <div className="hidden lg:flex flex-col items-end mr-6 px-6 border-r border-border/50">
                           <span className="text-[10px] text-muted-foreground font-semibold uppercase tracking-widest mb-1">Itens Separados</span>
-                          <span className="text-2xl font-black text-primary leading-none">
+                          <span className="text-2xl font-black text-red-500 leading-none">
                               {grandTotalSeparated} / {grandTotalRequested}
                           </span>
                       </div>
@@ -716,7 +716,7 @@ const DetailedView = ({
                           <div className="flex items-center ml-2 border-l border-border/50 pl-2 gap-1">
                             <m.button 
                                 whileTap={{ scale: 0.85 }}
-                                className="flex items-center justify-center rounded-full h-12 w-12 text-muted-foreground hover:bg-primary/10 hover:text-primary shrink-0" 
+                                className="flex items-center justify-center rounded-full h-12 w-12 text-muted-foreground hover:bg-red-600/10 hover:text-red-500 shrink-0" 
                                 onClick={() => onEdit(rep)}
                                 title="Editar Pedido"
                             >
@@ -736,7 +736,7 @@ const DetailedView = ({
                       {isArchived && (
                           <m.button 
                               whileTap={{ scale: 0.95 }}
-                              className="hidden sm:flex items-center gap-2 px-4 h-10 rounded-xl font-bold bg-amber-500/10 text-amber-600 hover:bg-amber-500/20 ml-2 border border-amber-500/20"
+                              className="hidden sm:flex items-center gap-2 px-4 h-10 rounded-xl font-bold bg-red-600/10 text-red-600 hover:bg-red-600/20 ml-2 border border-red-500/20"
                               onClick={onRevert}
                               disabled={authorizeMutation.isPending}
                           >
@@ -749,7 +749,7 @@ const DetailedView = ({
                   <div className="bg-muted/30 rounded-full p-1 mt-2 flex items-center gap-3">
                       <div className="flex-1 h-2 bg-secondary/50 rounded-full overflow-hidden ml-2">
                           <div 
-                              className="h-full bg-primary transition-all duration-700 ease-out rounded-full" 
+                              className="h-full bg-red-600 transition-all duration-700 ease-out rounded-full" 
                               style={{ width: `${progressPercent}%` }} 
                           />
                       </div>
@@ -757,7 +757,7 @@ const DetailedView = ({
                   </div>
                   
                   {isArchived && rep.shipping_info && (
-                      <div className="flex items-center gap-2 mt-4 text-sm text-primary bg-primary/10 p-2.5 px-4 rounded-xl w-fit">
+                      <div className="flex items-center gap-2 mt-4 text-sm text-red-500 bg-red-600/10 p-2.5 px-4 rounded-xl w-fit">
                           <Truck className="h-4 w-4" />
                           <span className="font-bold">Enviado por: {rep.shipping_info}</span>
                       </div>
@@ -766,7 +766,7 @@ const DetailedView = ({
                   {isArchived && (
                       <m.button 
                           whileTap={{ scale: 0.95 }}
-                          className="sm:hidden flex mt-4 items-center justify-center gap-2 w-full h-12 rounded-xl font-bold bg-amber-500/10 text-amber-600 hover:bg-amber-500/20 border border-amber-500/20"
+                          className="sm:hidden flex mt-4 items-center justify-center gap-2 w-full h-12 rounded-xl font-bold bg-red-600/10 text-red-600 hover:bg-red-600/20 border border-red-500/20"
                           onClick={onRevert}
                           disabled={authorizeMutation.isPending}
                       >
@@ -803,7 +803,7 @@ const DetailedView = ({
                     <div className="hidden sm:flex flex-1 items-center px-4">
                         <div className="flex flex-col">
                             <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Itens Reservados</span>
-                            <span className="font-bold text-lg text-primary">{grandTotalSeparated} unidades</span>
+                            <span className="font-bold text-lg text-red-500">{grandTotalSeparated} unidades</span>
                         </div>
                     </div>
 
@@ -819,7 +819,7 @@ const DetailedView = ({
                         </m.button>
                         <m.button 
                             whileTap={{ scale: 0.95 }}
-                            className="flex items-center justify-center flex-1 sm:flex-none h-14 px-8 rounded-2xl bg-primary hover:bg-primary/90 text-primary-foreground font-bold shadow-lg shadow-primary/25 transition-all disabled:opacity-50"
+                            className="flex items-center justify-center flex-1 sm:flex-none h-14 px-8 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-bold shadow-lg shadow-red-900/25 transition-all disabled:opacity-50"
                             onClick={onDeliverCheck}
                             disabled={authorizeMutation.isPending}
                         >
@@ -1110,7 +1110,7 @@ export default function Replenishments() {
 
   const hasEdits = Object.values(inputIncrements).some(v => v !== 0 && v !== '' && v !== '-');
 
-  if (isLoadingReps || isLoadingProds) return <div className="flex h-screen items-center justify-center"><Loader2 className="h-10 w-10 animate-spin text-primary" /></div>;
+  if (isLoadingReps || isLoadingProds) return <div className="flex h-screen items-center justify-center"><Loader2 className="h-10 w-10 animate-spin text-red-500" /></div>;
 
   return (
     <LazyMotion features={domAnimation}>
@@ -1125,7 +1125,7 @@ export default function Replenishments() {
             >
                 <div className="container px-4 py-5 flex items-center justify-between gap-4">
                     <div className="flex items-center gap-3">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-lg shadow-primary/20">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-600 text-white shadow-lg shadow-red-900/30">
                             <RefreshCw className="h-6 w-6" />
                         </div>
                         <div>
@@ -1138,7 +1138,7 @@ export default function Replenishments() {
                         <m.button 
                             whileTap={{ scale: 0.9 }}
                             onClick={() => { resetForm(); setIsNewSheetOpen(true); }} 
-                            className="flex items-center justify-center bg-primary text-primary-foreground rounded-2xl font-bold shadow-lg shadow-primary/20 h-12 px-6"
+                            className="flex items-center justify-center bg-red-600 hover:bg-red-700 text-white rounded-2xl font-bold shadow-lg shadow-red-900/30 h-12 px-6"
                         >
                             <Plus className="mr-2 h-5 w-5" /> Novo Pedido
                         </m.button>
@@ -1179,8 +1179,8 @@ export default function Replenishments() {
                         transition={{ duration: 0.5, ease: smoothCurve, delay: 0.1 }}
                         className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center"
                       >
-                         <div className="relative w-full md:max-w-md group bg-background rounded-2xl shadow-sm border border-border focus-within:border-primary/50 focus-within:ring-4 ring-primary/10 transition-all">
-                            <Search className="absolute left-4 top-3.5 h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                         <div className="relative w-full md:max-w-md group bg-background rounded-2xl shadow-sm border border-border focus-within:border-red-500/50 focus-within:ring-4 ring-red-500/10 transition-all">
+                            <Search className="absolute left-4 top-3.5 h-5 w-5 text-muted-foreground group-focus-within:text-red-500 transition-colors" />
                             <Input 
                                 placeholder="Buscar pedido, cliente, cidade ou item..." 
                                 className="pl-12 h-12 border-0 bg-transparent shadow-none text-base focus-visible:ring-0"
@@ -1223,8 +1223,8 @@ export default function Replenishments() {
                 
                 <div className="px-5 py-4 border-b border-border/50 bg-background/80 backdrop-blur-xl z-30 flex justify-between items-center">
                     <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                            {editingReplenishmentId ? <Pencil className="h-5 w-5 text-primary" /> : <ShoppingCart className="h-5 w-5 text-primary" />}
+                        <div className="h-10 w-10 rounded-xl bg-red-600/10 flex items-center justify-center">
+                            {editingReplenishmentId ? <Pencil className="h-5 w-5 text-red-500" /> : <ShoppingCart className="h-5 w-5 text-red-500" />}
                         </div>
                         <div>
                             <h2 className="text-xl font-black leading-none">{editingReplenishmentId ? "Editar Pedido" : "Novo Pedido de Reposição"}</h2>
@@ -1254,7 +1254,7 @@ export default function Replenishments() {
                                         value={orderNumber} 
                                         onChange={e => setOrderNumber(e.target.value)} 
                                         placeholder="Ex: REP-1024" 
-                                        className="h-14 rounded-2xl bg-muted/30 border-transparent focus:border-primary focus:ring-4 ring-primary/10 transition-all text-lg font-medium px-5"
+                                        className="h-14 rounded-2xl bg-muted/30 border-transparent focus:border-red-500 focus:ring-4 ring-red-500/10 transition-all text-lg font-medium px-5"
                                     />
                                 </div>
                                 <div className="space-y-2 group">
@@ -1263,7 +1263,7 @@ export default function Replenishments() {
                                         value={cityState} 
                                         onChange={e => setCityState(e.target.value)} 
                                         placeholder="Ex: Curitiba - PR" 
-                                        className="h-14 rounded-2xl bg-muted/30 border-transparent focus:border-primary focus:ring-4 ring-primary/10 transition-all text-lg font-medium px-5"
+                                        className="h-14 rounded-2xl bg-muted/30 border-transparent focus:border-red-500 focus:ring-4 ring-red-500/10 transition-all text-lg font-medium px-5"
                                     />
                                 </div>
                             </div>
@@ -1275,18 +1275,18 @@ export default function Replenishments() {
                                         value={clientName} 
                                         onChange={e => setClientName(e.target.value)} 
                                         placeholder="Ex: Loja Centro" 
-                                        className="h-14 rounded-2xl bg-muted/30 border-transparent focus:border-primary focus:ring-4 ring-primary/10 transition-all text-lg font-medium px-5"
+                                        className="h-14 rounded-2xl bg-muted/30 border-transparent focus:border-red-500 focus:ring-4 ring-red-500/10 transition-all text-lg font-medium px-5"
                                     />
                                 </div>
                                 <div className="space-y-2 group">
-                                    <Label className="text-sm font-bold ml-1 text-primary">Valor do Pedido (R$)</Label>
+                                    <Label className="text-sm font-bold ml-1 text-red-500">Valor do Pedido (R$)</Label>
                                     <Input 
                                         type="number"
                                         step="0.01"
                                         value={totalValue} 
                                         onChange={e => setTotalValue(e.target.value)} 
                                         placeholder="Ex: 1500.00" 
-                                        className="h-14 rounded-2xl bg-primary/5 border-primary/20 focus:border-primary focus:ring-4 ring-primary/10 transition-all text-lg font-black text-primary px-5"
+                                        className="h-14 rounded-2xl bg-red-600/5 border-red-500/20 focus:border-red-500 focus:ring-4 ring-red-500/10 transition-all text-lg font-black text-red-500 px-5"
                                     />
                                 </div>
                             </div>
@@ -1304,7 +1304,7 @@ export default function Replenishments() {
                                         placeholder="Buscar no catálogo..." 
                                         value={productSearchTerm}
                                         onChange={e => setProductSearchTerm(e.target.value)}
-                                        className="pl-12 h-14 rounded-2xl bg-card border-border shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] focus:border-primary focus:ring-4 ring-primary/10 text-base font-medium"
+                                        className="pl-12 h-14 rounded-2xl bg-card border-border shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] focus:border-red-500 focus:ring-4 ring-red-500/10 text-base font-medium"
                                     />
                                 </div>
                                 <div className="flex items-center gap-3 bg-card border border-border rounded-2xl px-5 h-14 shadow-sm shrink-0">
@@ -1347,7 +1347,7 @@ export default function Replenishments() {
                         >
                             <m.button 
                                 whileTap={{ scale: 0.95 }}
-                                className="flex items-center justify-center bg-primary text-primary-foreground w-full h-14 rounded-2xl font-black text-lg shadow-[0_10px_30px_-10px_rgba(var(--primary),0.5)]"
+                                className="flex items-center justify-center bg-red-600 text-white w-full h-14 rounded-2xl font-black text-lg shadow-[0_10px_30px_-10px_rgba(220,38,38,0.5)]"
                                 onClick={() => setIsMobileCartOpen(true)}
                             >
                                 <ShoppingCart className="mr-3 h-6 w-6" />
@@ -1403,7 +1403,7 @@ export default function Replenishments() {
                                             key={pid} 
                                             className={cn(
                                                 "flex flex-col p-4 rounded-3xl bg-background border transition-all",
-                                                isExceeding ? "border-amber-500/30 shadow-[0_4px_15px_-4px_rgba(245,158,11,0.1)]" : "border-border/50 shadow-sm"
+                                                isExceeding ? "border-red-500/30 shadow-[0_4px_15px_-4px_rgba(220,38,38,0.12)]" : "border-border/50 shadow-sm"
                                             )}
                                         >
                                             <div className="flex justify-between items-start mb-3">
@@ -1415,7 +1415,7 @@ export default function Replenishments() {
                                             
                                             <div className="flex items-center justify-between mt-1">
                                                 {isExceeding ? (
-                                                    <span className="text-[11px] font-bold text-amber-600 dark:text-amber-500 flex items-center bg-amber-500/10 px-2 py-1 rounded-lg">
+                                                    <span className="text-[11px] font-bold text-red-600 dark:text-red-500 flex items-center bg-red-600/10 px-2 py-1 rounded-lg">
                                                         <AlertTriangle className="h-3.5 w-3.5 mr-1.5" /> Faltam {Number((qty - stockAvailable).toFixed(2))} un.
                                                     </span>
                                                 ) : (
@@ -1424,7 +1424,7 @@ export default function Replenishments() {
 
                                                 <div className={cn(
                                                     "flex items-center bg-muted/30 border rounded-2xl shadow-sm h-10 p-1",
-                                                    isExceeding ? "border-amber-300 ring-2 ring-amber-500/10" : "border-border"
+                                                    isExceeding ? "border-red-400 ring-2 ring-red-500/10" : "border-border"
                                                 )}>
                                                     <m.button whileTap={{ scale: 0.8 }} className="flex items-center justify-center h-full w-8 rounded-xl hover:bg-background text-muted-foreground" onClick={() => removeItemFromCart(pid)}>
                                                         <Minus className="h-4 w-4" />
@@ -1440,7 +1440,7 @@ export default function Replenishments() {
                                                         }}
                                                         className={cn(
                                                             "h-full w-14 sm:w-16 border-0 p-0 text-center text-sm font-black shadow-none focus-visible:ring-0 rounded-none bg-transparent",
-                                                            isExceeding ? "text-amber-600 dark:text-amber-500" : "text-foreground"
+                                                            isExceeding ? "text-red-600 dark:text-red-500" : "text-foreground"
                                                         )}
                                                     />
                                                     <m.button whileTap={{ scale: 0.8 }} className="flex items-center justify-center h-full w-8 rounded-xl hover:bg-background text-foreground" onClick={() => addItemToCart(pid)}>
@@ -1460,7 +1460,7 @@ export default function Replenishments() {
                                     <m.div 
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
-                                        className="flex items-start gap-3 bg-amber-500/10 text-amber-700 dark:text-amber-400 p-3 sm:p-4 rounded-2xl"
+                                        className="flex items-start gap-3 bg-red-600/10 text-red-700 dark:text-red-400 p-3 sm:p-4 rounded-2xl"
                                     >
                                         <AlertTriangle className="h-5 w-5 shrink-0 mt-0.5" />
                                         <p className="text-[11px] sm:text-xs font-bold leading-snug">
@@ -1476,7 +1476,7 @@ export default function Replenishments() {
                                 
                                 <m.button 
                                     whileTap={{ scale: 0.95 }}
-                                    className="flex items-center justify-center w-full h-14 sm:h-16 bg-primary text-primary-foreground rounded-2xl font-black text-base sm:text-lg shadow-[0_10px_30px_-10px_rgba(var(--primary),0.5)] disabled:opacity-50"
+                                    className="flex items-center justify-center w-full h-14 sm:h-16 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-black text-base sm:text-lg shadow-[0_10px_30px_-10px_rgba(220,38,38,0.5)] disabled:opacity-50"
                                     disabled={
                                         createMutation.isPending || 
                                         editMutation.isPending || 
@@ -1548,13 +1548,13 @@ export default function Replenishments() {
         <AlertDialog open={deliveryModal.open} onOpenChange={(open) => setDeliveryModal(p => ({...p, open}))}>
            <AlertDialogContent className="rounded-[2rem]">
                <AlertDialogHeader>
-                   <AlertDialogTitle className={cn("flex items-center gap-2 text-xl font-black", deliveryModal.isPartial ? "text-amber-600" : "text-primary")}>
+                   <AlertDialogTitle className={cn("flex items-center gap-2 text-xl font-black", deliveryModal.isPartial ? "text-red-600" : "text-red-500")}>
                        {deliveryModal.isPartial ? <AlertTriangle className="h-6 w-6" /> : <Truck className="h-6 w-6" />}
                        {deliveryModal.isPartial ? "Reposição Parcial" : "Finalizar Envio"}
                    </AlertDialogTitle>
                    <AlertDialogDescription className="text-base space-y-4 pt-2 text-left">
                        {deliveryModal.isPartial && (
-                           <span className="block p-3 bg-amber-50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-400 rounded-xl font-medium border border-amber-200 dark:border-amber-900/50">
+                           <span className="block p-3 bg-red-50 dark:bg-red-950/30 text-red-700 dark:text-red-400 rounded-xl font-medium border border-red-200 dark:border-red-900/50">
                                Atenção: Este pedido não está 100% completo. Se continuar, os itens restantes ficarão pendentes.
                            </span>
                        )}
@@ -1573,7 +1573,7 @@ export default function Replenishments() {
                    <AlertDialogCancel className="rounded-xl h-12 font-bold flex-1">Revisar</AlertDialogCancel>
                    <AlertDialogAction 
                        onClick={(e) => { e.preventDefault(); executeDelivery(); }}
-                       className={cn("text-white rounded-xl h-12 font-bold flex-1 disabled:opacity-50", deliveryModal.isPartial ? "bg-amber-500 hover:bg-amber-600" : "bg-primary hover:bg-primary/90")}
+                       className={cn("text-white rounded-xl h-12 font-bold flex-1 disabled:opacity-50", deliveryModal.isPartial ? "bg-red-600 hover:bg-red-700" : "bg-red-600 hover:bg-red-700")}
                        disabled={authorizeMutation.isPending || deliveryModal.shippingInfo.trim().length === 0}
                    >
                        {authorizeMutation.isPending ? <Loader2 className="h-5 w-5 animate-spin" /> : "Confirmar Envio"}
