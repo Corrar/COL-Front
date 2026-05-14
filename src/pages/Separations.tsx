@@ -174,10 +174,10 @@ const EmptyState = ({
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.5, ease: smoothCurve }}
-        className="flex flex-col items-center justify-center p-12 text-center rounded-3xl bg-muted/30 min-h-[350px]"
+        className="flex flex-col items-center justify-center p-12 text-center rounded-3xl bg-zinc-900/90 border border-red-900/25 min-h-[350px]"
       >
-        <div className="h-20 w-20 rounded-full bg-background shadow-sm flex items-center justify-center mb-6">
-          <Package className="h-10 w-10 text-muted-foreground/40" />
+        <div className="h-20 w-20 rounded-full bg-red-950/30 shadow-sm flex items-center justify-center mb-6 border border-red-900/30">
+          <Package className="h-10 w-10 text-red-400/70" />
         </div>
         <h3 className="text-2xl font-bold tracking-tight text-foreground mb-2">{title}</h3>
         <p className="text-base text-muted-foreground max-w-sm mb-8">{description}</p>
@@ -189,9 +189,9 @@ const EmptyState = ({
 const CustomProgressBar = ({ value, max, className, indicatorColor }: { value: number, max: number, className?: string, indicatorColor?: string }) => {
     const pct = max > 0 ? Math.min(100, Math.max(0, (value / max) * 100)) : 0;
     return (
-        <div className={cn("h-1.5 w-full bg-secondary rounded-full overflow-hidden", className)}>
+        <div className={cn("h-1.5 w-full bg-zinc-800 rounded-full overflow-hidden", className)}>
             <div 
-                className={cn("h-full transition-all duration-500 ease-out", indicatorColor || "bg-primary")}
+                className={cn("h-full transition-all duration-500 ease-out", indicatorColor || "bg-red-600")}
                 style={{ width: `${pct}%` }}
             />
         </div>
@@ -222,7 +222,7 @@ const CatalogItem = ({
   const minStock = product.min_stock || 10;
   
   const isExceedingStock = quantityInCart > stock;
-  const stockColor = stock === 0 ? "bg-muted-foreground/20" : stock < minStock ? "bg-orange-400" : "bg-red-500";
+  const stockColor = stock === 0 ? "bg-muted-foreground/20" : stock < minStock ? "bg-red-500" : "bg-red-500";
   const allowDecimal = isDecimalUnit(product.unit);
 
   const handleManualInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -239,14 +239,14 @@ const CatalogItem = ({
       transition={{ duration: 0.4, ease: smoothCurve }}
       className={cn(
         "group flex flex-col p-5 rounded-3xl transition-all duration-300",
-        quantityInCart > 0 && !isExceedingStock ? "bg-primary/[0.03] shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-primary/10" : 
-        isExceedingStock ? "bg-orange-500/5 shadow-[0_4px_20px_-4px_rgba(249,115,22,0.1)] border border-orange-500/20" : 
+        quantityInCart > 0 && !isExceedingStock ? "bg-red-600/[0.06] shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-red-500/20" : 
+        isExceedingStock ? "bg-red-600/5 shadow-[0_4px_20px_-4px_rgba(220,38,38,0.12)] border border-red-500/20" : 
         "bg-card shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-transparent hover:shadow-[0_8px_30px_-4px_rgba(0,0,0,0.08)]"
       )}
     >
       <div className="flex items-start justify-between gap-3 mb-3 pointer-events-none">
          <div className="flex-1 min-w-0">
-             <Badge variant="secondary" className="font-mono text-[10px] font-medium tracking-wider text-muted-foreground bg-muted/50 border-0 mb-2 px-2 py-0.5 rounded-md">
+             <Badge variant="secondary" className="font-mono text-[10px] font-medium tracking-wider text-muted-foreground bg-zinc-900/80 border-0 mb-2 px-2 py-0.5 rounded-md">
                 {product.sku}
              </Badge>
              <h4 className="font-bold text-base leading-tight text-foreground break-words whitespace-normal">{product.name}</h4>
@@ -256,7 +256,7 @@ const CatalogItem = ({
                 <Badge variant="outline" className="text-[10px] font-semibold text-destructive border-destructive/30 bg-destructive/5 rounded-full px-2">Esgotado</Badge>
              )}
              {isExceedingStock && (
-                <Badge className="bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400 border-0 text-[10px] font-bold px-2 py-0.5 flex items-center gap-1">
+                <Badge className="bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-0 text-[10px] font-bold px-2 py-0.5 flex items-center gap-1">
                     <AlertTriangle className="h-3 w-3" /> Excede Estoque
                 </Badge>
              )}
@@ -275,7 +275,7 @@ const CatalogItem = ({
             {quantityInCart > 0 ? (
               <div className={cn(
                   "flex items-center bg-background rounded-2xl shadow-sm border p-1 transition-all",
-                  isExceedingStock ? "border-orange-300 ring-2 ring-orange-500/20" : "border-primary/20 ring-2 ring-primary/5"
+                  isExceedingStock ? "border-red-300 ring-2 ring-red-500/20" : "border-red-500/20 ring-2 ring-red-500/10"
               )}>
                 <m.button
                   whileTap={{ scale: 0.85 }}
@@ -290,7 +290,7 @@ const CatalogItem = ({
                     step={allowDecimal ? "any" : "1"}
                     className={cn(
                         "h-8 w-14 border-0 text-center font-black text-base p-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent shadow-none",
-                        isExceedingStock ? "text-orange-600 dark:text-orange-400" : "text-primary"
+                        isExceedingStock ? "text-red-600 dark:text-red-400" : "text-red-500"
                     )}
                     value={quantityInCart === 0 ? "" : quantityInCart}
                     onChange={handleManualInput}
@@ -300,7 +300,7 @@ const CatalogItem = ({
                 <m.button 
                   whileTap={{ scale: 0.85 }}
                   onClick={onAdd}
-                  className="flex items-center justify-center h-8 w-8 rounded-xl text-primary hover:bg-primary/10"
+                  className="flex items-center justify-center h-8 w-8 rounded-xl text-red-500 hover:bg-red-600/10"
                 >
                   <Plus className="h-4 w-4" />
                 </m.button>
@@ -310,7 +310,7 @@ const CatalogItem = ({
                 whileTap={{ scale: 0.95 }}
                 className={cn(
                     "flex items-center justify-center rounded-2xl font-bold px-6 h-10 transition-all duration-300",
-                    hasStock ? "bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground shadow-none" : "bg-muted text-muted-foreground opacity-50 cursor-not-allowed"
+                    hasStock ? "bg-red-600/10 text-red-500 hover:bg-red-600 hover:text-white shadow-none" : "bg-zinc-900 text-muted-foreground opacity-50 cursor-not-allowed"
                 )}
                 onClick={onAdd}
               >
@@ -372,15 +372,15 @@ const SeparationCard = ({
   const isArchived = sep.status === 'finalizada' || (sep.status === 'entregue' && isExpired);
 
   const statusColors: any = {
-      pendente: "border-orange-500/50 hover:border-orange-500",
-      em_separacao: "border-orange-500/50 hover:border-orange-500", 
+      pendente: "border-red-500/50 hover:border-red-500",
+      em_separacao: "border-red-500/50 hover:border-red-500", 
       entregue: "border-red-500/50 hover:border-red-500",
       finalizado: "border-zinc-500/50 hover:border-zinc-500" 
   };
 
   const bgStatus: any = {
-      pendente: "bg-orange-500",
-      em_separacao: "bg-orange-500",
+      pendente: "bg-red-600",
+      em_separacao: "bg-red-600",
       entregue: "bg-red-500",
       finalizado: "bg-zinc-500"
   };
@@ -420,8 +420,8 @@ const SeparationCard = ({
                 <div className={cn(
                     "mt-2 inline-flex items-center gap-1.5 rounded-md py-1 px-2 text-[11px] font-bold border animate-in fade-in slide-in-from-left-2",
                     deadlineInfo.expired ? "bg-red-500/10 border-red-500/30 text-red-600 dark:text-red-400" :
-                    deadlineInfo.urgent ? "bg-orange-500/10 border-orange-500/30 text-orange-600 dark:text-orange-400" :
-                    "bg-rose-500/10 border-rose-500/30 text-rose-600 dark:text-rose-400"
+                    deadlineInfo.urgent ? "bg-red-600/10 border-red-500/30 text-red-600 dark:text-red-400" :
+                    "bg-red-600/10 border-red-500/30 text-red-600 dark:text-red-400"
                 )}>
                     {deadlineInfo.expired ? <Ban className="h-3 w-3"/> : <Clock className="h-3 w-3"/>}
                     {deadlineInfo.expired ? "Prazo Expirado" : `${deadlineInfo.days} dias p/ devolver`}
@@ -460,9 +460,9 @@ const SeparationCard = ({
                     </span>
                 </div>
             </div>
-            <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
+            <div className="h-2 w-full bg-zinc-800 rounded-full overflow-hidden">
                 <div 
-                    className={cn("h-full transition-all duration-500", bgStatus[statusKey] || "bg-primary")} 
+                    className={cn("h-full transition-all duration-500", bgStatus[statusKey] || "bg-red-600")} 
                     style={{ width: `${progress}%` }} 
                 />
             </div>
@@ -551,12 +551,12 @@ const SeparationItemDetailedRow = ({
       className={cn(
       "relative flex flex-col sm:flex-row gap-5 p-5 rounded-3xl transition-all duration-300",
       isComplete ? "bg-red-50/50 dark:bg-red-950/10 border border-red-100 dark:border-red-900/30" : "bg-card border border-transparent shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] hover:shadow-md",
-      hasChange && "ring-2 ring-primary/30 border-primary/20 bg-primary/[0.02]"
+      hasChange && "ring-2 ring-red-500/30 border-red-500/20 bg-red-600/[0.04]"
     )}>
       
       <div className="flex-1 space-y-3">
         <div className="flex items-center gap-3">
-           <Badge variant="secondary" className="text-[10px] font-mono font-medium px-2 py-0.5 bg-muted/50 border-0">{item.products?.sku}</Badge>
+           <Badge variant="secondary" className="text-[10px] font-mono font-medium px-2 py-0.5 bg-zinc-900/80 border-0">{item.products?.sku}</Badge>
            {isComplete && (
                <span className="text-red-700 dark:text-red-400 text-xs font-bold flex items-center gap-1 bg-red-100 dark:bg-red-900/40 px-2.5 py-0.5 rounded-full animate-in zoom-in">
                    <CheckCircle2 className="h-3.5 w-3.5"/> Completo
@@ -567,7 +567,7 @@ const SeparationItemDetailedRow = ({
         <div>
             <div className="font-bold text-lg leading-snug">{item.products?.name}</div>
             {approvedDeduction > 0 && (
-                <span className="text-[11px] text-orange-600 dark:text-orange-400 font-semibold mt-1.5 flex items-center gap-1.5 bg-orange-50 dark:bg-orange-900/20 inline-flex px-2 py-0.5 rounded-md">
+                <span className="text-[11px] text-red-600 dark:text-red-400 font-semibold mt-1.5 flex items-center gap-1.5 bg-red-50 dark:bg-red-900/20 inline-flex px-2 py-0.5 rounded-md">
                     <RotateCcw className="h-3 w-3" /> {approvedDeduction} un. devolvida(s)
                 </span>
             )}
@@ -578,7 +578,7 @@ const SeparationItemDetailedRow = ({
                 <span>Separado: <span className={cn("font-bold text-foreground", isComplete && "text-red-600 dark:text-red-400")}>{projectedTotal} / {requested}</span></span>
                 <span>{formatCurrency(totalValueSeparated)}</span>
             </div>
-            <CustomProgressBar value={projectedTotal} max={requested} indicatorColor={isComplete ? "bg-red-500" : "bg-primary"} className="h-1.5" />
+            <CustomProgressBar value={projectedTotal} max={requested} indicatorColor={isComplete ? "bg-red-500" : "bg-red-600"} className="h-1.5" />
         </div>
       </div>
 
@@ -591,9 +591,9 @@ const SeparationItemDetailedRow = ({
              </div>
              <div className="flex flex-col text-right">
                  <span className="text-[10px] text-muted-foreground font-semibold uppercase tracking-widest mb-0.5">Reservado</span>
-                 <span className={cn("font-bold text-base", hasChange && "text-primary")}>
+                 <span className={cn("font-bold text-base", hasChange && "text-red-500")}>
                     {dbReservedHere}
-                    {hasChange && <span className="text-xs ml-1 font-black bg-primary/10 px-1.5 py-0.5 rounded-md">({inputValue > 0 ? '+' : ''}{inputValue})</span>}
+                    {hasChange && <span className="text-xs ml-1 font-black bg-red-600/10 px-1.5 py-0.5 rounded-md">({inputValue > 0 ? '+' : ''}{inputValue})</span>}
                  </span>
              </div>
          </div>
@@ -603,7 +603,7 @@ const SeparationItemDetailedRow = ({
                 {!isComplete && maxAddable > 0 && (
                     <m.button 
                         whileTap={{ scale: 0.85 }}
-                        className="flex items-center justify-center h-12 w-12 rounded-2xl bg-muted/30 text-primary hover:bg-primary/10 hover:text-primary transition-colors"
+                        className="flex items-center justify-center h-12 w-12 rounded-2xl bg-zinc-900/70 text-red-500 hover:bg-red-600/10 hover:text-red-500 transition-colors"
                         onClick={quickFill}
                         title="Completar Automaticamente"
                     >
@@ -612,7 +612,7 @@ const SeparationItemDetailedRow = ({
                 )}
                 
                 <div className="relative group flex items-center bg-background border shadow-sm rounded-2xl p-1 h-12">
-                    <span className="absolute -top-3 left-3 bg-background px-1.5 text-[10px] font-bold text-muted-foreground transition-colors group-focus-within:text-primary rounded-full">
+                    <span className="absolute -top-3 left-3 bg-background px-1.5 text-[10px] font-bold text-muted-foreground transition-colors group-focus-within:text-red-500 rounded-full">
                         {inputValue < 0 ? "Estornar" : "Adicionar"}
                     </span>
                     <Input 
@@ -620,7 +620,7 @@ const SeparationItemDetailedRow = ({
                         step={allowDecimal ? "any" : "1"}
                         className={cn(
                             "h-full w-20 border-0 text-center font-black text-xl shadow-none focus-visible:ring-0 rounded-xl bg-transparent",
-                            inputValue < 0 ? "text-orange-500" : inputValue > 0 ? "text-red-500" : "text-foreground"
+                            inputValue < 0 ? "text-red-500" : inputValue > 0 ? "text-red-500" : "text-foreground"
                         )}
                         placeholder="0"
                         value={inputValue === 0 ? "" : inputValue}
@@ -795,16 +795,16 @@ const DetailedView = ({
                       <m.button 
                         whileTap={{ scale: 0.9 }}
                         onClick={onBack} 
-                        className="flex items-center justify-center hover:bg-muted/80 rounded-full h-12 w-12 shrink-0"
+                        className="flex items-center justify-center hover:bg-zinc-800 rounded-full h-12 w-12 shrink-0"
                       >
                           <ArrowLeft className="h-6 w-6" />
                       </m.button>
                       <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
-                              <Badge variant="outline" className="text-[10px] font-mono bg-muted/30 border-0">OP: {sep.production_order}</Badge>
+                              <Badge variant="outline" className="text-[10px] font-mono bg-zinc-900/70 border-0">OP: {sep.production_order}</Badge>
                               <Badge className={cn("text-[10px] border-0 shadow-none text-white", 
                                   isArchived ? "bg-zinc-500 text-white dark:bg-zinc-800 dark:text-zinc-300" : 
-                                  isPending ? "bg-orange-500 text-white" : 
+                                  isPending ? "bg-red-600 text-white" : 
                                   "bg-red-500 text-white"
                               )}>
                                   {isArchived ? "Finalizado" : (sep.status === 'em_separacao' ? 'Em Separação' : sep.status)}
@@ -822,7 +822,7 @@ const DetailedView = ({
 
                       <m.button 
                         whileTap={{ scale: 0.95 }}
-                        className="hidden sm:flex items-center gap-2 px-4 h-10 rounded-xl font-bold bg-muted/50 hover:bg-muted"
+                        className="hidden sm:flex items-center gap-2 px-4 h-10 rounded-xl font-bold bg-zinc-900/80 hover:bg-zinc-800"
                         onClick={generatePDF}
                       >
                           <FileText className="h-4 w-4" />
@@ -831,7 +831,7 @@ const DetailedView = ({
                       
                       <m.button 
                         whileTap={{ scale: 0.9 }}
-                        className="sm:hidden flex items-center justify-center shrink-0 h-10 w-10 rounded-full bg-muted/50" 
+                        className="sm:hidden flex items-center justify-center shrink-0 h-10 w-10 rounded-full bg-zinc-900/80" 
                         onClick={generatePDF}
                       >
                           <Download className="h-5 w-5" />
@@ -840,7 +840,7 @@ const DetailedView = ({
                       {isDelivered && !isArchived && (
                          <div className={cn(
                              "hidden md:flex ml-4 items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold",
-                             returnStatus.expired ? "bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400" : "bg-rose-50 text-rose-600 dark:bg-rose-900/20 dark:text-rose-400"
+                             returnStatus.expired ? "bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400" : "bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400"
                          )}>
                              {returnStatus.expired ? <Ban className="h-4 w-4"/> : <Clock className="h-4 w-4"/>}
                              {returnStatus.label}
@@ -851,7 +851,7 @@ const DetailedView = ({
                           <div className="flex items-center ml-2 border-l border-border/50 pl-2 gap-1">
                             <m.button 
                                 whileTap={{ scale: 0.85 }}
-                                className="flex items-center justify-center rounded-full h-12 w-12 text-muted-foreground hover:bg-primary/10 hover:text-primary shrink-0" 
+                                className="flex items-center justify-center rounded-full h-12 w-12 text-muted-foreground hover:bg-red-600/10 hover:text-red-500 shrink-0" 
                                 onClick={() => onEdit(sep)}
                                 title="Editar Pedido"
                             >
@@ -869,10 +869,10 @@ const DetailedView = ({
                       )}
                   </div>
 
-                  <div className="bg-muted/30 rounded-full p-1 mt-2 flex items-center gap-3">
-                      <div className="flex-1 h-2 bg-secondary/50 rounded-full overflow-hidden ml-2">
+                  <div className="bg-zinc-900/70 rounded-full p-1 mt-2 flex items-center gap-3">
+                      <div className="flex-1 h-2 bg-zinc-800/70 rounded-full overflow-hidden ml-2">
                           <div 
-                              className="h-full bg-primary transition-all duration-700 ease-out rounded-full" 
+                              className="h-full bg-red-600 transition-all duration-700 ease-out rounded-full" 
                               style={{ width: `${progressPercent}%` }} 
                           />
                       </div>
@@ -883,7 +883,7 @@ const DetailedView = ({
 
           <div className="flex-1 w-full px-4 sm:container py-8">
              <Tabs defaultValue="items">
-                <TabsList className="grid w-full grid-cols-2 mb-8 max-w-sm rounded-xl h-12 p-1 bg-muted/50">
+                <TabsList className="grid w-full grid-cols-2 mb-8 max-w-sm rounded-xl h-12 p-1 bg-zinc-900/80">
                    <TabsTrigger value="items" className="rounded-lg font-bold">Itens do Pedido</TabsTrigger>
                    <TabsTrigger value="returns" className="rounded-lg font-bold">Devoluções</TabsTrigger>
                 </TabsList>
@@ -915,7 +915,7 @@ const DetailedView = ({
                           description="Nenhum item deste pedido foi devolvido até o momento."
                           action={
                             (isDelivered || sep.status === 'finalizada') && !returnStatus.expired && !isWarehouseMode ? (
-                                <m.button whileTap={{ scale: 0.95 }} onClick={onOpenReturnModal} className="flex h-12 items-center justify-center bg-primary text-primary-foreground rounded-xl font-bold px-8">Registrar Devolução</m.button>
+                                <m.button whileTap={{ scale: 0.95 }} onClick={onOpenReturnModal} className="flex h-12 items-center justify-center bg-red-600 text-white rounded-xl font-bold px-8">Registrar Devolução</m.button>
                             ) : null
                           }
                       />
@@ -935,7 +935,7 @@ const DetailedView = ({
                                       "border-0 px-2 py-0.5 text-[10px]",
                                       ret.status === 'aprovado' ? "bg-red-100 text-red-700 dark:bg-red-900/30" : 
                                       ret.status === 'rejeitado' ? "bg-zinc-100 text-zinc-700 dark:bg-zinc-800/30" : 
-                                      "bg-orange-100 text-orange-700 dark:bg-orange-900/30"
+                                      "bg-red-100 text-red-700 dark:bg-red-900/30"
                                   )}>
                                       {ret.status.toUpperCase()}
                                   </Badge>
@@ -960,7 +960,7 @@ const DetailedView = ({
                           ))}
                           {(isDelivered || sep.status === 'finalizada') && !returnStatus.expired && !isWarehouseMode && (
                              <div className="pt-4 flex justify-center">
-                                 <m.button whileTap={{ scale: 0.95 }} onClick={onOpenReturnModal} className="flex h-12 items-center justify-center bg-secondary text-secondary-foreground rounded-xl font-bold px-8">
+                                 <m.button whileTap={{ scale: 0.95 }} onClick={onOpenReturnModal} className="flex h-12 items-center justify-center bg-zinc-800 text-zinc-100 rounded-xl font-bold px-8">
                                     <Plus className="mr-2 h-5 w-5" /> Nova Devolução
                                  </m.button>
                              </div>
@@ -989,7 +989,7 @@ const DetailedView = ({
                     <div className="flex gap-2 w-full sm:w-auto">
                         <m.button 
                             whileTap={{ scale: 0.95 }}
-                            className="flex items-center justify-center flex-1 sm:flex-none h-14 px-6 rounded-2xl font-bold bg-muted hover:bg-muted/80 text-foreground transition-all"
+                            className="flex items-center justify-center flex-1 sm:flex-none h-14 px-6 rounded-2xl font-bold bg-zinc-900 hover:bg-zinc-800 text-foreground transition-all"
                             disabled={!hasEdits || authorizeMutation.isPending}
                             onClick={onSave}
                         >
@@ -998,7 +998,7 @@ const DetailedView = ({
                         </m.button>
                         <m.button 
                             whileTap={{ scale: 0.95 }}
-                            className="flex items-center justify-center flex-1 sm:flex-none h-14 px-8 rounded-2xl bg-primary hover:bg-primary/90 text-primary-foreground font-bold shadow-lg shadow-primary/25 transition-all disabled:opacity-50"
+                            className="flex items-center justify-center flex-1 sm:flex-none h-14 px-8 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-bold shadow-lg shadow-red-900/30 transition-all disabled:opacity-50"
                             onClick={onDeliver}
                             disabled={authorizeMutation.isPending}
                         >
@@ -1328,22 +1328,22 @@ export default function Separations() {
 
   const hasEdits = Object.values(inputIncrements).some(v => v !== 0);
 
-  if (isLoading) return <div className="flex h-screen items-center justify-center"><Loader2 className="h-10 w-10 animate-spin text-primary" /></div>;
+  if (isLoading) return <div className="flex h-screen items-center justify-center"><Loader2 className="h-10 w-10 animate-spin text-red-500" /></div>;
 
   return (
     <LazyMotion features={domAnimation}>
-      <div className="min-h-screen bg-background text-foreground font-sans overflow-x-hidden">
+      <div className="min-h-screen bg-zinc-950 text-zinc-100 font-sans overflow-x-hidden">
         
         {!selectedSeparation && (
             <m.header 
               initial={{ y: -50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5, ease: smoothCurve }}
-              className="sticky top-0 z-40 bg-background/80 backdrop-blur-xl border-b border-border/50"
+              className="sticky top-0 z-40 bg-zinc-950/90 backdrop-blur-xl border-b border-red-900/30"
             >
                 <div className="container px-4 py-5 flex items-center justify-between gap-4">
                     <div className="flex items-center gap-3">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-lg shadow-primary/20">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-600 text-white shadow-lg shadow-red-900/30">
                             <Box className="h-6 w-6" />
                         </div>
                         <div>
@@ -1357,7 +1357,7 @@ export default function Separations() {
                             <m.button 
                                 whileTap={{ scale: 0.9 }}
                                 onClick={() => { resetForm(); setIsNewSheetOpen(true); }} 
-                                className="flex items-center justify-center bg-primary text-primary-foreground rounded-2xl font-bold shadow-lg shadow-primary/20 h-12 px-6"
+                                className="flex items-center justify-center bg-red-600 text-white rounded-2xl font-bold shadow-lg shadow-red-900/30 h-12 px-6"
                             >
                                 <Plus className="mr-2 h-5 w-5" /> Nova Separação
                             </m.button>
@@ -1367,7 +1367,7 @@ export default function Separations() {
             </m.header>
         )}
 
-        <main className="container px-4 py-8">
+        <main className="container px-4 py-8 bg-zinc-950">
            <AnimatePresence mode="wait">
               {selectedSeparation ? (
                   <DetailedView 
@@ -1402,20 +1402,20 @@ export default function Separations() {
                         transition={{ duration: 0.5, ease: smoothCurve, delay: 0.1 }}
                         className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center"
                       >
-                         <div className="relative w-full md:max-w-md group bg-background rounded-2xl shadow-sm border border-border focus-within:border-primary/50 focus-within:ring-4 ring-primary/10 transition-all">
-                            <Search className="absolute left-4 top-3.5 h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                         <div className="relative w-full md:max-w-md group bg-red-950/20 rounded-2xl shadow-sm border border-red-900/40 focus-within:border-red-500/70 focus-within:ring-4 ring-red-500/20 transition-all">
+                            <Search className="absolute left-4 top-3.5 h-5 w-5 text-muted-foreground group-focus-within:text-red-500 transition-colors" />
                             <Input 
                                 placeholder="Buscar cliente ou OP..." 
-                                className="pl-12 h-12 border-0 bg-transparent shadow-none text-base focus-visible:ring-0"
+                                className="pl-12 h-12 border-0 bg-transparent shadow-none text-base text-zinc-100 placeholder:text-zinc-500 focus-visible:ring-0"
                                 value={searchTerm}
                                 onChange={e => setSearchTerm(e.target.value)}
                             />
                          </div>
-                         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)} className="w-full md:w-auto bg-muted/40 p-1 rounded-2xl">
+                         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)} className="w-full md:w-auto bg-zinc-900/90 border border-red-900/30 p-1 rounded-2xl">
                              <TabsList className="bg-transparent border-0 h-10 w-full md:w-auto grid grid-cols-3 gap-1">
-                                 <TabsTrigger value="pendente" className="rounded-xl font-bold data-[state=active]:shadow-sm">Ativos</TabsTrigger>
-                                 <TabsTrigger value="entregue" className="rounded-xl font-bold data-[state=active]:shadow-sm">Entregues</TabsTrigger>
-                                 <TabsTrigger value="arquivadas" className="rounded-xl font-bold data-[state=active]:shadow-sm">Arquivados</TabsTrigger>
+                                 <TabsTrigger value="pendente" className="rounded-xl font-bold text-zinc-400 data-[state=active]:bg-red-600 data-[state=active]:text-white data-[state=active]:shadow-sm">Ativos</TabsTrigger>
+                                 <TabsTrigger value="entregue" className="rounded-xl font-bold text-zinc-400 data-[state=active]:bg-red-600 data-[state=active]:text-white data-[state=active]:shadow-sm">Entregues</TabsTrigger>
+                                 <TabsTrigger value="arquivadas" className="rounded-xl font-bold text-zinc-400 data-[state=active]:bg-red-600 data-[state=active]:text-white data-[state=active]:shadow-sm">Arquivados</TabsTrigger>
                              </TabsList>
                          </Tabs>
                       </m.div>
@@ -1445,8 +1445,8 @@ export default function Separations() {
                 
                 <div className="px-5 py-4 border-b border-border/50 bg-background/80 backdrop-blur-xl z-30 flex justify-between items-center">
                     <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                            {editingSeparationId ? <Pencil className="h-5 w-5 text-primary" /> : <ShoppingCart className="h-5 w-5 text-primary" />}
+                        <div className="h-10 w-10 rounded-xl bg-red-600/10 flex items-center justify-center">
+                            {editingSeparationId ? <Pencil className="h-5 w-5 text-red-500" /> : <ShoppingCart className="h-5 w-5 text-red-500" />}
                         </div>
                         <div>
                             <h2 className="text-xl font-black leading-none">{editingSeparationId ? "Editar Pedido" : "Novo Pedido"}</h2>
@@ -1455,12 +1455,12 @@ export default function Separations() {
                             </p>
                         </div>
                     </div>
-                    <m.button whileTap={{ scale: 0.85 }} className="flex items-center justify-center h-10 w-10 rounded-full bg-muted/50 hover:bg-muted" onClick={resetForm}>
+                    <m.button whileTap={{ scale: 0.85 }} className="flex items-center justify-center h-10 w-10 rounded-full bg-zinc-900/80 hover:bg-zinc-800" onClick={resetForm}>
                         <X className="h-5 w-5" />
                     </m.button>
                 </div>
 
-                <div className="flex-1 flex overflow-hidden relative bg-muted/5">
+                <div className="flex-1 flex overflow-hidden relative bg-zinc-950/40">
                     
                     <div className={cn(
                         "flex-1 overflow-y-auto px-4 sm:px-8 py-8 space-y-10 lg:border-r border-border/50 bg-background/50 scroll-smooth",
@@ -1475,7 +1475,7 @@ export default function Separations() {
                                         value={productionOrder} 
                                         onChange={e => setProductionOrder(e.target.value)} 
                                         placeholder="Ex: 12345" 
-                                        className="h-14 rounded-2xl bg-muted/30 border-transparent focus:border-primary focus:ring-4 ring-primary/10 transition-all text-lg font-medium px-5"
+                                        className="h-14 rounded-2xl bg-zinc-900/70 border-transparent focus:border-red-500 focus:ring-4 ring-red-500/20 transition-all text-lg font-medium px-5"
                                     />
                                 </div>
                                 <div className="space-y-2 group">
@@ -1484,7 +1484,7 @@ export default function Separations() {
                                         value={clientName} 
                                         onChange={e => setClientName(e.target.value)} 
                                         placeholder="Ex: Cliente Alpha" 
-                                        className="h-14 rounded-2xl bg-muted/30 border-transparent focus:border-primary focus:ring-4 ring-primary/10 transition-all text-lg font-medium px-5"
+                                        className="h-14 rounded-2xl bg-zinc-900/70 border-transparent focus:border-red-500 focus:ring-4 ring-red-500/20 transition-all text-lg font-medium px-5"
                                     />
                                 </div>
                             </div>
@@ -1502,7 +1502,7 @@ export default function Separations() {
                                         placeholder="Buscar no catálogo..." 
                                         value={productSearchTerm}
                                         onChange={e => setProductSearchTerm(e.target.value)}
-                                        className="pl-12 h-14 rounded-2xl bg-card border-border shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] focus:border-primary focus:ring-4 ring-primary/10 text-base font-medium"
+                                        className="pl-12 h-14 rounded-2xl bg-card border-border shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] focus:border-red-500 focus:ring-4 ring-red-500/20 text-base font-medium"
                                     />
                                 </div>
                                 <div className="flex items-center gap-3 bg-card border border-border rounded-2xl px-5 h-14 shadow-sm shrink-0">
@@ -1514,7 +1514,7 @@ export default function Separations() {
                             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                                 {filteredCatalogProducts.length === 0 ? (
                                     <div className="col-span-full py-20 text-center">
-                                        <div className="h-20 w-20 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <div className="h-20 w-20 bg-zinc-900 rounded-full flex items-center justify-center mx-auto mb-4">
                                             <Search className="h-10 w-10 text-muted-foreground/50" />
                                         </div>
                                         <h3 className="text-xl font-bold">Nenhum produto encontrado</h3>
@@ -1546,7 +1546,7 @@ export default function Separations() {
                         >
                             <m.button 
                                 whileTap={{ scale: 0.95 }}
-                                className="flex items-center justify-center bg-primary text-primary-foreground w-full h-14 rounded-2xl font-black text-lg shadow-[0_10px_30px_-10px_rgba(var(--primary),0.5)]"
+                                className="flex items-center justify-center bg-red-600 text-white w-full h-14 rounded-2xl font-black text-lg shadow-[0_10px_30px_-10px_rgba(220,38,38,0.5)]"
                                 onClick={() => setIsMobileCartOpen(true)}
                             >
                                 <ShoppingCart className="mr-3 h-6 w-6" />
@@ -1561,7 +1561,7 @@ export default function Separations() {
                     )}>
                         <div className="p-4 sm:p-6 border-b border-border/50 bg-background/90 backdrop-blur sticky top-0 flex justify-between items-center z-10">
                             <div className="flex items-center gap-3">
-                                <m.button whileTap={{ scale: 0.85 }} className="flex items-center justify-center lg:hidden h-10 w-10 rounded-full bg-muted/50 -ml-1" onClick={() => setIsMobileCartOpen(false)}>
+                                <m.button whileTap={{ scale: 0.85 }} className="flex items-center justify-center lg:hidden h-10 w-10 rounded-full bg-zinc-900/80 -ml-1" onClick={() => setIsMobileCartOpen(false)}>
                                     <ArrowLeft className="h-5 w-5" />
                                 </m.button>
                                 <div>
@@ -1602,19 +1602,19 @@ export default function Separations() {
                                             key={pid} 
                                             className={cn(
                                                 "flex flex-col p-4 rounded-3xl bg-background border transition-all",
-                                                isExceeding ? "border-orange-500/30 shadow-[0_4px_15px_-4px_rgba(249,115,22,0.1)]" : "border-border/50 shadow-sm"
+                                                isExceeding ? "border-red-500/30 shadow-[0_4px_15px_-4px_rgba(220,38,38,0.12)]" : "border-border/50 shadow-sm"
                                             )}
                                         >
                                             <div className="flex justify-between items-start mb-3">
                                                 <div className="flex-1 min-w-0 pr-3">
                                                     <p className="text-base font-bold truncate leading-tight text-foreground">{prod.name}</p>
-                                                    <span className="text-[11px] font-mono font-medium text-muted-foreground bg-muted/50 px-2 py-0.5 rounded-md mt-1 inline-block">{prod.sku}</span>
+                                                    <span className="text-[11px] font-mono font-medium text-muted-foreground bg-zinc-900/80 px-2 py-0.5 rounded-md mt-1 inline-block">{prod.sku}</span>
                                                 </div>
                                             </div>
                                             
                                             <div className="flex items-center justify-between mt-1">
                                                 {isExceeding ? (
-                                                    <span className="text-[11px] font-bold text-orange-600 dark:text-orange-500 flex items-center bg-orange-500/10 px-2 py-1 rounded-lg">
+                                                    <span className="text-[11px] font-bold text-red-600 dark:text-red-500 flex items-center bg-red-600/10 px-2 py-1 rounded-lg">
                                                         <AlertTriangle className="h-3.5 w-3.5 mr-1.5" /> Faltam {Number((qty - stockAvailable).toFixed(2))} un.
                                                     </span>
                                                 ) : (
@@ -1622,8 +1622,8 @@ export default function Separations() {
                                                 )}
 
                                                 <div className={cn(
-                                                    "flex items-center bg-muted/30 border rounded-2xl shadow-sm h-10 p-1",
-                                                    isExceeding ? "border-orange-300 ring-2 ring-orange-500/10" : "border-border"
+                                                    "flex items-center bg-zinc-900/70 border rounded-2xl shadow-sm h-10 p-1",
+                                                    isExceeding ? "border-red-300 ring-2 ring-red-500/10" : "border-border"
                                                 )}>
                                                     <m.button whileTap={{ scale: 0.8 }} className="flex items-center justify-center h-full w-8 rounded-xl hover:bg-background text-muted-foreground" onClick={() => removeItemFromCart(pid)}>
                                                         <Minus className="h-4 w-4" />
@@ -1639,7 +1639,7 @@ export default function Separations() {
                                                         }}
                                                         className={cn(
                                                             "h-full w-14 sm:w-16 border-0 p-0 text-center text-sm font-black shadow-none focus-visible:ring-0 rounded-none bg-transparent",
-                                                            isExceeding ? "text-orange-600 dark:text-orange-500" : "text-foreground"
+                                                            isExceeding ? "text-red-600 dark:text-red-500" : "text-foreground"
                                                         )}
                                                     />
                                                     <m.button whileTap={{ scale: 0.8 }} className="flex items-center justify-center h-full w-8 rounded-xl hover:bg-background text-foreground" onClick={() => addItemToCart(pid)}>
@@ -1659,7 +1659,7 @@ export default function Separations() {
                                     <m.div 
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
-                                        className="flex items-start gap-3 bg-orange-500/10 text-orange-700 dark:text-orange-400 p-3 sm:p-4 rounded-2xl"
+                                        className="flex items-start gap-3 bg-red-600/10 text-red-700 dark:text-red-400 p-3 sm:p-4 rounded-2xl"
                                     >
                                         <AlertTriangle className="h-5 w-5 shrink-0 mt-0.5" />
                                         <p className="text-[11px] sm:text-xs font-bold leading-snug">
@@ -1675,7 +1675,7 @@ export default function Separations() {
                                 
                                 <m.button 
                                     whileTap={{ scale: 0.95 }}
-                                    className="flex items-center justify-center w-full h-14 sm:h-16 bg-primary text-primary-foreground rounded-2xl font-black text-base sm:text-lg shadow-[0_10px_30px_-10px_rgba(var(--primary),0.5)] disabled:opacity-50"
+                                    className="flex items-center justify-center w-full h-14 sm:h-16 bg-red-600 text-white rounded-2xl font-black text-base sm:text-lg shadow-[0_10px_30px_-10px_rgba(220,38,38,0.5)] disabled:opacity-50"
                                     disabled={
                                         createSeparationMutation.isPending || 
                                         editSeparationMutation.isPending || 
@@ -1745,7 +1745,7 @@ export default function Separations() {
         <AlertDialog open={isPartialDeliveryModalOpen} onOpenChange={setIsPartialDeliveryModalOpen}>
            <AlertDialogContent className="rounded-[2rem]">
                <AlertDialogHeader>
-                   <AlertDialogTitle className="flex items-center gap-2 text-orange-600 text-xl font-black">
+                   <AlertDialogTitle className="flex items-center gap-2 text-red-600 text-xl font-black">
                        <AlertTriangle className="h-6 w-6" />
                        Entrega Parcial
                    </AlertDialogTitle>
@@ -1759,7 +1759,7 @@ export default function Separations() {
                    <AlertDialogCancel className="rounded-xl h-12 font-bold flex-1">Revisar</AlertDialogCancel>
                    <AlertDialogAction 
                        onClick={executeDelivery}
-                       className="bg-orange-500 hover:bg-orange-600 text-white rounded-xl h-12 font-bold flex-1"
+                       className="bg-red-600 hover:bg-red-700 text-white rounded-xl h-12 font-bold flex-1"
                    >
                        Confirmar Parcial
                    </AlertDialogAction>
@@ -1780,7 +1780,7 @@ export default function Separations() {
                          const allowDecimal = isDecimalUnit(item.products?.unit);
                          
                          return (
-                             <div key={item.id} className="flex justify-between items-center bg-muted/30 p-3 rounded-2xl">
+                             <div key={item.id} className="flex justify-between items-center bg-zinc-900/70 p-3 rounded-2xl">
                                  <div className="min-w-0 pr-3">
                                      <div className="font-bold text-sm truncate">{item.products?.name}</div>
                                      <div className="text-[11px] font-semibold text-muted-foreground uppercase tracking-widest mt-1">Separado: {available}</div>
@@ -1788,7 +1788,7 @@ export default function Separations() {
                                  <Input 
                                      type="number" 
                                      step={allowDecimal ? "any" : "1"}
-                                     className="w-24 h-12 rounded-xl text-center font-black text-lg focus-visible:ring-primary/20 bg-background" 
+                                     className="w-24 h-12 rounded-xl text-center font-black text-lg focus-visible:ring-red-500/20 bg-background" 
                                      placeholder="0" 
                                      max={available}
                                      value={returnPayload[item.product_id] === 0 ? "" : (returnPayload[item.product_id] || "")}
@@ -1804,7 +1804,7 @@ export default function Separations() {
                      })}
                 </div>
                 <DialogFooter className="mt-6">
-                    <m.button whileTap={{ scale: 0.95 }} onClick={handleReturnSubmit} disabled={createReturnMutation.isPending} className="flex items-center justify-center w-full rounded-xl h-14 font-black text-base bg-primary text-primary-foreground disabled:opacity-50">
+                    <m.button whileTap={{ scale: 0.95 }} onClick={handleReturnSubmit} disabled={createReturnMutation.isPending} className="flex items-center justify-center w-full rounded-xl h-14 font-black text-base bg-red-600 text-white disabled:opacity-50">
                         Confirmar Devolução
                     </m.button>
                 </DialogFooter>
