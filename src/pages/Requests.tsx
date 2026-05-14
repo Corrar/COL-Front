@@ -48,7 +48,7 @@ const statusStyles: Record<string, StatusConfig> = {
   },
   entregue: { 
     label: "Concluído", 
-    color: "text-emerald-400 bg-emerald-950/30 border-emerald-900/50",
+    color: "text-red-400 bg-red-950/30 border-red-900/50",
     icon: CheckCircle2,
   },
 };
@@ -481,7 +481,7 @@ export default function Requests() {
           {selectedRequest && (
             <div className={cn(
               "px-5 sm:px-10 py-6 sm:py-8 border-b border-zinc-800 flex flex-col shrink-0 relative overflow-hidden",
-              selectedRequest.status === 'entregue' ? "bg-emerald-950/30 text-emerald-400" :
+              selectedRequest.status === 'entregue' ? "bg-red-950/30 text-red-400" :
               selectedRequest.status === 'rejeitado' ? "bg-zinc-900/50 text-zinc-400" :
               selectedRequest.status === 'aprovado' ? "bg-red-950/30 text-red-400" : "bg-zinc-900 text-zinc-100"
             )}>
@@ -575,7 +575,7 @@ export default function Requests() {
               </>
             ) : canManage && selectedRequest?.status === 'aprovado' ? (
               <Button 
-                  className="w-full rounded-xl sm:rounded-2xl h-12 sm:h-14 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-sm sm:text-[15px] tracking-tight shadow-[0_4px_20px_rgba(16,185,129,0.3)] border-none" 
+                  className="w-full rounded-xl sm:rounded-2xl h-12 sm:h-14 bg-red-600 hover:bg-red-700 text-white font-black text-sm sm:text-[15px] tracking-tight shadow-[0_4px_20px_rgba(220,38,38,0.3)] border-none" 
                   onClick={() => handleDeliver(selectedRequest.id)}
                 >
                   <Truck className="mr-2 h-4 w-4 sm:h-5 sm:w-5" /> Confirmar Entrega
