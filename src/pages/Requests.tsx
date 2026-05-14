@@ -48,7 +48,7 @@ const statusStyles: Record<string, StatusConfig> = {
   },
   entregue: { 
     label: "Concluído", 
-    color: "text-red-400 bg-red-950/30 border-red-900/50",
+    color: "text-red-300 bg-red-950/20 border-red-900/40",
     icon: CheckCircle2,
   },
 };
@@ -359,7 +359,7 @@ export default function Requests() {
             <Search className="absolute left-4 top-3.5 h-5 w-5 text-zinc-500 group-focus-within:text-red-500 transition-colors" strokeWidth={2.5} />
             <Input 
                 placeholder="Procurar por setor, solicitante ou item..." 
-                className="pl-11 h-12 bg-zinc-900 border border-zinc-800 rounded-full text-zinc-100 placeholder:text-zinc-500 focus:bg-zinc-900 focus:ring-2 focus:ring-red-500/30 transition-all font-medium text-[14px] w-full shadow-inner"
+                className="pl-11 h-12 bg-red-950/20 border border-red-900/50 rounded-full text-zinc-100 placeholder:text-zinc-500 focus:bg-red-950/30 focus:border-red-500 focus:ring-2 focus:ring-red-500/40 transition-all font-medium text-[14px] w-full shadow-inner shadow-red-950/20"
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
             />
@@ -367,7 +367,7 @@ export default function Requests() {
          
          {/* Segmented Control de Status */}
          <div className="w-full overflow-x-auto custom-scrollbar pb-1 sm:pb-0 snap-x scroll-smooth">
-            <div className="flex bg-zinc-900 p-1.5 rounded-full w-max min-w-full xl:min-w-fit gap-1 shadow-inner border border-zinc-800">
+            <div className="flex bg-red-950/15 p-1.5 rounded-full w-max min-w-full xl:min-w-fit gap-1 shadow-inner border border-red-900/40">
                 {['all', 'aberto', 'aprovado', 'entregue', 'rejeitado'].map((status) => {
                     const isActive = statusFilter === status;
                     const config = statusStyles[status] || { label: "Todas" };
@@ -481,7 +481,7 @@ export default function Requests() {
           {selectedRequest && (
             <div className={cn(
               "px-5 sm:px-10 py-6 sm:py-8 border-b border-zinc-800 flex flex-col shrink-0 relative overflow-hidden",
-              selectedRequest.status === 'entregue' ? "bg-red-950/30 text-red-400" :
+              selectedRequest.status === 'entregue' ? "bg-red-950/20 text-red-300" :
               selectedRequest.status === 'rejeitado' ? "bg-zinc-900/50 text-zinc-400" :
               selectedRequest.status === 'aprovado' ? "bg-red-950/30 text-red-400" : "bg-zinc-900 text-zinc-100"
             )}>
