@@ -117,20 +117,20 @@ export function RemindersBoard({ stats }: RemindersBoardProps) {
 
     if (stats.openRequests > 0) {
       alerts.push(
-        <div key="alert-req" className="p-3 mb-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-900 rounded-lg shadow-sm animate-in slide-in-from-left-2">
+        <div key="alert-req" className="p-3 mb-3 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/60 rounded-lg shadow-sm animate-in slide-in-from-left-2">
           <div className="flex justify-between items-start">
             <div className="flex gap-2">
-              <ShoppingCart className="h-5 w-5 text-amber-600 dark:text-amber-400 mt-0.5" />
+              <ShoppingCart className="h-5 w-5 text-red-600 dark:text-red-400 mt-0.5" />
               <div>
-                <h4 className="font-bold text-amber-700 dark:text-amber-300 text-sm">Novas Solicitações</h4>
-                <p className="text-xs text-amber-600/80 dark:text-amber-300/70 mt-1">
+                <h4 className="font-bold text-red-700 dark:text-red-300 text-sm">Novas Solicitações</h4>
+                <p className="text-xs text-red-600/80 dark:text-red-300/70 mt-1">
                   {stats.openRequests} pedidos aguardando aprovação.
                 </p>
               </div>
             </div>
-            <Badge variant="outline" className="text-[10px] border-amber-300 text-amber-700">Sistema</Badge>
+            <Badge variant="outline" className="text-[10px] border-red-300 text-red-700 dark:border-red-800 dark:text-red-300">Sistema</Badge>
           </div>
-          <Button size="sm" variant="outline" className="w-full mt-2 h-7 text-xs border-amber-200 hover:bg-amber-100 dark:hover:bg-amber-900/40 text-amber-700" onClick={() => window.location.href='/requests'}>
+          <Button size="sm" variant="outline" className="w-full mt-2 h-7 text-xs border-red-200 hover:bg-red-100 dark:border-red-900/60 dark:hover:bg-red-900/40 text-red-700 dark:text-red-300" onClick={() => window.location.href='/requests'}>
             Ver Pedidos
           </Button>
         </div>
@@ -140,7 +140,7 @@ export function RemindersBoard({ stats }: RemindersBoardProps) {
     if (alerts.length === 0) {
         return (
             <div className="flex flex-col items-center justify-center h-32 text-muted-foreground bg-muted/20 rounded-lg border border-dashed">
-                <CheckCircle2 className="h-8 w-8 mb-2 text-green-500 opacity-50" />
+                <CheckCircle2 className="h-8 w-8 mb-2 text-red-500 opacity-50" />
                 <p className="text-sm">Tudo em ordem!</p>
             </div>
         )
@@ -153,16 +153,16 @@ export function RemindersBoard({ stats }: RemindersBoardProps) {
     const colTasks = tasks.filter(t => t.column === column);
     
     if (colTasks.length === 0) {
-        return <div className="h-24 flex items-center justify-center text-xs text-muted-foreground italic border border-dashed rounded-lg">Vazio</div>
+        return <div className="h-24 flex items-center justify-center text-xs text-muted-foreground italic border border-dashed border-red-900/30 rounded-lg bg-red-950/[0.02] dark:bg-red-950/10">Vazio</div>
     }
 
     return colTasks.map(task => (
-      <div key={task.id} className="group p-3 mb-3 bg-card border border-border rounded-lg shadow-sm hover:shadow-md transition-all">
+      <div key={task.id} className="group p-3 mb-3 bg-card border border-red-900/20 rounded-lg shadow-sm hover:shadow-md hover:border-red-700/40 transition-all">
         <div className="flex justify-between items-start mb-2">
           <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
             task.priority === 'high' 
               ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' 
-              : 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
+              : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
           }`}>
             {task.priority === 'high' ? 'Urgente' : 'Normal'}
           </span>
@@ -181,17 +181,17 @@ export function RemindersBoard({ stats }: RemindersBoardProps) {
         
         <div className="flex justify-end gap-1 mt-2 pt-2 border-t border-border/50">
           {column !== 'todo' && (
-            <Button variant="ghost" size="sm" className="h-6 text-[10px]" onClick={() => moveTask(task.id, 'todo')}>
+            <Button variant="ghost" size="sm" className="h-6 text-[10px] hover:bg-red-950/15 hover:text-red-500" onClick={() => moveTask(task.id, 'todo')}>
               A Fazer
             </Button>
           )}
           {column !== 'doing' && (
-            <Button variant="ghost" size="sm" className="h-6 text-[10px]" onClick={() => moveTask(task.id, 'doing')}>
+            <Button variant="ghost" size="sm" className="h-6 text-[10px] hover:bg-red-950/15 hover:text-red-500" onClick={() => moveTask(task.id, 'doing')}>
               Fazendo
             </Button>
           )}
           {column !== 'done' && (
-            <Button variant="ghost" size="sm" className="h-6 text-[10px]" onClick={() => moveTask(task.id, 'done')}>
+            <Button variant="ghost" size="sm" className="h-6 text-[10px] hover:bg-red-950/15 hover:text-red-500" onClick={() => moveTask(task.id, 'done')}>
               Concluir
             </Button>
           )}
@@ -211,9 +211,9 @@ export function RemindersBoard({ stats }: RemindersBoardProps) {
               <Siren className="h-4 w-4 text-red-500" />
               Alertas do Sistema
             </h3>
-            <Badge variant="secondary">{stats.lowStock + stats.openRequests}</Badge>
+            <Badge className="bg-red-950/20 text-red-700 border border-red-900/30 dark:text-red-300">{stats.lowStock + stats.openRequests}</Badge>
           </div>
-          <div className="flex-1 bg-muted/30 rounded-xl p-3 border border-border overflow-y-auto">
+          <div className="flex-1 bg-red-950/[0.03] dark:bg-red-950/10 rounded-xl p-3 border border-red-900/25 overflow-y-auto">
             {renderSystemAlerts()}
           </div>
         </div>
@@ -222,14 +222,14 @@ export function RemindersBoard({ stats }: RemindersBoardProps) {
         <div className="flex-1 min-w-[280px] flex flex-col h-full">
           <div className="flex items-center justify-between mb-3 px-1">
             <h3 className="font-bold flex items-center gap-2 text-foreground">
-              <Package className="h-4 w-4 text-slate-500" />
+              <Package className="h-4 w-4 text-red-500" />
               A Fazer
             </h3>
             <div className="flex gap-2">
-                <Badge variant="secondary">{tasks.filter(t => t.column === 'todo').length}</Badge>
+                <Badge className="bg-red-950/20 text-red-700 border border-red-900/30 dark:text-red-300">{tasks.filter(t => t.column === 'todo').length}</Badge>
                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                     <DialogTrigger asChild>
-                        <Button size="icon" variant="ghost" className="h-6 w-6"><Plus className="h-4 w-4" /></Button>
+                        <Button size="icon" variant="ghost" className="h-6 w-6 text-red-500 hover:text-red-400 hover:bg-red-950/20"><Plus className="h-4 w-4" /></Button>
                     </DialogTrigger>
                     <DialogContent>
                         <DialogHeader>
@@ -238,11 +238,11 @@ export function RemindersBoard({ stats }: RemindersBoardProps) {
                         <div className="space-y-4 py-2">
                             <div className="space-y-1">
                                 <label className="text-sm font-medium">Título</label>
-                                <Input placeholder="Ex: Ligar para fornecedor..." value={newTaskTitle} onChange={(e) => setNewTaskTitle(e.target.value)} />
+                                <Input placeholder="Ex: Ligar para fornecedor..." value={newTaskTitle} onChange={(e) => setNewTaskTitle(e.target.value)} className="border-red-900/30 focus-visible:ring-red-700/40" />
                             </div>
                             <div className="space-y-1">
                                 <label className="text-sm font-medium">Detalhes</label>
-                                <Textarea placeholder="Detalhes adicionais..." value={newTaskDesc} onChange={(e) => setNewTaskDesc(e.target.value)} />
+                                <Textarea placeholder="Detalhes adicionais..." value={newTaskDesc} onChange={(e) => setNewTaskDesc(e.target.value)} className="border-red-900/30 focus-visible:ring-red-700/40" />
                             </div>
                             <div className="space-y-1">
                                 <label className="text-sm font-medium">Prioridade</label>
@@ -250,7 +250,7 @@ export function RemindersBoard({ stats }: RemindersBoardProps) {
                                     <Button 
                                         variant={newTaskPriority === 'normal' ? 'default' : 'outline'} 
                                         size="sm" onClick={() => setNewTaskPriority('normal')}
-                                        className="flex-1"
+                                        className={newTaskPriority === 'normal' ? "flex-1 bg-red-700 hover:bg-red-800 text-white" : "flex-1 border-red-900/30 hover:bg-red-950/10"}
                                     >Normal</Button>
                                     <Button 
                                         variant={newTaskPriority === 'high' ? 'destructive' : 'outline'} 
@@ -261,13 +261,13 @@ export function RemindersBoard({ stats }: RemindersBoardProps) {
                             </div>
                         </div>
                         <DialogFooter>
-                            <Button onClick={handleAddTask}>Criar Tarefa</Button>
+                            <Button onClick={handleAddTask} className="bg-red-700 hover:bg-red-800 text-white">Criar Tarefa</Button>
                         </DialogFooter>
                     </DialogContent>
                 </Dialog>
             </div>
           </div>
-          <div className="flex-1 bg-muted/30 rounded-xl p-3 border border-border overflow-y-auto">
+          <div className="flex-1 bg-red-950/[0.03] dark:bg-red-950/10 rounded-xl p-3 border border-red-900/25 overflow-y-auto">
             {renderManualTasks('todo')}
           </div>
         </div>
@@ -276,12 +276,12 @@ export function RemindersBoard({ stats }: RemindersBoardProps) {
         <div className="flex-1 min-w-[280px] flex flex-col h-full">
           <div className="flex items-center justify-between mb-3 px-1">
             <h3 className="font-bold flex items-center gap-2 text-foreground">
-              <Clock className="h-4 w-4 text-blue-500" />
+              <Clock className="h-4 w-4 text-red-500" />
               Em Andamento
             </h3>
-            <Badge variant="secondary">{tasks.filter(t => t.column === 'doing').length}</Badge>
+            <Badge className="bg-red-950/20 text-red-700 border border-red-900/30 dark:text-red-300">{tasks.filter(t => t.column === 'doing').length}</Badge>
           </div>
-          <div className="flex-1 bg-muted/30 rounded-xl p-3 border border-border overflow-y-auto">
+          <div className="flex-1 bg-red-950/[0.03] dark:bg-red-950/10 rounded-xl p-3 border border-red-900/25 overflow-y-auto">
             {renderManualTasks('doing')}
           </div>
         </div>
@@ -290,15 +290,15 @@ export function RemindersBoard({ stats }: RemindersBoardProps) {
         <div className="flex-1 min-w-[280px] flex flex-col h-full">
           <div className="flex items-center justify-between mb-3 px-1">
             <h3 className="font-bold flex items-center gap-2 text-foreground">
-              <CheckCircle2 className="h-4 w-4 text-green-500" />
+              <CheckCircle2 className="h-4 w-4 text-red-500" />
               Concluído
             </h3>
-            <Badge variant="secondary">{tasks.filter(t => t.column === 'done').length}</Badge>
+            <Badge className="bg-red-950/20 text-red-700 border border-red-900/30 dark:text-red-300">{tasks.filter(t => t.column === 'done').length}</Badge>
           </div>
-          <div className="flex-1 bg-muted/30 rounded-xl p-3 border border-border overflow-y-auto">
+          <div className="flex-1 bg-red-950/[0.03] dark:bg-red-950/10 rounded-xl p-3 border border-red-900/25 overflow-y-auto">
             {renderManualTasks('done')}
             {tasks.filter(t => t.column === 'done').length > 0 && (
-                <Button variant="ghost" className="w-full mt-4 text-xs text-muted-foreground" onClick={() => setTasks(tasks.filter(t => t.column !== 'done'))}>
+                <Button variant="ghost" className="w-full mt-4 text-xs text-muted-foreground hover:bg-red-950/15 hover:text-red-500" onClick={() => setTasks(tasks.filter(t => t.column !== 'done'))}>
                     Limpar Concluídos
                 </Button>
             )}
