@@ -35,9 +35,9 @@ export function TransactionPanel({
 }: TransactionPanelProps) {
   
   const isEntry = viewMode === "entry";
-  const themeClass = isEntry ? "text-emerald-600" : "text-red-600";
-  const bgClass = isEntry ? "bg-emerald-50" : "bg-red-50";
-  const borderClass = isEntry ? "border-emerald-200" : "border-red-200";
+  const themeClass = "text-red-600 dark:text-red-400";
+  const bgClass = "bg-red-500/10";
+  const borderClass = "border-red-500/20";
 
   return (
     <div className="flex flex-col gap-4 animate-in fade-in duration-500 pb-10 min-h-[calc(100vh-4rem)]">
@@ -50,7 +50,7 @@ export function TransactionPanel({
           </Button>
           <div className="flex-1">
             <h1 className="text-xl md:text-2xl font-bold flex items-center gap-2">
-              {isEntry ? <TrendingUp className="h-5 w-5 md:h-6 md:w-6 text-emerald-600" /> : <TrendingDown className="h-5 w-5 md:h-6 md:w-6 text-red-600" />}
+              {isEntry ? <TrendingUp className="h-5 w-5 md:h-6 md:w-6 text-red-600" /> : <TrendingDown className="h-5 w-5 md:h-6 md:w-6 text-red-600" />}
               {isEntry ? "Entrada" : "Saída"}
             </h1>
             <p className="text-xs md:text-sm text-muted-foreground hidden md:block">
@@ -59,7 +59,7 @@ export function TransactionPanel({
           </div>
 
           <div className="flex bg-muted p-1 rounded-lg shrink-0">
-             <Button size="sm" variant={isEntry ? "default" : "ghost"} className={isEntry ? "bg-emerald-600" : ""} onClick={() => { setViewMode("entry"); setCart([]); }}>Entrada</Button>
+             <Button size="sm" variant={isEntry ? "default" : "ghost"} className={isEntry ? "bg-red-600" : ""} onClick={() => { setViewMode("entry"); setCart([]); }}>Entrada</Button>
              <Button size="sm" variant={!isEntry ? "default" : "ghost"} className={!isEntry ? "bg-red-600" : ""} onClick={() => { setViewMode("exit"); setCart([]); }}>Saída</Button>
           </div>
         </div>
@@ -69,18 +69,18 @@ export function TransactionPanel({
       <div className="flex flex-col lg:grid lg:grid-cols-12 gap-6 flex-1">
         
         {/* COLUNA 1: PRODUTOS */}
-        <Card className="lg:col-span-3 flex flex-col h-[400px] lg:h-[calc(100vh-10rem)] border-muted-foreground/20 shadow-sm overflow-hidden order-1">
-          <CardHeader className="pb-3 bg-muted/10 shrink-0 p-3">
+        <Card className="lg:col-span-3 flex flex-col h-[400px] lg:h-[calc(100vh-10rem)] border-red-500/20 shadow-sm overflow-hidden order-1">
+          <CardHeader className="pb-3 bg-red-500/5 shrink-0 p-3 border-b border-red-500/10">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <Package className="h-4 w-4" /> Produtos
+              <Package className="h-4 w-4 text-red-500" /> Produtos
             </CardTitle>
             <div className="relative mt-2">
-              <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-3 w-3 text-muted-foreground" />
+              <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-3 w-3 text-red-500" />
               <Input 
                 placeholder="Buscar..." 
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-8 h-9 text-sm"
+                className="pl-8 h-9 text-sm border-red-500/20 focus-visible:ring-red-500/30 focus-visible:border-red-500/40"
               />
             </div>
           </CardHeader>
@@ -91,13 +91,13 @@ export function TransactionPanel({
                return (
                 <div 
                   key={stock.id} 
-                  className="flex flex-col p-3 rounded-lg border bg-card hover:bg-muted/50 cursor-pointer transition-all active:scale-95"
+                  className="flex flex-col p-3 rounded-lg border border-red-500/10 bg-card hover:bg-red-500/10 hover:border-red-500/25 cursor-pointer transition-all active:scale-95"
                   onClick={() => addToCart(stock)}
                 >
                   <span className="font-medium text-sm whitespace-normal break-words leading-tight">{stock.products?.name}</span>
                   <div className="flex justify-between items-center mt-2 text-xs text-muted-foreground">
                     <span className="font-mono">{stock.products?.sku}</span>
-                    <span className={isEntry ? "" : (available > 0 ? "text-emerald-600 font-bold" : "text-red-500 font-bold")}>
+                    <span className={isEntry ? "" : (available > 0 ? "text-red-500 font-bold" : "text-red-700 font-bold")}>
                       {isEntry ? stock.quantity_on_hand : available} {stock.products?.unit}
                     </span>
                   </div>
@@ -111,13 +111,13 @@ export function TransactionPanel({
         <div className="lg:col-span-6 flex flex-col h-auto lg:h-[calc(100vh-10rem)] gap-4 order-2">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
             <h3 className="font-semibold text-lg flex items-center gap-2">
-              Carrinho <Badge variant="secondary">{cart.length} itens</Badge>
+              Carrinho <Badge variant="secondary" className="bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20">{cart.length} itens</Badge>
             </h3>
             
             {!isEntry && (
               <div className="w-full md:w-64">
                 <Select value={destination} onValueChange={setDestination}>
-                  <SelectTrigger className="h-10 border-red-200 bg-red-50/50">
+                  <SelectTrigger className="h-10 border-red-500/30 bg-red-500/10 focus:ring-red-500/30">
                     <SelectValue placeholder="Selecione o Destino..." />
                   </SelectTrigger>
                   <SelectContent>
@@ -141,7 +141,7 @@ export function TransactionPanel({
                   : Number(item.current_stock) - Number(item.quantity);
 
                 return (
-                  <Card key={item.product_id} className={`overflow-hidden transition-all ${isEntry ? 'border-l-4 border-l-emerald-500' : 'border-l-4 border-l-red-500'}`}>
+                  <Card key={item.product_id} className={`overflow-hidden transition-all ${isEntry ? 'border-l-4 border-l-red-500' : 'border-l-4 border-l-red-500'}`}>
                     <div className="p-3 md:p-4 flex flex-col sm:flex-row items-start gap-3 md:gap-4">
                       <div className="flex items-start gap-3 w-full sm:w-auto flex-1">
                           <div className={`mt-1 h-10 w-10 rounded-full flex items-center justify-center shrink-0 ${bgClass} ${themeClass}`}>
@@ -191,7 +191,7 @@ export function TransactionPanel({
         </div>
 
         {/* COLUNA 3: RESUMO */}
-        <Card className="lg:col-span-3 flex flex-col h-fit lg:sticky lg:top-4 border-muted-foreground/20 shadow-md order-3 mb-6 lg:mb-0">
+        <Card className="lg:col-span-3 flex flex-col h-fit lg:sticky lg:top-4 border-red-500/20 shadow-md order-3 mb-6 lg:mb-0">
           <CardHeader className="pb-2 p-4">
             <CardTitle className="text-base flex items-center gap-2">Resumo</CardTitle>
           </CardHeader>
@@ -209,7 +209,7 @@ export function TransactionPanel({
               </div>
             </div>
 
-            <div className={`p-3 rounded-md flex items-start gap-3 ${cart.length > 0 ? "bg-green-50 text-green-800" : "bg-muted text-muted-foreground"}`}>
+            <div className={`p-3 rounded-md flex items-start gap-3 ${cart.length > 0 ? "bg-red-500/10 text-red-700 dark:text-red-400 border border-red-500/20" : "bg-muted text-muted-foreground"}`}>
               <CheckCircle2 className="h-5 w-5 shrink-0" />
               <p className="text-xs leading-tight">
                 {cart.length > 0 ? "Pronto para confirmar." : "Adicione itens..."}
@@ -218,7 +218,7 @@ export function TransactionPanel({
           </CardContent>
           <CardFooter className="flex flex-col gap-3 p-4 pt-0">
             <Button 
-              className={`w-full h-12 text-lg font-bold shadow-lg ${isEntry ? "bg-emerald-600 hover:bg-emerald-700 shadow-emerald-200" : "bg-red-600 hover:bg-red-700 shadow-red-200"}`}
+              className={`w-full h-12 text-lg font-bold shadow-lg ${isEntry ? "bg-red-600 hover:bg-red-700 shadow-red-200" : "bg-red-600 hover:bg-red-700 shadow-red-200"}`}
               onClick={handleConfirmTransaction}
               disabled={cart.length === 0 || isPending}
             >
