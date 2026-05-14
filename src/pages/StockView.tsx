@@ -106,8 +106,8 @@ export default function StockView() {
                  "Verifique a disponibilidade de materiais."}
             </p>
             {/* Badge indicando o nível de acesso */}
-            {canEditPrices ? <Badge className="bg-amber-500 hover:bg-amber-600">Edição</Badge> : 
-             canViewPrices ? <Badge className="bg-blue-500 hover:bg-blue-600">Financeiro</Badge> : 
+            {canEditPrices ? <Badge className="bg-red-600 hover:bg-red-700">Edição</Badge> : 
+             canViewPrices ? <Badge className="bg-red-600 hover:bg-red-700">Financeiro</Badge> : 
              null}
           </div>
         </div>
@@ -120,14 +120,14 @@ export default function StockView() {
           placeholder="Pesquisar por nome ou SKU..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="pl-10"
+          className="pl-10 bg-red-950/10 border-red-500/30 focus-visible:ring-red-500/30"
         />
       </div>
 
       {/* Tabela de Estoque */}
-      <div className="border rounded-lg bg-card overflow-hidden">
+      <div className="border border-red-500/20 rounded-lg bg-card overflow-hidden">
         <Table>
-          <TableHeader className="bg-muted/50">
+          <TableHeader className="bg-red-950/10">
             <TableRow>
               <TableHead>Produto</TableHead>
               <TableHead>Unidade</TableHead>
@@ -137,7 +137,7 @@ export default function StockView() {
               {canViewPrices && (
                 <>
                   <TableHead className="text-right text-muted-foreground">Custo Unit.</TableHead>
-                  <TableHead className="text-right text-emerald-600 font-bold">Valor Venda</TableHead>
+                  <TableHead className="text-right text-red-500 font-bold">Valor Venda</TableHead>
                 </>
               )}
               
@@ -166,11 +166,11 @@ export default function StockView() {
                 const isAvailable = disponivel > 0;
 
                 return (
-                  <TableRow key={stock.id} className="hover:bg-muted/50 transition-colors">
+                  <TableRow key={stock.id} className="hover:bg-red-950/10 transition-colors">
                     <TableCell>
                       <div className="flex flex-col">
                         <span className="font-medium flex items-center gap-2">
-                            <Package className="h-3.5 w-3.5 text-muted-foreground" />
+                            <Package className="h-3.5 w-3.5 text-red-500" />
                             {stock.products?.name}
                         </span>
                         <span className="text-xs text-muted-foreground font-mono pl-6">{stock.products?.sku}</span>
@@ -179,7 +179,7 @@ export default function StockView() {
                     <TableCell className="text-xs font-medium text-muted-foreground">{stock.products?.unit}</TableCell>
                     
                     <TableCell className="text-center">
-                      <span className={`font-bold ${isAvailable ? "text-green-600" : "text-red-500"}`}>
+                      <span className={`font-bold ${isAvailable ? "text-red-500" : "text-red-500"}`}>
                         {disponivel > 0 ? disponivel : "0"}
                       </span>
                     </TableCell>
@@ -190,7 +190,7 @@ export default function StockView() {
                         <TableCell className="text-right text-muted-foreground font-mono text-sm">
                           {formatMoney(stock.products?.unit_price)}
                         </TableCell>
-                        <TableCell className="text-right text-emerald-700 font-mono text-sm font-bold">
+                        <TableCell className="text-right text-red-500 font-mono text-sm font-bold">
                           {formatMoney(stock.products?.sales_price)}
                         </TableCell>
                       </>
@@ -199,7 +199,7 @@ export default function StockView() {
                     {/* EDITAR (Nível 3) */}
                     {canEditPrices && (
                       <TableCell>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary" onClick={() => handleEditClick(stock)}>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-red-500" onClick={() => handleEditClick(stock)}>
                           <Pencil className="h-4 w-4" />
                         </Button>
                       </TableCell>
@@ -214,12 +214,12 @@ export default function StockView() {
 
       {/* DIALOG DE EDIÇÃO (Nível 3) */}
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-        <DialogContent className="sm:max-w-[400px]">
+        <DialogContent className="sm:max-w-[400px] border-red-500/20">
           <DialogHeader>
             <DialogTitle>Atualizar Valores</DialogTitle>
           </DialogHeader>
           
-          <div className="bg-muted/50 p-3 rounded-md border mb-4">
+          <div className="bg-red-950/10 p-3 rounded-md border border-red-500/20 mb-4">
             <p className="text-sm font-medium">{editingItem?.name}</p>
             <p className="text-xs text-muted-foreground mt-1">SKU: {editingItem?.sku}</p>
           </div>
@@ -232,7 +232,7 @@ export default function StockView() {
                 <Input 
                   type="number" 
                   step="0.01" 
-                  className="pl-9" 
+                  className="pl-9 bg-background border-red-500/20 focus-visible:ring-red-500/30" 
                   value={priceForm.unit_price} 
                   onChange={(e) => setPriceForm({...priceForm, unit_price: e.target.value})} 
                 />
@@ -240,13 +240,13 @@ export default function StockView() {
             </div>
             
             <div className="space-y-2">
-              <Label className="text-xs text-emerald-600 uppercase font-bold">Valor de Venda (R$)</Label>
+              <Label className="text-xs text-red-500 uppercase font-bold">Valor de Venda (R$)</Label>
               <div className="relative">
-                <DollarSign className="absolute left-3 top-2.5 h-4 w-4 text-emerald-600" />
+                <DollarSign className="absolute left-3 top-2.5 h-4 w-4 text-red-500" />
                 <Input 
                   type="number" 
                   step="0.01" 
-                  className="pl-9 border-emerald-200 focus-visible:ring-emerald-500 font-bold text-emerald-700" 
+                  className="pl-9 border-red-500/30 focus-visible:ring-red-500/30 font-bold text-red-500" 
                   value={priceForm.sales_price} 
                   onChange={(e) => setPriceForm({...priceForm, sales_price: e.target.value})} 
                 />
@@ -256,7 +256,7 @@ export default function StockView() {
 
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsEditOpen(false)}>Cancelar</Button>
-            <Button onClick={handleSave} disabled={updatePriceMutation.isPending}>
+            <Button onClick={handleSave} disabled={updatePriceMutation.isPending} className="bg-red-600 hover:bg-red-700 text-white">
               {updatePriceMutation.isPending ? "Salvando..." : "Salvar Alterações"}
             </Button>
           </DialogFooter>
