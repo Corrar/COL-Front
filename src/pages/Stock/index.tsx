@@ -415,15 +415,20 @@ export default function Stock() {
       </div>
 
       {/* Filtros */}
-      <div className="flex flex-col sm:flex-row items-center gap-4 bg-card p-3 md:p-4 rounded-lg border shadow-sm">
+      <div className="flex flex-col sm:flex-row items-center gap-4 bg-red-950/20 dark:bg-red-950/20 p-3 md:p-4 rounded-lg border border-red-600/40 shadow-sm shadow-red-950/10">
         <div className="relative flex-1 w-full">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input placeholder="Pesquisar por nome ou SKU..." value={searchTerm} onChange={(e) => {setSearchTerm(e.target.value); setCurrentPage(1);}} className="pl-10 bg-background" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-red-300/80" />
+          <Input
+            placeholder="Pesquisar por nome ou SKU..."
+            value={searchTerm}
+            onChange={(e) => {setSearchTerm(e.target.value); setCurrentPage(1);}}
+            className="pl-10 bg-red-950/10 dark:bg-red-950/20 border-red-600/40 focus-visible:border-red-500 focus-visible:ring-red-500/30"
+          />
         </div>
         <div className="flex w-full sm:w-auto gap-2">
           <Select value={stockFilter} onValueChange={(v) => { setStockFilter(v); setCurrentPage(1); }}>
-            <SelectTrigger className="w-1/2 sm:w-[170px] bg-background">
-              <Package className="w-4 h-4 mr-2 text-muted-foreground" /><SelectValue placeholder="Estoque" />
+            <SelectTrigger className="w-1/2 sm:w-[170px] bg-red-950/10 dark:bg-red-950/20 border-red-600/40 focus:ring-red-500/30">
+              <Package className="w-4 h-4 mr-2 text-red-300/80" /><SelectValue placeholder="Estoque" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">Todo o Estoque</SelectItem>
@@ -433,8 +438,8 @@ export default function Stock() {
             </SelectContent>
           </Select>
           <Select value={selectedTag} onValueChange={(v) => { setSelectedTag(v); setCurrentPage(1); }}>
-            <SelectTrigger className="w-1/2 sm:w-[170px] bg-background">
-              <Filter className="w-4 h-4 mr-2 text-muted-foreground" /><SelectValue placeholder="Etiqueta" />
+            <SelectTrigger className="w-1/2 sm:w-[170px] bg-red-950/10 dark:bg-red-950/20 border-red-600/40 focus:ring-red-500/30">
+              <Filter className="w-4 h-4 mr-2 text-red-300/80" /><SelectValue placeholder="Etiqueta" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">Todas as Etiquetas</SelectItem>
