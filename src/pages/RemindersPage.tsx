@@ -24,7 +24,7 @@ export default function RemindersPage() {
   if (isLoading) {
     return (
       <div className="flex h-full items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <Loader2 className="h-8 w-8 animate-spin text-red-600 dark:text-red-500" />
       </div>
     );
   }
@@ -32,9 +32,9 @@ export default function RemindersPage() {
   return (
     <div className="flex flex-col h-full space-y-6 animate-in fade-in duration-500">
       {/* Header da Página */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-border pb-6 gap-4">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-red-900/40 pb-6 gap-4">
         <div className="flex items-center gap-3">
-          <div className="p-3 bg-primary/10 text-primary rounded-xl">
+          <div className="p-3 bg-red-600/10 text-red-600 dark:text-red-500 rounded-xl border border-red-600/20 shadow-sm shadow-red-950/20">
             <LayoutDashboard className="h-8 w-8" />
           </div>
           <div>
@@ -45,8 +45,8 @@ export default function RemindersPage() {
           </div>
         </div>
         
-        <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted/50 px-3 py-1 rounded-full border border-border">
-          <CalendarClock className="h-4 w-4" />
+        <div className="flex items-center gap-2 text-sm text-red-100/80 bg-red-950/30 px-3 py-1 rounded-full border border-red-700/40">
+          <CalendarClock className="h-4 w-4 text-red-500" />
           <span>Hoje: {new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })}</span>
         </div>
       </div>
