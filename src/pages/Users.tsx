@@ -26,7 +26,7 @@ const roleStyles: Record<string, string> = {
   admin: "bg-red-100/50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20",
   gerente: "bg-red-100/50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20",
   almoxarife: "bg-red-100/50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20",
-  setor: "bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200 dark:bg-slate-500/10 dark:text-slate-300 dark:border-slate-500/20",
+  setor: "bg-red-100/50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20",
   compras: "bg-red-100/50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20",
   escritorio: "bg-red-100/50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20", 
   financeiro: "bg-red-100/50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20",
@@ -35,8 +35,8 @@ const roleStyles: Record<string, string> = {
   engenharia: "bg-red-100/50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20",
   prototipo: "bg-red-100/50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20",
   desenvolvimento: "bg-red-100/50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20",
-  Ferro: "bg-zinc-100/50 text-zinc-700 border-zinc-200 hover:bg-zinc-100 dark:bg-zinc-500/10 dark:text-zinc-400 dark:border-zinc-500/20",
-  obras: "bg-red-100 text-red-800 border-red-300 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-400", 
+  Ferro: "bg-red-100/50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20",
+  obras: "bg-red-100/50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20", 
 };
 
 const ROLES = [
@@ -205,8 +205,8 @@ export default function Users() {
       <div className="flex flex-col xl:flex-row justify-between items-start xl:items-end gap-6 border-b border-border/20 pb-6">
         <div className="flex-1">
           <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground flex items-center gap-3">
-            <div className="p-2.5 bg-primary/10 rounded-2xl dark:bg-primary/20">
-              <UsersIcon className="h-6 w-6 md:h-8 md:w-8 text-primary" />
+            <div className="p-2.5 bg-red-600/10 rounded-2xl dark:bg-red-600/20">
+              <UsersIcon className="h-6 w-6 md:h-8 md:w-8 text-red-500" />
             </div>
             Gestão de Equipa
           </h1>
@@ -218,7 +218,7 @@ export default function Users() {
         {/* --- MODAL DE CRIAÇÃO PREMIUM NUBANK STYLE --- */}
         <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
           <DialogTrigger asChild>
-            <Button className="h-12 md:h-14 px-6 rounded-2xl font-bold text-base shadow-lg shadow-primary/20 transition-all hover:scale-105 active:scale-95 w-full xl:w-auto bg-primary hover:bg-primary/90">
+            <Button className="h-12 md:h-14 px-6 rounded-2xl font-bold text-base shadow-lg shadow-red-600/20 transition-all hover:scale-105 active:scale-95 w-full xl:w-auto bg-red-600 hover:bg-red-700 text-white">
               <UserPlus className="h-5 w-5 mr-2" /> Novo Colaborador
             </Button>
           </DialogTrigger>
@@ -227,7 +227,7 @@ export default function Users() {
             
             {/* Cabeçalho do Modal Decorado */}
             <div className="px-6 pt-8 pb-6 bg-gradient-to-b from-primary/5 dark:from-primary/10 to-transparent flex flex-col items-center text-center">
-               <div className="h-20 w-20 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-4 ring-8 ring-background/50 shadow-sm">
+               <div className="h-20 w-20 bg-red-600/10 text-red-500 rounded-full flex items-center justify-center mb-4 ring-8 ring-background/50 shadow-sm">
                   <UserPlus className="h-8 w-8" />
                </div>
                <DialogTitle className="text-2xl font-extrabold tracking-tight text-foreground">Registar Acesso</DialogTitle>
@@ -244,7 +244,7 @@ export default function Users() {
                 <div className="relative">
                   <UserIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                   <Input 
-                    className="pl-12 h-14 rounded-xl bg-muted/40 border-border/50 focus-visible:ring-primary/50 shadow-inner font-medium text-base transition-all" 
+                    className="pl-12 h-14 rounded-xl bg-muted/40 border-border/50 focus-visible:ring-red-500/50 shadow-inner font-medium text-base transition-all" 
                     required 
                     value={newUser.name} 
                     onChange={e => setNewUser({...newUser, name: e.target.value})} 
@@ -259,7 +259,7 @@ export default function Users() {
                   <div className="relative">
                     <Fingerprint className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input 
-                      className="pl-10 h-14 rounded-xl bg-muted/40 border-border/50 focus-visible:ring-primary/50 shadow-inner font-bold text-base transition-all" 
+                      className="pl-10 h-14 rounded-xl bg-muted/40 border-border/50 focus-visible:ring-red-500/50 shadow-inner font-bold text-base transition-all" 
                       required 
                       value={newUser.email} 
                       onChange={handleIdChange} 
@@ -275,7 +275,7 @@ export default function Users() {
                   <div className="relative">
                     <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input 
-                      className="pl-10 pr-12 h-14 rounded-xl bg-muted/40 border-border/50 focus-visible:ring-primary/50 shadow-inner font-mono text-lg tracking-widest transition-all" 
+                      className="pl-10 pr-12 h-14 rounded-xl bg-muted/40 border-border/50 focus-visible:ring-red-500/50 shadow-inner font-mono text-lg tracking-widest transition-all" 
                       required 
                       type={showPassword ? "text" : "password"} 
                       value={newUser.password} 
@@ -297,7 +297,7 @@ export default function Users() {
               <div className="space-y-1.5">
                 <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider ml-1">Função / Cargo</Label>
                 <Select value={newUser.role} onValueChange={v => setNewUser(prev => ({ ...prev, role: v, sector: v === "setor" ? "" : "Geral" }))}>
-                  <SelectTrigger className="h-14 rounded-xl bg-muted/40 border-border/50 focus:ring-primary/50 shadow-inner font-medium text-base transition-all">
+                  <SelectTrigger className="h-14 rounded-xl bg-muted/40 border-border/50 focus:ring-red-500/50 shadow-inner font-medium text-base transition-all">
                     <SelectValue placeholder="Selecione o cargo principal..." />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl shadow-2xl border-border/50 bg-card/95 backdrop-blur-xl">
@@ -314,9 +314,9 @@ export default function Users() {
 
               {newUser.role === "setor" && (
                 <div className="space-y-1.5 animate-in slide-in-from-top-4 fade-in duration-300">
-                  <Label className="text-primary font-bold text-xs uppercase tracking-wider ml-1">Setor Operacional</Label>
+                  <Label className="text-red-500 font-bold text-xs uppercase tracking-wider ml-1">Setor Operacional</Label>
                   <Select value={newUser.sector} onValueChange={v => setNewUser({...newUser, sector: v})}>
-                    <SelectTrigger className="h-14 rounded-xl bg-primary/5 border-primary/20 focus:ring-primary/50 shadow-inner font-bold text-base text-primary transition-all">
+                    <SelectTrigger className="h-14 rounded-xl bg-red-600/5 border-red-500/20 focus:ring-red-500/50 shadow-inner font-bold text-base text-red-500 transition-all">
                         <SelectValue placeholder="Onde o colaborador vai atuar?" />
                     </SelectTrigger>
                     <SelectContent className="rounded-xl shadow-2xl border-border/50 bg-card/95 backdrop-blur-xl">
@@ -331,7 +331,7 @@ export default function Users() {
               )}
 
               <div className="pt-4 flex flex-col gap-3">
-                <Button type="submit" disabled={createUserMutation.isPending} className="w-full h-14 rounded-xl font-extrabold text-[15px] shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                <Button type="submit" disabled={createUserMutation.isPending} className="w-full h-14 rounded-xl font-extrabold text-[15px] shadow-lg shadow-red-600/20 hover:scale-[1.02] active:scale-[0.98] transition-all bg-red-600 hover:bg-red-700 text-white">
                     {createUserMutation.isPending ? "A Registar..." : "Confirmar e Registar"}
                 </Button>
                 <Button type="button" variant="ghost" onClick={() => setIsCreateOpen(false)} className="w-full h-12 rounded-xl text-muted-foreground hover:text-foreground font-semibold">
@@ -388,7 +388,7 @@ export default function Users() {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
             <Input 
               placeholder="Buscar por nome, id ou cargo..." 
-              className="pl-12 h-14 md:h-16 rounded-[1.5rem] bg-card/50 backdrop-blur-md border-border/30 shadow-sm focus-visible:ring-primary/30 text-base font-medium w-full transition-all hover:bg-card/80"
+              className="pl-12 h-14 md:h-16 rounded-[1.5rem] bg-card/50 backdrop-blur-md border-red-500/30 shadow-sm focus-visible:ring-red-500/30 focus-visible:border-red-500 text-base font-medium w-full transition-all hover:bg-card/80"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -414,16 +414,16 @@ export default function Users() {
              const isOnline = isUserOnline(user.last_active, user.is_active);
              
              return (
-               <Card key={user.id} className={`relative overflow-hidden group hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-primary/5 transition-all duration-300 bg-card/40 backdrop-blur-xl rounded-[2rem] ${user.is_active === false ? 'opacity-80 border-red-500/30' : 'border-border/30 hover:border-primary/30'}`}>
+               <Card key={user.id} className={`relative overflow-hidden group hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-primary/5 transition-all duration-300 bg-card/40 backdrop-blur-xl rounded-[2rem] ${user.is_active === false ? 'opacity-80 border-red-500/30' : 'border-border/30 hover:border-red-500/30'}`}>
                   {/* Glow Line Top (Vermelho se suspenso, Primary se ativo) */}
-                  <div className={`absolute top-0 left-0 w-full h-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${user.is_active === false ? 'bg-gradient-to-r from-transparent via-red-500/50 to-transparent' : 'bg-gradient-to-r from-transparent via-primary/50 to-transparent'}`} />
+                  <div className={`absolute top-0 left-0 w-full h-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${user.is_active === false ? 'bg-gradient-to-r from-transparent via-red-500/50 to-transparent' : 'bg-gradient-to-r from-transparent via-red-500/50 to-transparent'}`} />
                   
                   <CardContent className="p-6">
                     {/* Header do Cartão */}
                     <div className="flex justify-between items-start mb-5">
                        <div className="relative flex-shrink-0">
                           <Avatar className={`h-14 w-14 md:h-16 md:w-16 border-2 border-background shadow-md ${user.is_active === false ? 'grayscale opacity-50' : ''}`}>
-                            <AvatarFallback className={`${user.role === 'admin' ? 'bg-gradient-to-br from-red-500 to-red-700 text-white' : 'bg-gradient-to-br from-primary/80 to-primary text-white'} font-black text-lg md:text-xl`}>
+                            <AvatarFallback className={`${user.role === 'admin' ? 'bg-gradient-to-br from-red-500 to-red-700 text-white' : 'bg-gradient-to-br from-red-500 to-red-700 text-white'} font-black text-lg md:text-xl`}>
                               {user.name.substring(0, 2).toUpperCase()}
                             </AvatarFallback>
                           </Avatar>
@@ -447,7 +447,7 @@ export default function Users() {
                               <Copy className="mr-3 h-4 w-4 text-slate-500" /> Copiar ID
                             </DropdownMenuItem>
                             
-                            <DropdownMenuItem onClick={() => { setUserToReset(user); setResetDialogOpen(true); }} className="cursor-pointer py-3 rounded-xl font-medium focus:bg-red-500/10 focus:text-red-600 dark:focus:text-red-400 transition-colors">
+                            <DropdownMenuItem onClick={() => { setUserToReset(user); setResetDialogOpen(true); }} className="cursor-pointer py-3 rounded-xl font-medium focus:bg-red-600/10 focus:text-red-600 dark:focus:text-red-400 transition-colors">
                               <KeyRound className="mr-3 h-4 w-4 text-red-500" /> Redefinir Senha
                             </DropdownMenuItem>
 
@@ -455,7 +455,7 @@ export default function Users() {
                             {user.id !== currentUser?.id && (
                               <DropdownMenuItem 
                                 onClick={() => toggleStatusMutation.mutate({ id: user.id, is_active: user.is_active === false ? true : false })} 
-                                className={`cursor-pointer py-3 rounded-xl font-medium transition-colors ${user.is_active === false ? 'focus:bg-red-500/10 focus:text-red-600 dark:focus:text-red-400' : 'focus:bg-red-500/10 focus:text-red-600 dark:focus:text-orange-400'}`}
+                                className={`cursor-pointer py-3 rounded-xl font-medium transition-colors ${user.is_active === false ? 'focus:bg-red-500/10 focus:text-red-600 dark:focus:text-red-400' : 'focus:bg-red-500/10 focus:text-red-600 dark:focus:text-red-400'}`}
                               >
                                 {user.is_active === false ? (
                                   <><CheckCircle2 className="mr-3 h-4 w-4 text-red-500" /> Reativar Acesso</>
@@ -532,7 +532,7 @@ export default function Users() {
                        <div className="flex flex-col gap-1">
                           <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Tempo Útil</span>
                           <span className="font-mono font-semibold text-foreground flex items-center gap-1.5">
-                             <Clock className="h-3.5 w-3.5 text-primary/70" />
+                             <Clock className="h-3.5 w-3.5 text-red-500/70" />
                              {formatTime(user.total_minutes)}
                           </span>
                        </div>
