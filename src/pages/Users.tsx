@@ -24,19 +24,19 @@ import { useAuth } from "@/contexts/AuthContext";
 // Configuração de cores Premium com Efeito Glow no Dark Mode
 const roleStyles: Record<string, string> = {
   admin: "bg-red-100/50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20",
-  gerente: "bg-orange-100/50 text-orange-700 border-orange-200 hover:bg-orange-100 dark:bg-orange-500/10 dark:text-orange-400 dark:border-orange-500/20",
-  almoxarife: "bg-blue-100/50 text-blue-700 border-blue-200 hover:bg-blue-100 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20",
+  gerente: "bg-red-100/50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20",
+  almoxarife: "bg-red-100/50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20",
   setor: "bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200 dark:bg-slate-500/10 dark:text-slate-300 dark:border-slate-500/20",
-  compras: "bg-purple-100/50 text-purple-700 border-purple-200 hover:bg-purple-100 dark:bg-purple-500/10 dark:text-purple-400 dark:border-purple-500/20",
-  escritorio: "bg-emerald-100/50 text-emerald-700 border-emerald-200 hover:bg-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20", 
-  financeiro: "bg-teal-100/50 text-teal-700 border-teal-200 hover:bg-teal-100 dark:bg-teal-500/10 dark:text-teal-400 dark:border-teal-500/20",
-  chefe: "bg-amber-100/50 text-amber-700 border-amber-200 hover:bg-amber-100 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20",
-  assistente_tecnico: "bg-cyan-100/50 text-cyan-700 border-cyan-200 hover:bg-cyan-100 dark:bg-cyan-500/10 dark:text-cyan-400 dark:border-cyan-500/20",
-  engenharia: "bg-indigo-100/50 text-indigo-700 border-indigo-200 hover:bg-indigo-100 dark:bg-indigo-500/10 dark:text-indigo-400 dark:border-indigo-500/20",
-  prototipo: "bg-pink-100/50 text-pink-700 border-pink-200 hover:bg-pink-100 dark:bg-pink-500/10 dark:text-pink-400 dark:border-pink-500/20",
-  desenvolvimento: "bg-violet-100/50 text-violet-700 border-violet-200 hover:bg-violet-100 dark:bg-violet-500/10 dark:text-violet-400 dark:border-violet-500/20",
+  compras: "bg-red-100/50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20",
+  escritorio: "bg-red-100/50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20", 
+  financeiro: "bg-red-100/50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20",
+  chefe: "bg-red-100/50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20",
+  assistente_tecnico: "bg-red-100/50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20",
+  engenharia: "bg-red-100/50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20",
+  prototipo: "bg-red-100/50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20",
+  desenvolvimento: "bg-red-100/50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20",
   Ferro: "bg-zinc-100/50 text-zinc-700 border-zinc-200 hover:bg-zinc-100 dark:bg-zinc-500/10 dark:text-zinc-400 dark:border-zinc-500/20",
-  obras: "bg-orange-100 text-orange-800 border-orange-300 hover:bg-orange-200 dark:bg-orange-900/30 dark:text-orange-400", 
+  obras: "bg-red-100 text-red-800 border-red-300 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-400", 
 };
 
 const ROLES = [
@@ -89,7 +89,7 @@ export default function Users() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
-      toast.success("Utilizador criado com sucesso!", { icon: <CheckCircle2 className="text-emerald-500" /> });
+      toast.success("Utilizador criado com sucesso!", { icon: <CheckCircle2 className="text-red-500" /> });
       setIsCreateOpen(false);
       setNewUser({ name: "", email: "", password: "", role: "setor", sector: "" });
       setShowPassword(false);
@@ -348,7 +348,7 @@ export default function Users() {
          <div className="xl:col-span-8 flex flex-wrap gap-4">
             <Card className="rounded-[1.5rem] border-border/30 bg-card/40 backdrop-blur-md shadow-sm flex-1 min-w-[140px] hover:bg-card/60 transition-colors">
               <CardContent className="p-4 md:p-5 flex items-center gap-4">
-                <div className="p-3.5 bg-blue-500/10 text-blue-600 dark:text-blue-400 rounded-2xl">
+                <div className="p-3.5 bg-red-500/10 text-red-600 dark:text-red-400 rounded-2xl">
                   <UsersIcon className="h-5 w-5 md:h-6 md:w-6" />
                 </div>
                 <div>
@@ -360,8 +360,8 @@ export default function Users() {
             
             <Card className="rounded-[1.5rem] border-border/30 bg-card/40 backdrop-blur-md shadow-sm flex-1 min-w-[140px] hover:bg-card/60 transition-colors">
               <CardContent className="p-4 md:p-5 flex items-center gap-4">
-                <div className="relative p-3.5 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-2xl">
-                  <span className="absolute top-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-background rounded-full animate-pulse"></span>
+                <div className="relative p-3.5 bg-red-500/10 text-red-600 dark:text-red-400 rounded-2xl">
+                  <span className="absolute top-0 right-0 w-3 h-3 bg-red-500 border-2 border-background rounded-full animate-pulse"></span>
                   <Activity className="h-5 w-5 md:h-6 md:w-6" />
                 </div>
                 <div>
@@ -373,7 +373,7 @@ export default function Users() {
 
             <Card className="rounded-[1.5rem] border-border/30 bg-card/40 backdrop-blur-md shadow-sm flex-1 min-w-[140px] hidden sm:block hover:bg-card/60 transition-colors">
               <CardContent className="p-4 md:p-5 flex items-center gap-4">
-                <div className="p-3.5 bg-purple-500/10 text-purple-600 dark:text-purple-400 rounded-2xl">
+                <div className="p-3.5 bg-red-500/10 text-red-600 dark:text-red-400 rounded-2xl">
                   <Clock className="h-5 w-5 md:h-6 md:w-6" />
                 </div>
                 <div>
@@ -428,7 +428,7 @@ export default function Users() {
                             </AvatarFallback>
                           </Avatar>
                           {isOnline && (
-                             <span className="absolute bottom-0 right-0 w-4 h-4 bg-emerald-500 border-2 border-background rounded-full shadow-sm"></span>
+                             <span className="absolute bottom-0 right-0 w-4 h-4 bg-red-500 border-2 border-background rounded-full shadow-sm"></span>
                           )}
                        </div>
 
@@ -447,20 +447,20 @@ export default function Users() {
                               <Copy className="mr-3 h-4 w-4 text-slate-500" /> Copiar ID
                             </DropdownMenuItem>
                             
-                            <DropdownMenuItem onClick={() => { setUserToReset(user); setResetDialogOpen(true); }} className="cursor-pointer py-3 rounded-xl font-medium focus:bg-amber-500/10 focus:text-amber-600 dark:focus:text-amber-400 transition-colors">
-                              <KeyRound className="mr-3 h-4 w-4 text-amber-500" /> Redefinir Senha
+                            <DropdownMenuItem onClick={() => { setUserToReset(user); setResetDialogOpen(true); }} className="cursor-pointer py-3 rounded-xl font-medium focus:bg-red-500/10 focus:text-red-600 dark:focus:text-red-400 transition-colors">
+                              <KeyRound className="mr-3 h-4 w-4 text-red-500" /> Redefinir Senha
                             </DropdownMenuItem>
 
                             {/* --- BOTÃO DE SUSPENDER/REATIVAR --- */}
                             {user.id !== currentUser?.id && (
                               <DropdownMenuItem 
                                 onClick={() => toggleStatusMutation.mutate({ id: user.id, is_active: user.is_active === false ? true : false })} 
-                                className={`cursor-pointer py-3 rounded-xl font-medium transition-colors ${user.is_active === false ? 'focus:bg-emerald-500/10 focus:text-emerald-600 dark:focus:text-emerald-400' : 'focus:bg-orange-500/10 focus:text-orange-600 dark:focus:text-orange-400'}`}
+                                className={`cursor-pointer py-3 rounded-xl font-medium transition-colors ${user.is_active === false ? 'focus:bg-red-500/10 focus:text-red-600 dark:focus:text-red-400' : 'focus:bg-red-500/10 focus:text-red-600 dark:focus:text-orange-400'}`}
                               >
                                 {user.is_active === false ? (
-                                  <><CheckCircle2 className="mr-3 h-4 w-4 text-emerald-500" /> Reativar Acesso</>
+                                  <><CheckCircle2 className="mr-3 h-4 w-4 text-red-500" /> Reativar Acesso</>
                                 ) : (
-                                  <><Ban className="mr-3 h-4 w-4 text-orange-500" /> Suspender Acesso</>
+                                  <><Ban className="mr-3 h-4 w-4 text-red-500" /> Suspender Acesso</>
                                 )}
                               </DropdownMenuItem>
                             )}
@@ -539,7 +539,7 @@ export default function Users() {
                        <div className="flex flex-col gap-1 items-end text-right">
                           <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Última Ação</span>
                           {isOnline ? (
-                             <span className="font-semibold text-emerald-600 dark:text-emerald-400">Agora</span>
+                             <span className="font-semibold text-red-600 dark:text-red-400">Agora</span>
                           ) : (
                              <span className="font-medium text-foreground">{user.last_active ? formatDistanceToNow(new Date(user.last_active), { addSuffix: true, locale: ptBR }) : 'Nunca'}</span>
                           )}
@@ -556,7 +556,7 @@ export default function Users() {
       <Dialog open={resetDialogOpen} onOpenChange={setResetDialogOpen}>
         <DialogContent className="sm:max-w-[420px] rounded-[2rem] p-6 md:p-8 bg-card/95 backdrop-blur-xl border-border/50 shadow-2xl">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-extrabold text-amber-600 dark:text-amber-500 flex items-center gap-3">
+            <DialogTitle className="text-2xl font-extrabold text-red-600 dark:text-red-500 flex items-center gap-3">
               <KeyRound className="h-6 w-6" /> Redefinir Senha
             </DialogTitle>
             <DialogDescription className="text-base mt-2 text-muted-foreground">
@@ -573,14 +573,14 @@ export default function Users() {
                     placeholder="••••••••" 
                     value={newPassword} 
                     onChange={(e) => setNewPassword(e.target.value)} 
-                    className="pl-12 h-14 rounded-xl font-mono text-xl tracking-widest bg-background/50 border-border/50 shadow-inner focus-visible:ring-amber-500/30"
+                    className="pl-12 h-14 rounded-xl font-mono text-xl tracking-widest bg-background/50 border-border/50 shadow-inner focus-visible:ring-red-500/30"
                   />
               </div>
             </div>
           </div>
           <DialogFooter className="sm:justify-between gap-3 pt-2">
             <Button variant="ghost" onClick={() => setResetDialogOpen(false)} className="h-12 rounded-xl hover:bg-muted">Cancelar</Button>
-            <Button onClick={() => resetPasswordMutation.mutate()} disabled={!newPassword || resetPasswordMutation.isPending} className="h-12 rounded-xl font-bold px-6 bg-amber-500 hover:bg-amber-600 text-white shadow-lg shadow-amber-500/20">
+            <Button onClick={() => resetPasswordMutation.mutate()} disabled={!newPassword || resetPasswordMutation.isPending} className="h-12 rounded-xl font-bold px-6 bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-600/20">
               {resetPasswordMutation.isPending ? "A Guardar..." : "Confirmar Nova Senha"}
             </Button>
           </DialogFooter>
