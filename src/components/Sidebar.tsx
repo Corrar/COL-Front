@@ -30,13 +30,13 @@ const QuickAccessCard = ({ to, icon, label, onClick }: any) => {
       to={to} 
       onClick={onClick} 
       // Usamos w-full e aspect-square para formar um quadrado perfeito que se ajusta à grid
-      className={`flex flex-col items-center justify-center w-full aspect-square gap-3 p-4 rounded-[28px] transition-all active:scale-95 border box-border ${isActive ? 'bg-emerald-50 border-emerald-200 dark:bg-emerald-500/10 dark:border-emerald-500/20' : 'bg-white border-slate-200 hover:bg-slate-50 dark:bg-[#1A1A1A] dark:border-white/10 dark:hover:bg-white/10'}`}
+      className={`flex flex-col items-center justify-center w-full aspect-square gap-3 p-4 rounded-[28px] transition-all active:scale-95 border box-border ${isActive ? 'bg-red-50 border-red-200 dark:bg-red-500/10 dark:border-red-500/20' : 'bg-white border-slate-200 hover:bg-slate-50 dark:bg-[#1A1A1A] dark:border-white/10 dark:hover:bg-white/10'}`}
     >
       {/* Ícone Solto e ligeiramente maior */}
-      <div className={`transition-all duration-300 ${isActive ? 'text-emerald-600 dark:text-emerald-400 scale-110 drop-shadow-sm' : 'text-slate-400 dark:text-slate-500'}`}>
+      <div className={`transition-all duration-300 ${isActive ? 'text-red-600 dark:text-red-400 scale-110 drop-shadow-sm' : 'text-slate-400 dark:text-slate-500'}`}>
         {icon}
       </div>
-      <span className={`text-[12px] font-black tracking-wide text-center leading-tight w-full truncate px-1 ${isActive ? 'text-emerald-700 dark:text-emerald-400' : 'text-slate-600 dark:text-slate-300'}`}>
+      <span className={`text-[12px] font-black tracking-wide text-center leading-tight w-full truncate px-1 ${isActive ? 'text-red-700 dark:text-red-400' : 'text-slate-600 dark:text-slate-300'}`}>
         {label}
       </span>
     </NavLink>
@@ -100,7 +100,7 @@ export function Sidebar({ isCollapsed, toggleSidebar, onItemClick, isMobileMenu 
   const isFinanceiro = profile?.role === "financeiro";
 
   const desktopBaseClass = "flex items-center gap-3.5 rounded-[14px] px-3.5 py-3 text-[15px] font-semibold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100/80 dark:hover:bg-white/5 active:scale-[0.98] group relative";
-  const desktopActiveClass = "bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-400 font-bold hover:bg-emerald-50 dark:hover:bg-emerald-500/10";
+  const desktopActiveClass = "bg-red-500/10 text-red-600 dark:bg-red-500/15 dark:text-red-400 font-bold hover:bg-red-50 dark:hover:bg-red-500/10";
 
   const formatBadgeCount = (count: number) => {
     if (!count || count <= 0) return null;
@@ -119,11 +119,11 @@ export function Sidebar({ isCollapsed, toggleSidebar, onItemClick, isMobileMenu 
         <NavLink 
           to={to} 
           onClick={onItemClick} 
-          className={`w-full flex items-center justify-between p-4 rounded-[20px] transition-all duration-200 active:scale-[0.98] box-border border ${isActive ? 'bg-emerald-50/80 dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/20 shadow-sm' : 'bg-white dark:bg-[#1A1A1A] border-slate-200 dark:border-white/10 shadow-sm hover:border-slate-300 dark:hover:border-white/20'}`}
+          className={`w-full flex items-center justify-between p-4 rounded-[20px] transition-all duration-200 active:scale-[0.98] box-border border ${isActive ? 'bg-red-50/80 dark:bg-red-500/10 border-red-200 dark:border-red-500/20 shadow-sm' : 'bg-white dark:bg-[#1A1A1A] border-slate-200 dark:border-white/10 shadow-sm hover:border-slate-300 dark:hover:border-white/20'}`}
         >
           {/* Lado Esquerdo: Texto */}
           <div className="flex items-center min-w-0 flex-1 pr-4">
-            <span className={`font-extrabold text-[18px] truncate tracking-tight ${isActive ? 'text-emerald-700 dark:text-emerald-400' : 'text-slate-800 dark:text-slate-200'}`}>
+            <span className={`font-extrabold text-[18px] truncate tracking-tight ${isActive ? 'text-red-700 dark:text-red-400' : 'text-slate-800 dark:text-slate-200'}`}>
               {label}
             </span>
           </div>
@@ -135,7 +135,7 @@ export function Sidebar({ isCollapsed, toggleSidebar, onItemClick, isMobileMenu 
                 {formatBadgeCount(unreadCount)}
               </span>
             )}
-            <div className={`transition-colors shrink-0 ${isActive ? 'text-emerald-500 drop-shadow-sm' : 'text-slate-400 dark:text-slate-500'}`}>
+            <div className={`transition-colors shrink-0 ${isActive ? 'text-red-500 drop-shadow-sm' : 'text-slate-400 dark:text-slate-500'}`}>
               {icon}
             </div>
           </div>
@@ -215,7 +215,7 @@ export function Sidebar({ isCollapsed, toggleSidebar, onItemClick, isMobileMenu 
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" strokeWidth={2.5} />
             <Input 
               placeholder="O que você precisa?" 
-              className="pl-12 pr-4 h-14 rounded-[20px] bg-white dark:bg-[#1A1A1A] border border-slate-200 dark:border-white/10 font-bold text-[15px] shadow-sm focus-visible:ring-emerald-500/20 w-full" 
+              className="pl-12 pr-4 h-14 rounded-[20px] bg-white dark:bg-[#1A1A1A] border border-slate-200 dark:border-white/10 font-bold text-[15px] shadow-sm focus-visible:ring-red-500/20 w-full" 
             />
           </div>
         </div>
@@ -315,7 +315,7 @@ export function Sidebar({ isCollapsed, toggleSidebar, onItemClick, isMobileMenu 
             <div className="px-6 mt-6 mb-12 flex flex-col gap-4 w-full box-border">
               <Button 
                 variant="outline" 
-                className="w-full h-14 rounded-[18px] font-bold text-[16px] text-emerald-600 bg-white border border-emerald-200 dark:bg-emerald-500/10 dark:border-emerald-500/20 dark:text-emerald-400 active:scale-95 shadow-sm" 
+                className="w-full h-14 rounded-[18px] font-bold text-[16px] text-red-600 bg-white border border-red-200 dark:bg-red-500/10 dark:border-red-500/20 dark:text-red-400 active:scale-95 shadow-sm" 
                 onClick={scrollToTop}
               >
                 <ArrowUpCircle className="h-6 w-6 mr-2" strokeWidth={2.5} /> Voltar ao Topo
