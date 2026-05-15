@@ -106,7 +106,7 @@ export default function OfficeDashboard() {
       {/* HEADER RESPONSIVO */}
       <div className="flex flex-col mb-2 sm:mb-4">
         <h1 className="text-2xl sm:text-3xl md:text-[44px] font-black text-slate-900 dark:text-white tracking-tighter flex items-center gap-3 leading-none mb-2 sm:mb-3">
-            <div className="p-2 sm:p-3 bg-indigo-100 dark:bg-indigo-900/30 rounded-xl sm:rounded-2xl text-indigo-600 dark:text-indigo-400 shrink-0 shadow-inner">
+            <div className="p-2 sm:p-3 bg-red-100 dark:bg-red-900/30 rounded-xl sm:rounded-2xl text-red-600 dark:text-red-400 shrink-0 shadow-inner">
                 <Briefcase className="h-6 w-6 sm:h-8 sm:w-8" strokeWidth={2.5} /> 
             </div>
             Controle de Saída
@@ -122,10 +122,10 @@ export default function OfficeDashboard() {
         {/* Linha 1: Pesquisa e Origem */}
         <div className="flex flex-col xl:flex-row gap-3 w-full">
           <div className="relative w-full xl:max-w-lg group shrink-0">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-indigo-500 transition-colors" strokeWidth={2.5} />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-red-500 transition-colors" strokeWidth={2.5} />
               <Input 
                   placeholder="Procurar produto, setor ou pessoa..." 
-                  className="pl-12 pr-12 h-14 bg-white dark:bg-[#1A1A1A] border border-slate-200/80 dark:border-white/10 rounded-[1.25rem] font-semibold text-[14px] w-full shadow-sm focus-visible:ring-indigo-500/20 transition-all"
+                  className="pl-12 pr-12 h-14 bg-white dark:bg-[#1A1A1A] border border-slate-200/80 dark:border-white/10 rounded-[1.25rem] font-semibold text-[14px] w-full shadow-sm focus-visible:ring-red-500/20 transition-all"
                   value={searchTerm}
                   onChange={e => setSearchTerm(e.target.value)}
               />
@@ -147,7 +147,7 @@ export default function OfficeDashboard() {
                       className={cn(
                           "flex-1 px-4 sm:px-6 py-3 text-[13px] font-bold rounded-xl transition-all tracking-wide whitespace-nowrap outline-none",
                           typeFilter === t 
-                            ? "bg-white dark:bg-[#222] text-indigo-600 dark:text-indigo-400 shadow-sm border border-slate-200/50 dark:border-white/5" 
+                            ? "bg-white dark:bg-[#222] text-red-600 dark:text-red-400 shadow-sm border border-slate-200/50 dark:border-white/5" 
                             : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white border border-transparent"
                       )}
                   >
@@ -170,8 +170,8 @@ export default function OfficeDashboard() {
                 className={cn(
                   "cursor-pointer px-4 py-2.5 text-xs font-bold transition-all shrink-0 rounded-xl border",
                   selectedTag === "all" 
-                    ? 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-md border-indigo-600' 
-                    : 'bg-white dark:bg-[#1A1A1A] text-slate-600 dark:text-slate-300 border-slate-200 dark:border-white/10 hover:border-indigo-300 hover:bg-indigo-50 dark:hover:bg-white/5'
+                    ? 'bg-red-600 hover:bg-red-700 text-white shadow-md border-red-600' 
+                    : 'bg-white dark:bg-[#1A1A1A] text-slate-600 dark:text-slate-300 border-slate-200 dark:border-white/10 hover:border-red-300 hover:bg-red-50 dark:hover:bg-white/5'
                 )}
             >
                 <LayoutGrid className="w-3.5 h-3.5 mr-1.5 opacity-70" /> Todas
@@ -185,8 +185,8 @@ export default function OfficeDashboard() {
                     className={cn(
                       "cursor-pointer px-4 py-2.5 text-xs font-bold transition-all shrink-0 rounded-xl border",
                       selectedTag === tag 
-                        ? 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-md border-indigo-600' 
-                        : 'bg-white dark:bg-[#1A1A1A] text-slate-600 dark:text-slate-300 border-slate-200 dark:border-white/10 hover:border-indigo-300 hover:bg-indigo-50 dark:hover:bg-white/5'
+                        ? 'bg-red-600 hover:bg-red-700 text-white shadow-md border-red-600' 
+                        : 'bg-white dark:bg-[#1A1A1A] text-slate-600 dark:text-slate-300 border-slate-200 dark:border-white/10 hover:border-red-300 hover:bg-red-50 dark:hover:bg-white/5'
                     )}
                 >
                     <Tag className="w-3 h-3 mr-1.5 opacity-50" /> {tag}
@@ -247,7 +247,7 @@ export default function OfficeDashboard() {
                               <span className="text-xs text-slate-500 font-bold flex items-center gap-2 ml-0.5">
                                 <Clock className="h-3.5 w-3.5" /> {format(new Date(exit.date), "HH:mm")}
                               </span>
-                              <Badge variant="outline" className={`w-fit mt-2 text-[10px] uppercase font-black tracking-wider border-0 px-2 py-0.5 ${exit.type === 'Saída Manual' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' : 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400'}`}>
+                              <Badge variant="outline" className={`w-fit mt-2 text-[10px] uppercase font-black tracking-wider border-0 px-2 py-0.5 ${exit.type === 'Saída Manual' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'}`}>
                                 {exit.type}
                               </Badge>
                             </div>
@@ -270,17 +270,17 @@ export default function OfficeDashboard() {
                               <div className="flex items-center gap-2 flex-wrap">
                                 <span className="font-mono font-bold text-[10px] text-slate-500 bg-slate-100 dark:bg-white/10 px-2 py-0.5 rounded shadow-sm border border-slate-200 dark:border-white/5">SKU: {exit.product_sku || '-'}</span>
                                 {parsedTags.map((tag: string) => (
-                                  <span key={tag} className="text-[10px] flex items-center gap-1 text-blue-600 bg-blue-50 dark:text-blue-300 dark:bg-blue-900/30 px-1.5 py-0.5 rounded font-black uppercase tracking-wider border border-blue-200 dark:border-blue-800">
+                                  <span key={tag} className="text-[10px] flex items-center gap-1 text-red-600 bg-red-50 dark:text-red-300 dark:bg-red-900/30 px-1.5 py-0.5 rounded font-black uppercase tracking-wider border border-red-200 dark:border-red-800">
                                     <Tag className="h-2.5 w-2.5" /> {tag}
                                   </span>
                                 ))}
                               </div>
 
                               {exit.observation && (
-                                <div className={`mt-2 p-2.5 rounded-xl border flex items-center justify-between gap-3 ${isEPI ? 'bg-amber-50/80 border-amber-200 dark:bg-amber-900/20 dark:border-amber-800/50 text-amber-800 dark:text-amber-300 shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]' : 'bg-slate-50 border-slate-200 dark:bg-white/5 dark:border-white/10 text-slate-600 dark:text-slate-300'}`}>
+                                <div className={`mt-2 p-2.5 rounded-xl border flex items-center justify-between gap-3 ${isEPI ? 'bg-red-50/80 border-red-200 dark:bg-red-900/20 dark:border-red-800/50 text-red-800 dark:text-red-300 shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]' : 'bg-slate-50 border-slate-200 dark:bg-white/5 dark:border-white/10 text-slate-600 dark:text-slate-300'}`}>
                                   
                                   <div className="flex items-start gap-2.5">
-                                    {isEPI ? <AlertCircle className="h-4 w-4 shrink-0 mt-0.5 text-amber-600 dark:text-amber-500" /> : <Briefcase className="h-4 w-4 shrink-0 mt-0.5 opacity-50" />}
+                                    {isEPI ? <AlertCircle className="h-4 w-4 shrink-0 mt-0.5 text-red-600 dark:text-red-500" /> : <Briefcase className="h-4 w-4 shrink-0 mt-0.5 opacity-50" />}
                                     <div className="flex flex-col">
                                       <span className="text-[10px] uppercase font-black tracking-widest opacity-60 mb-0.5">Destinatário / Obs:</span>
                                       <span className="text-sm font-bold leading-tight">{exit.observation}</span>
@@ -296,8 +296,8 @@ export default function OfficeDashboard() {
                                       className={cn(
                                         "shrink-0 p-2 rounded-lg transition-all active:scale-95 disabled:opacity-50",
                                         exit.epi_recorded 
-                                          ? "bg-green-100 text-green-600 hover:bg-green-200 dark:bg-green-900/40 dark:text-green-400" 
-                                          : "bg-white text-slate-300 border border-slate-200 hover:border-green-400 hover:text-green-500 shadow-sm dark:bg-[#222] dark:border-white/10"
+                                          ? "bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-900/40 dark:text-red-400" 
+                                          : "bg-white text-slate-300 border border-slate-200 hover:border-red-400 hover:text-red-500 shadow-sm dark:bg-[#222] dark:border-white/10"
                                       )}
                                     >
                                       {exit.epi_recorded ? <CheckCircle2 className="h-5 w-5 fill-current" /> : <CheckCircle className="h-5 w-5" />}
@@ -309,11 +309,11 @@ export default function OfficeDashboard() {
                           </TableCell>
 
                           <TableCell className="p-5 align-top text-right pr-6">
-                            <div className="inline-flex items-baseline bg-slate-100 dark:bg-white/10 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-white/5 shadow-sm group-hover:bg-indigo-50 dark:group-hover:bg-indigo-500/20 group-hover:border-indigo-200 dark:group-hover:border-indigo-500/30 transition-colors">
-                              <span className="text-xl font-black text-slate-900 dark:text-white tabular-nums group-hover:text-indigo-700 dark:group-hover:text-indigo-300">
+                            <div className="inline-flex items-baseline bg-slate-100 dark:bg-white/10 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-white/5 shadow-sm group-hover:bg-red-50 dark:group-hover:bg-red-500/20 group-hover:border-red-200 dark:group-hover:border-red-500/30 transition-colors">
+                              <span className="text-xl font-black text-slate-900 dark:text-white tabular-nums group-hover:text-red-700 dark:group-hover:text-red-300">
                                 {exit.quantity}
                               </span>
-                              <span className="text-xs font-bold text-slate-500 ml-1 group-hover:text-indigo-500 dark:group-hover:text-indigo-400 uppercase">
+                              <span className="text-xs font-bold text-slate-500 ml-1 group-hover:text-red-500 dark:group-hover:text-red-400 uppercase">
                                 {exit.product_unit}
                               </span>
                             </div>
@@ -341,7 +341,7 @@ export default function OfficeDashboard() {
                   <div key={i} className="flex flex-col bg-white dark:bg-[#111] rounded-[1.5rem] p-4 sm:p-5 border border-slate-200/60 dark:border-white/10 shadow-[0_2px_10px_rgba(0,0,0,0.04)]">
                     
                     <div className="flex justify-between items-start mb-3 border-b border-slate-100 dark:border-white/5 pb-3">
-                      <Badge variant="outline" className={`text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2 py-0.5 border-0 ${exit.type === 'Saída Manual' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' : 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400'}`}>
+                      <Badge variant="outline" className={`text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2 py-0.5 border-0 ${exit.type === 'Saída Manual' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'}`}>
                         {exit.type}
                       </Badge>
                       <div className="flex flex-col items-end">
@@ -368,7 +368,7 @@ export default function OfficeDashboard() {
                           <div className="flex items-center gap-2 mt-1.5 flex-wrap">
                             <span className="font-mono font-bold text-[9px] sm:text-[10px] text-slate-500 bg-white dark:bg-[#222] px-1.5 py-0.5 rounded border border-slate-200/50 dark:border-white/10 shadow-sm">SKU: {exit.product_sku || '-'}</span>
                             {parsedTags.map((tag: string) => (
-                              <span key={tag} className="text-[9px] sm:text-[10px] flex items-center gap-1 text-blue-600 bg-blue-50 dark:text-blue-300 dark:bg-blue-900/30 px-1.5 py-0.5 rounded font-black uppercase border border-blue-200 dark:border-blue-800/50">
+                              <span key={tag} className="text-[9px] sm:text-[10px] flex items-center gap-1 text-red-600 bg-red-50 dark:text-red-300 dark:bg-red-900/30 px-1.5 py-0.5 rounded font-black uppercase border border-red-200 dark:border-red-800/50">
                                 {tag}
                               </span>
                             ))}
@@ -378,10 +378,10 @@ export default function OfficeDashboard() {
                     </div>
 
                     {exit.observation && (
-                      <div className={`mb-3 p-2.5 rounded-xl border flex items-center justify-between gap-2 ${isEPI ? 'bg-amber-50 border-amber-200 dark:bg-amber-900/20 dark:border-amber-800/50 text-amber-800 dark:text-amber-300' : 'bg-slate-50 border-slate-200 dark:bg-white/5 dark:border-white/10 text-slate-600 dark:text-slate-300'}`}>
+                      <div className={`mb-3 p-2.5 rounded-xl border flex items-center justify-between gap-2 ${isEPI ? 'bg-red-50 border-red-200 dark:bg-red-900/20 dark:border-red-800/50 text-red-800 dark:text-red-300' : 'bg-slate-50 border-slate-200 dark:bg-white/5 dark:border-white/10 text-slate-600 dark:text-slate-300'}`}>
                         
                         <div className="flex items-start gap-2">
-                          {isEPI ? <AlertCircle className="h-4 w-4 shrink-0 mt-0.5 text-amber-600 dark:text-amber-500" /> : <Briefcase className="h-4 w-4 shrink-0 mt-0.5 opacity-50" />}
+                          {isEPI ? <AlertCircle className="h-4 w-4 shrink-0 mt-0.5 text-red-600 dark:text-red-500" /> : <Briefcase className="h-4 w-4 shrink-0 mt-0.5 opacity-50" />}
                           <div className="flex flex-col">
                             <span className="text-[9px] sm:text-[10px] uppercase font-black tracking-widest opacity-60 mb-0.5">Para quem é?</span>
                             <span className="text-[13px] sm:text-sm font-bold leading-tight">{exit.observation}</span>
@@ -396,7 +396,7 @@ export default function OfficeDashboard() {
                             className={cn(
                               "shrink-0 p-2 rounded-lg transition-all active:scale-95 disabled:opacity-50",
                               exit.epi_recorded 
-                                ? "bg-green-100 text-green-600 dark:bg-green-900/40 dark:text-green-400" 
+                                ? "bg-red-100 text-red-600 dark:bg-red-900/40 dark:text-red-400" 
                                 : "bg-white text-slate-300 border border-slate-200 dark:bg-[#222] dark:border-white/10"
                             )}
                           >
