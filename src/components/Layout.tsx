@@ -15,7 +15,7 @@ interface LayoutProps {
 const BottomNavButton = ({ to, icon, label }: { to: string, icon: ReactNode, label: string }) => (
   <NavLink 
     to={to} 
-    className={({ isActive }) => `flex-1 flex flex-col items-center justify-center gap-1 h-full transition-all duration-300 active:scale-90 ${isActive ? 'text-blue-600 dark:text-blue-400' : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'}`}
+    className={({ isActive }) => `flex-1 flex flex-col items-center justify-center gap-1 h-full transition-all duration-300 active:scale-90 ${isActive ? 'text-red-600 dark:text-red-400' : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'}`}
   >
     {({ isActive }) => (
       <>
@@ -114,7 +114,7 @@ export function Layout({ children }: LayoutProps) {
   const bottomNavItems = availableNavItems.filter(item => item.allowed).slice(0, 4);
 
   return (
-    <div className="flex h-screen w-full bg-[#F8FAFC] dark:bg-[#000000] overflow-hidden font-sans selection:bg-blue-500/30 transition-colors duration-500">
+    <div className="flex h-screen w-full bg-[#F8FAFC] dark:bg-[#000000] overflow-hidden font-sans selection:bg-red-500/30 transition-colors duration-500">
       
       {/* --- DESKTOP: SIDEBAR FIXA --- */}
       <div className="hidden lg:flex flex-col h-full border-r border-slate-200/60 dark:border-white/5 bg-white dark:bg-[#0A0A0A] transition-all duration-300 z-20 shadow-[4px_0_24px_rgba(0,0,0,0.02)] dark:shadow-none">
@@ -153,7 +153,7 @@ export function Layout({ children }: LayoutProps) {
                 onClick={executeSearch}
               >
                 <Search 
-                  className="h-[18px] w-[18px] text-slate-400 dark:text-slate-500 group-focus-within:text-blue-500 dark:group-focus-within:text-blue-400 transition-colors duration-300 hover:scale-110 active:scale-90" 
+                  className="h-[18px] w-[18px] text-slate-400 dark:text-slate-500 group-focus-within:text-red-500 dark:group-focus-within:text-red-400 transition-colors duration-300 hover:scale-110 active:scale-90" 
                   strokeWidth={2.5} 
                 />
               </div>
@@ -163,11 +163,11 @@ export function Layout({ children }: LayoutProps) {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyDown={handleSearch}
-                className="w-full h-[38px] bg-slate-100/90 dark:bg-[#1C1C1E]/90 text-slate-900 dark:text-white rounded-full pl-10 pr-4 text-[15px] font-medium tracking-tight placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:bg-white dark:focus:bg-[#2C2C2E] transition-all duration-300 border border-transparent focus:border-blue-500/30 shadow-sm relative z-0"
+                className="w-full h-[38px] bg-slate-100/90 dark:bg-[#1C1C1E]/90 text-slate-900 dark:text-white rounded-full pl-10 pr-4 text-[15px] font-medium tracking-tight placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-red-500/40 focus:bg-white dark:focus:bg-[#2C2C2E] transition-all duration-300 border border-transparent focus:border-red-500/30 shadow-sm relative z-0"
               />
             </div>
 
-            <div className="shrink-0 h-[34px] w-[34px] rounded-full bg-gradient-to-tr from-blue-600 to-indigo-500 text-white flex items-center justify-center font-bold text-[14px] shadow-[0_4px_10px_rgba(37,99,235,0.3),inset_0_1px_1px_rgba(255,255,255,0.4)] ring-[1.5px] ring-white/80 dark:ring-[#0A0A0A] active:scale-95 transition-transform duration-200">
+            <div className="shrink-0 h-[34px] w-[34px] rounded-full bg-gradient-to-tr from-red-600 to-red-500 text-white flex items-center justify-center font-bold text-[14px] shadow-[0_4px_10px_rgba(220,38,38,0.3),inset_0_1px_1px_rgba(255,255,255,0.4)] ring-[1.5px] ring-white/80 dark:ring-[#0A0A0A] active:scale-95 transition-transform duration-200">
               {profile?.name?.charAt(0).toUpperCase() || 'U'}
             </div>
           </div>
@@ -187,11 +187,11 @@ export function Layout({ children }: LayoutProps) {
                 <p className="font-bold text-[14px] leading-tight text-slate-800 dark:text-slate-100 tracking-tight">
                   {profile?.name?.split(' ')[0] || 'Usuário'}
                 </p>
-                <p className="text-blue-600 dark:text-blue-400 font-bold text-[10px] uppercase tracking-[0.2em] mt-0.5">
+                <p className="text-red-600 dark:text-red-400 font-bold text-[10px] uppercase tracking-[0.2em] mt-0.5">
                   {profile?.role?.replace('_', ' ')}
                 </p>
               </div>
-              <div className="h-[42px] w-[42px] rounded-full bg-gradient-to-tr from-blue-600 to-indigo-500 text-white flex items-center justify-center font-bold text-[16px] shadow-[0_4px_12px_rgba(37,99,235,0.3),inset_0_1px_1px_rgba(255,255,255,0.4)] ring-2 ring-white dark:ring-[#0A0A0A] relative group cursor-pointer hover:scale-105 transition-transform duration-300">
+              <div className="h-[42px] w-[42px] rounded-full bg-gradient-to-tr from-red-600 to-red-500 text-white flex items-center justify-center font-bold text-[16px] shadow-[0_4px_12px_rgba(220,38,38,0.3),inset_0_1px_1px_rgba(255,255,255,0.4)] ring-2 ring-white dark:ring-[#0A0A0A] relative group cursor-pointer hover:scale-105 transition-transform duration-300">
                 {profile?.name?.charAt(0).toUpperCase() || 'U'}
               </div>
             </div>
@@ -215,7 +215,7 @@ export function Layout({ children }: LayoutProps) {
           
           <button 
             onClick={() => setIsMobileOpen(true)} 
-            className="flex-1 flex flex-col items-center justify-center gap-1 h-full transition-all duration-300 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 active:scale-90 group"
+            className="flex-1 flex flex-col items-center justify-center gap-1 h-full transition-all duration-300 text-slate-400 hover:text-red-600 dark:hover:text-red-400 active:scale-90 group"
           >
             <div className="relative flex items-center justify-center transition-all duration-300 group-hover:scale-110">
               <Menu className="h-[22px] w-[22px]" strokeWidth={2.5} />
