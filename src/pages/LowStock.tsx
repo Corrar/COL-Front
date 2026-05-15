@@ -227,9 +227,9 @@ export default function LowStock() {
     }
     const pendentes = filteredItems.filter(i => !i.purchase_status || i.purchase_status === 'pendente').length;
     if (pendentes > (filteredItems.length / 2)) {
-      insights.push({ icon: Target, color: "text-amber-500", bg: "bg-amber-500/10 border-amber-500/20", text: `Oportunidade de Lote: ${pendentes} itens estão sem ação. Selecione vários itens na tabela e use o botão "Em Cotação" para processar em massa.` });
+      insights.push({ icon: Target, color: "text-red-500", bg: "bg-red-500/10 border-red-500/20", text: `Oportunidade de Lote: ${pendentes} itens estão sem ação. Selecione vários itens na tabela e use o botão "Em Cotação" para processar em massa.` });
     } else if (kpis.progress > 50) {
-      insights.push({ icon: TrendingUp, color: "text-emerald-500", bg: "bg-emerald-500/10 border-emerald-500/20", text: `Ótimo trabalho! O setor de compras já encaminhou ${kpis.progress}% das necessidades de estoque.` });
+      insights.push({ icon: TrendingUp, color: "text-red-500", bg: "bg-red-500/10 border-emerald-500/20", text: `Ótimo trabalho! O setor de compras já encaminhou ${kpis.progress}% das necessidades de estoque.` });
     }
     return insights;
   }, [filteredItems, kpis]);
@@ -321,8 +321,8 @@ export default function LowStock() {
   // --- RENDERS DE ESTADO LIMPOS ---
   const getStatusColor = (status?: string) => {
     switch (status) {
-      case "comprado": return "text-emerald-700 bg-emerald-50 border-emerald-200/60 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20 shadow-sm";
-      case "cotacao": return "text-blue-700 bg-blue-50 border-blue-200/60 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20 shadow-sm";
+      case "comprado": return "text-red-700 bg-red-50 border-red-200/60 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20 shadow-sm";
+      case "cotacao": return "text-red-700 bg-red-50 border-red-200/60 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20 shadow-sm";
       case "nao_comprado": return "text-slate-600 bg-muted/50 border-border/50 dark:text-slate-400";
       default: return "text-rose-700 bg-rose-50 border-rose-200/60 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/20 shadow-sm";
     }
@@ -363,7 +363,7 @@ export default function LowStock() {
         colorClass = "text-red-600 dark:text-red-500 font-semibold";
         icon = <TriangleAlert className="w-3.5 h-3.5" />;
     } else if (days >= 15) {
-        colorClass = "text-amber-600 dark:text-amber-500 font-medium";
+        colorClass = "text-red-600 dark:text-red-500 font-medium";
         icon = <AlertOctagon className="w-3.5 h-3.5" />;
     }
 
@@ -383,7 +383,7 @@ export default function LowStock() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-border/40 pb-6">
             <div>
                 <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-3 text-foreground tracking-tight">
-                    <div className="p-2 bg-primary/10 rounded-lg text-primary">
+                    <div className="p-2 bg-red-500/10 rounded-lg text-red-500">
                         <ShoppingCart className="h-6 w-6" strokeWidth={2.5} />
                     </div>
                     Central de Compras
@@ -403,14 +403,14 @@ export default function LowStock() {
         {/* NAVEGAÇÃO DE ABAS */}
         <Tabs defaultValue="dashboard" value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="bg-muted/30 border border-border/40 rounded-lg w-full sm:w-auto inline-flex h-11 p-1">
-                <TabsTrigger value="dashboard" className="rounded-md font-medium text-sm data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm">
+                <TabsTrigger value="dashboard" className="rounded-md font-medium text-sm data-[state=active]:bg-background data-[state=active]:text-red-500 data-[state=active]:shadow-sm">
                     <LayoutDashboard className="w-3.5 h-3.5 mr-2 opacity-70" /> Panorama
                 </TabsTrigger>
-                <TabsTrigger value="management" className="rounded-md font-medium text-sm data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm">
+                <TabsTrigger value="management" className="rounded-md font-medium text-sm data-[state=active]:bg-background data-[state=active]:text-red-500 data-[state=active]:shadow-sm">
                     <ListTodo className="w-3.5 h-3.5 mr-2 opacity-70" /> Gerir Tabela 
-                    {filteredItems.length > 0 && <span className="ml-1.5 bg-primary/10 text-primary py-0.5 px-1.5 rounded-full text-[10px] font-bold">{filteredItems.length}</span>}
+                    {filteredItems.length > 0 && <span className="ml-1.5 bg-red-500/10 text-red-500 py-0.5 px-1.5 rounded-full text-[10px] font-bold">{filteredItems.length}</span>}
                 </TabsTrigger>
-                <TabsTrigger value="tools" className="rounded-md font-medium text-sm data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm">
+                <TabsTrigger value="tools" className="rounded-md font-medium text-sm data-[state=active]:bg-background data-[state=active]:text-red-500 data-[state=active]:shadow-sm">
                     <Wrench className="w-3.5 h-3.5 mr-2 opacity-70" /> Ferramentas
                 </TabsTrigger>
             </TabsList>
@@ -424,10 +424,10 @@ export default function LowStock() {
                 ) : (
                     <>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                            <KPICard title="Itens em Rutura" value={kpis.total} subtext="Requerem atenção" icon={AlertOctagon} colorClass="text-amber-500" bgClass="bg-amber-500/10" />
+                            <KPICard title="Itens em Rutura" value={kpis.total} subtext="Requerem atenção" icon={AlertOctagon} colorClass="text-red-500" bgClass="bg-red-500/10" />
                             <KPICard title="Déficit de Peças" value={kpis.deficit} subtext="Volume total a comprar" icon={TrendingDown} colorClass="text-red-500" bgClass="bg-red-500/10" />
                             <KPICard title="Crítico Máximo" value={kpis.urgent} subtext="Parados há +30 dias" icon={TriangleAlert} colorClass="text-red-600" bgClass="bg-red-600/10" customBadge={kpis.urgent > 0 ? <Badge variant="destructive" className="animate-pulse">Urgente</Badge> : undefined} />
-                            <KPICard title="Progresso do Setor" value={`${kpis.progress}%`} subtext="Itens processados" icon={CheckCircle2} colorClass="text-emerald-500" bgClass="bg-emerald-500/10" />
+                            <KPICard title="Progresso do Setor" value={`${kpis.progress}%`} subtext="Itens processados" icon={CheckCircle2} colorClass="text-red-500" bgClass="bg-red-500/10" />
                         </div>
 
                         {smartInsights.length > 0 && (
@@ -439,7 +439,7 @@ export default function LowStock() {
                                         </div>
                                         <div className="flex-1 mt-0.5">
                                             <h4 className="font-bold text-foreground mb-1 text-sm flex items-center gap-1.5">
-                                                <BrainCircuit className="w-4 h-4 text-primary" /> Insight
+                                                <BrainCircuit className="w-4 h-4 text-red-500" /> Insight
                                             </h4>
                                             <p className="text-sm text-muted-foreground leading-relaxed">{insight.text}</p>
                                         </div>
@@ -475,7 +475,7 @@ export default function LowStock() {
                           <Button variant={activeFiltersCount > 0 ? "default" : "outline"} className="h-10 px-4 gap-2">
                             <Filter className="h-4 w-4" />
                             Filtros
-                            {activeFiltersCount > 0 && <span className="flex items-center justify-center bg-primary-foreground text-primary rounded-full h-5 w-5 text-[10px] font-bold">{activeFiltersCount}</span>}
+                            {activeFiltersCount > 0 && <span className="flex items-center justify-center bg-white text-red-600 rounded-full h-5 w-5 text-[10px] font-bold">{activeFiltersCount}</span>}
                           </Button>
                       </PopoverTrigger>
                       <PopoverContent className="w-[300px] p-5 shadow-xl rounded-xl" align="end">
@@ -493,8 +493,8 @@ export default function LowStock() {
                                   <SelectContent>
                                       <SelectItem value="all">Todos os Prazos</SelectItem>
                                       <SelectItem value="30" className="text-red-600 dark:text-red-400">🚨 Crítico (+30 Dias)</SelectItem>
-                                      <SelectItem value="15" className="text-amber-600 dark:text-amber-400">⚠️ Alerta (+15 Dias)</SelectItem>
-                                      <SelectItem value="recent" className="text-emerald-600 dark:text-emerald-400">✅ Recente (0-14 Dias)</SelectItem>
+                                      <SelectItem value="15" className="text-red-600 dark:text-red-400">🚨 Alerta (+15 Dias)</SelectItem>
+                                      <SelectItem value="recent" className="text-red-600 dark:text-red-400">🔴 Recente (0-14 Dias)</SelectItem>
                                   </SelectContent>
                                 </Select>
                             </div>
@@ -506,8 +506,8 @@ export default function LowStock() {
                                   <SelectContent>
                                       <SelectItem value="all">Todos os Status</SelectItem>
                                       <SelectItem value="pendente" className="text-rose-600 dark:text-rose-400">🔴 Pendente</SelectItem>
-                                      <SelectItem value="cotacao" className="text-blue-600 dark:text-blue-400">🔵 Em Cotação</SelectItem>
-                                      <SelectItem value="comprado" className="text-emerald-600 dark:text-emerald-400">🟢 Comprado</SelectItem>
+                                      <SelectItem value="cotacao" className="text-red-600 dark:text-red-400">🔴 Em Cotação</SelectItem>
+                                      <SelectItem value="comprado" className="text-red-600 dark:text-red-400">🔴 Comprado</SelectItem>
                                       <SelectItem value="nao_comprado" className="text-muted-foreground">⚫ Cancelado</SelectItem>
                                   </SelectContent>
                                 </Select>
@@ -522,14 +522,14 @@ export default function LowStock() {
                         { id: "all", label: "Todos os Itens" },
                         { id: "critical", label: "🚨 Críticos (+30 dias)" },
                         { id: "pending", label: "🔴 Sem Ação" },
-                        { id: "progress", label: "🟢 Em Andamento" }
+                        { id: "progress", label: "🔴 Em Andamento" }
                     ].map(chip => (
                         <button
                             key={chip.id}
                             onClick={() => setQuickFilter(chip.id)}
                             className={`px-3 py-1.5 rounded-md text-[11px] font-semibold uppercase tracking-wider transition-colors border ${
                                 quickFilter === chip.id 
-                                ? "bg-primary text-primary-foreground border-primary" 
+                                ? "bg-red-600 text-white border-red-600" 
                                 : "bg-card text-muted-foreground border-border hover:bg-muted"
                             }`}
                         >
@@ -574,8 +574,8 @@ export default function LowStock() {
 
                             const porcentagemSaude = minStock > 0 ? Math.max(0, Math.min(100, (disponivel / minStock) * 100)) : 0;
                             let corBarra = "bg-red-500";
-                            if (porcentagemSaude > 60) corBarra = "bg-emerald-500";
-                            else if (porcentagemSaude > 30) corBarra = "bg-amber-500";
+                            if (porcentagemSaude > 60) corBarra = "bg-red-500";
+                            else if (porcentagemSaude > 30) corBarra = "bg-red-500";
 
                             const sugestaoCompra = Math.ceil(deficit * 1.2);
 
@@ -624,8 +624,8 @@ export default function LowStock() {
                                       </SelectTrigger>
                                       <SelectContent>
                                       <SelectItem value="pendente" className="font-semibold text-xs">🔴 Pendente</SelectItem>
-                                      <SelectItem value="cotacao" className="font-semibold text-xs">🔵 Em Cotação</SelectItem>
-                                      <SelectItem value="comprado" className="font-semibold text-xs">🟢 Comprado</SelectItem>
+                                      <SelectItem value="cotacao" className="font-semibold text-xs">🔴 Em Cotação</SelectItem>
+                                      <SelectItem value="comprado" className="font-semibold text-xs">🔴 Comprado</SelectItem>
                                       <SelectItem value="nao_comprado" className="font-semibold text-xs text-muted-foreground">⚫ Cancelado</SelectItem>
                                       </SelectContent>
                                   </Select>
@@ -647,12 +647,12 @@ export default function LowStock() {
                                           <DropdownMenuLabel className="text-[10px] uppercase text-muted-foreground">Enviar Cotação</DropdownMenuLabel>
                                           <DropdownMenuItem onClick={() => handleCommunicate('copy', item, deficit)} className="text-xs cursor-pointer"><Copy className="h-3.5 w-3.5 mr-2" /> Copiar Texto</DropdownMenuItem>
                                           <DropdownMenuSeparator />
-                                          <DropdownMenuItem onClick={() => handleCommunicate('whatsapp', item, deficit)} className="text-xs cursor-pointer text-emerald-600 dark:text-emerald-400"><MessageCircle className="h-3.5 w-3.5 mr-2" /> Via WhatsApp</DropdownMenuItem>
-                                          <DropdownMenuItem onClick={() => handleCommunicate('email', item, deficit)} className="text-xs cursor-pointer text-blue-600 dark:text-blue-400"><Mail className="h-3.5 w-3.5 mr-2" /> Via E-mail</DropdownMenuItem>
+                                          <DropdownMenuItem onClick={() => handleCommunicate('whatsapp', item, deficit)} className="text-xs cursor-pointer text-red-600 dark:text-red-400"><MessageCircle className="h-3.5 w-3.5 mr-2" /> Via WhatsApp</DropdownMenuItem>
+                                          <DropdownMenuItem onClick={() => handleCommunicate('email', item, deficit)} className="text-xs cursor-pointer text-red-600 dark:text-red-400"><Mail className="h-3.5 w-3.5 mr-2" /> Via E-mail</DropdownMenuItem>
                                           </DropdownMenuContent>
                                       </DropdownMenu>
 
-                                      <Button variant="ghost" size="icon" className={`h-8 w-8 transition-colors ${item.purchase_note || item.delivery_forecast ? "text-primary bg-primary/10 hover:bg-primary/20" : "text-muted-foreground hover:text-foreground"}`} onClick={() => openNoteDialog(item)} title="Editar detalhes">
+                                      <Button variant="ghost" size="icon" className={`h-8 w-8 transition-colors ${item.purchase_note || item.delivery_forecast ? "text-red-500 bg-red-500/10 hover:bg-red-600/20" : "text-muted-foreground hover:text-foreground"}`} onClick={() => openNoteDialog(item)} title="Editar detalhes">
                                           {!canEdit && (item.purchase_note || item.delivery_forecast) ? <Eye className="h-4 w-4" /> : <FileEdit className="h-4 w-4" />}
                                       </Button>
                                   </div>
@@ -671,7 +671,7 @@ export default function LowStock() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <Card className="gsap-element border-border/50 bg-card shadow-sm">
                         <CardContent className="p-6">
-                            <div className="w-10 h-10 bg-primary/10 text-primary rounded-lg flex items-center justify-center mb-4">
+                            <div className="w-10 h-10 bg-red-500/10 text-red-500 rounded-lg flex items-center justify-center mb-4">
                                 <Download className="w-5 h-5" />
                             </div>
                             <h3 className="text-lg font-bold text-foreground mb-1">Exportação de Relatórios</h3>
@@ -716,10 +716,10 @@ export default function LowStock() {
               <Button size="sm" variant="ghost" onClick={() => handleBulkStatusChange('pendente')} className="h-8 text-xs font-semibold text-red-500 hover:text-red-600 hover:bg-red-500/10">
                  Resetar
               </Button>
-              <Button size="sm" onClick={() => handleBulkStatusChange('cotacao')} className="h-8 text-xs font-bold px-4 bg-blue-600 hover:bg-blue-700 text-white">
+              <Button size="sm" onClick={() => handleBulkStatusChange('cotacao')} className="h-8 text-xs font-bold px-4 bg-red-600 hover:bg-red-700 text-white">
                 Cotação
               </Button>
-              <Button size="sm" onClick={() => handleBulkStatusChange('comprado')} className="h-8 text-xs font-bold px-4 bg-emerald-600 hover:bg-emerald-700 text-white">
+              <Button size="sm" onClick={() => handleBulkStatusChange('comprado')} className="h-8 text-xs font-bold px-4 bg-red-600 hover:bg-red-700 text-white">
                 Comprado
               </Button>
             </div>
@@ -737,7 +737,7 @@ export default function LowStock() {
           <div className="p-6 border-b border-border/40 bg-muted/20">
             <DialogHeader>
               <DialogTitle className="text-xl font-bold text-foreground flex items-center gap-3">
-                  <div className="p-2 bg-primary/10 rounded-md text-primary"><ShoppingCart className="h-5 w-5"/></div>
+                  <div className="p-2 bg-red-500/10 rounded-md text-red-500"><ShoppingCart className="h-5 w-5"/></div>
                   {canEdit ? "Gerir Reposição" : "Detalhes da Reposição"}
               </DialogTitle>
             </DialogHeader>
@@ -750,7 +750,7 @@ export default function LowStock() {
                   <p className="text-base font-bold text-foreground leading-tight">{noteDialogItem?.name}</p>
                   <p className="text-xs text-muted-foreground font-mono mt-0.5">{noteDialogItem?.sku}</p>
                 </div>
-                <div className="bg-primary/5 text-primary px-3 py-2 rounded-md text-center border border-primary/20">
+                <div className="bg-red-500/5 text-red-500 px-3 py-2 rounded-md text-center border border-red-500/20">
                     <p className="text-[9px] font-bold uppercase tracking-widest mb-0.5">Comprar</p>
                     <p className="font-bold text-lg leading-none">{noteDialogItem ? Math.ceil((Number(noteDialogItem.min_stock) - (Number(noteDialogItem.quantity) - Number(noteDialogItem.quantity_reserved))) * 1.2) : 0}</p>
                 </div>
@@ -786,9 +786,9 @@ export default function LowStock() {
             </div>
 
             {tempPrice && Number(tempPrice) > 0 && noteDialogItem && (
-                <div className="bg-emerald-500/10 border border-emerald-500/20 p-3 rounded-lg flex justify-between items-center animate-in fade-in slide-in-from-top-1">
-                    <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400">Total Estimado:</span>
-                    <span className="text-base font-bold text-emerald-700 dark:text-emerald-400">
+                <div className="bg-red-500/10 border border-emerald-500/20 p-3 rounded-lg flex justify-between items-center animate-in fade-in slide-in-from-top-1">
+                    <span className="text-xs font-semibold text-red-700 dark:text-red-400">Total Estimado:</span>
+                    <span className="text-base font-bold text-red-700 dark:text-red-400">
                         {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(tempPrice) * Math.ceil((Number(noteDialogItem.min_stock) - (Number(noteDialogItem.quantity) - Number(noteDialogItem.quantity_reserved))) * 1.2))}
                     </span>
                 </div>
