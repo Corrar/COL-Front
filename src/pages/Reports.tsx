@@ -32,14 +32,14 @@ import { useGSAP } from "@gsap/react";
 gsap.registerPlugin(useGSAP);
 
 // --- CONFIGURAÇÕES VISUAIS PREMIUM ---
-const C_AZUL_ROYALE: [number, number, number] = [30, 58, 138]; // slate-900
-const C_AMARELO_OURO: [number, number, number] = [234, 179, 8]; // amber-500
+const C_VERMELHO_ROYALE: [number, number, number] = [220, 38, 38]; // red-600
+const C_AMARELO_OURO: [number, number, number] = [185, 28, 28]; // red-700
 const C_TEXTO_ESCURO: [number, number, number] = [51, 65, 85]; // slate-700
 
 const COLORS = {
-    entradas: '#10b981', 
-    saidas: '#6366f1',   
-    manuais: '#f59e0b',  
+    entradas: '#dc2626', 
+    saidas: '#991b1b',   
+    manuais: '#ef4444',  
 };
 
 const formatCurrency = (value: number) => {
@@ -93,7 +93,7 @@ const CustomBarTooltip = ({ active, payload, label, totalValue, isCurrency = fal
             {!isCurrency && (
                 <div className="flex justify-between gap-6 items-center border-t border-slate-100 dark:border-slate-800/60 pt-3 mt-1">
                     <span className="font-medium">Impacto na Operação:</span>
-                    <Badge variant="outline" className="font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/20 border-indigo-200 dark:border-indigo-800/30 px-2.5 py-1">
+                    <Badge variant="outline" className="font-bold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800/30 px-2.5 py-1">
                         {percent}% do Total
                     </Badge>
                 </div>
@@ -182,7 +182,7 @@ const KPICard = ({ title, value, subtext, icon: Icon, colorClass, bgClass, trend
                 {trend && (
                     <Badge variant="outline" className={`font-extrabold px-3.5 py-1.5 rounded-xl shadow-sm backdrop-blur-md flex items-center gap-1.5 border tracking-wide ${
                         trend === 'up' 
-                        ? 'text-emerald-700 dark:text-emerald-400 bg-emerald-50/90 dark:bg-emerald-500/15 border-emerald-200 dark:border-emerald-500/30' 
+                        ? 'text-red-700 dark:text-red-400 bg-red-50/90 dark:bg-red-500/15 border-red-200 dark:border-red-500/30' 
                         : 'text-rose-700 dark:text-rose-400 bg-rose-50/90 dark:bg-rose-500/15 border-rose-200 dark:border-rose-500/30'
                     }`}>
                         {trend === 'up' ? <ArrowUpRight className="w-4 h-4" strokeWidth={3} /> : <ArrowDownRight className="w-4 h-4" strokeWidth={3} />}
@@ -409,7 +409,7 @@ export default function Reports() {
 
     const drawHeader = (title: string, subtitle: string = "") => {
         // Faixa de Cor Executiva no topo
-        doc.setFillColor(C_AZUL_ROYALE[0], C_AZUL_ROYALE[1], C_AZUL_ROYALE[2]); 
+        doc.setFillColor(C_VERMELHO_ROYALE[0], C_VERMELHO_ROYALE[1], C_VERMELHO_ROYALE[2]); 
         doc.rect(0, 0, pageWidth, 42, 'F');
         
         // Fio Dourado / Amarelo Ouro
@@ -448,7 +448,7 @@ export default function Reports() {
         doc.setDrawColor(200, 210, 220); doc.setLineWidth(0.5); doc.line(margin, pageHeight - 15, pageWidth - margin, pageHeight - 15);
         doc.setFont("helvetica", "normal"); doc.setFontSize(8); doc.setTextColor(140, 150, 160); 
         doc.text(`Sistema de Gestão Royale • Documento Confidencial`, margin, pageHeight - 10);
-        doc.setFont("helvetica", "bold"); doc.setTextColor(C_AZUL_ROYALE[0], C_AZUL_ROYALE[1], C_AZUL_ROYALE[2]);
+        doc.setFont("helvetica", "bold"); doc.setTextColor(C_VERMELHO_ROYALE[0], C_VERMELHO_ROYALE[1], C_VERMELHO_ROYALE[2]);
         doc.text(`Pág. ${pageNumber}`, pageWidth - margin, pageHeight - 10, { align: "right" });
     };
 
@@ -461,8 +461,8 @@ export default function Reports() {
         doc.roundedRect(x, y, w, h, 4, 4, 'D');
         
         // Tarja Lateral Colorida
-        let mainColor = C_AZUL_ROYALE;
-        if (type === 'success') mainColor = [16, 185, 129]; // Emerald
+        let mainColor = C_VERMELHO_ROYALE;
+        if (type === 'success') mainColor = [220, 38, 38]; // Emerald
         if (type === 'alert') mainColor = [220, 38, 38]; // Red
 
         doc.setFillColor(mainColor[0], mainColor[1], mainColor[2]); 
@@ -593,7 +593,7 @@ export default function Reports() {
                 return [item.name, `${percent}%`, formatCurrency(item.value)];
             }),
             theme: 'striped',
-            headStyles: { fillColor: [71, 85, 105], textColor: 255, fontStyle: 'bold' }, // slate-600
+            headStyles: { fillColor: [185, 28, 28], textColor: 255, fontStyle: 'bold' }, // slate-600
             styles: { fontSize: 9, cellPadding: 5, textColor: C_TEXTO_ESCURO, lineColor: [226, 232, 240], lineWidth: 0.1 },
             columnStyles: {
                 0: { cellWidth: 'auto', fontStyle: 'bold' },
@@ -629,13 +629,13 @@ export default function Reports() {
                 `#${idx + 1}`, item.produto, `${item.count} Registros de Fluxo`
             ]),
             theme: 'grid',
-            headStyles: { fillColor: [79, 70, 229], textColor: 255, fontStyle: 'bold' }, // indigo-600
+            headStyles: { fillColor: [220, 38, 38], textColor: 255, fontStyle: 'bold' }, // indigo-600
             styles: { fontSize: 9, cellPadding: 5, textColor: C_TEXTO_ESCURO, lineColor: [226, 232, 240], lineWidth: 0.1 },
             alternateRowStyles: { fillColor: [248, 250, 252] }, // slate-50
             columnStyles: {
                 0: { cellWidth: 20, halign: 'center', fontStyle: 'bold' },
                 1: { cellWidth: 'auto' },
-                2: { cellWidth: 70, halign: 'center', textColor: [67, 56, 202], fontStyle: 'bold' } // indigo-700
+                2: { cellWidth: 70, halign: 'center', textColor: [185, 28, 28], fontStyle: 'bold' } // indigo-700
             },
             margin: { left: margin, right: margin }
         });
@@ -694,23 +694,23 @@ export default function Reports() {
       {/* HEADER E FILTROS PREMIUM */}
       <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6 bg-white/70 dark:bg-slate-900/60 backdrop-blur-3xl p-6 sm:p-8 rounded-[2.5rem] border border-slate-200/80 dark:border-slate-800/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.2)]">
         <div className="relative">
-            <div className="absolute -inset-6 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 blur-3xl rounded-full"></div>
+            <div className="absolute -inset-6 bg-gradient-to-r from-red-500/20 to-red-500/20 blur-3xl rounded-full"></div>
             <h1 className="text-4xl sm:text-5xl font-black flex items-center gap-5 text-slate-900 dark:text-white relative z-10 tracking-tighter">
-                <div className="p-4 bg-gradient-to-br from-indigo-500 via-indigo-600 to-violet-700 rounded-[1.5rem] shadow-2xl shadow-indigo-500/30 text-white transform hover:scale-105 hover:rotate-3 transition-all duration-300 cursor-pointer">
+                <div className="p-4 bg-gradient-to-br from-red-500 via-red-600 to-red-700 rounded-[1.5rem] shadow-2xl shadow-red-500/30 text-white transform hover:scale-105 hover:rotate-3 transition-all duration-300 cursor-pointer">
                     <Zap className="h-8 w-8" strokeWidth={2.5} />
                 </div>
                 Business Intelligence
             </h1>
             <p className="text-slate-500 dark:text-slate-400 mt-3 ml-[5.5rem] font-semibold text-sm sm:text-base relative z-10 tracking-wide uppercase">
-                Análise de Performance • <span className="text-indigo-600 dark:text-indigo-400 font-black bg-indigo-50 dark:bg-indigo-500/10 px-3 py-1 rounded-lg">Dados Gerenciais</span>
+                Análise de Performance • <span className="text-red-600 dark:text-red-400 font-black bg-red-50 dark:bg-red-500/10 px-3 py-1 rounded-lg">Dados Gerenciais</span>
             </p>
         </div>
 
         <div className="flex flex-col gap-4 w-full xl:w-auto z-10">
             <div className="flex flex-col sm:flex-row items-center gap-3 bg-slate-100/80 dark:bg-slate-950/80 p-2.5 rounded-[1.5rem] border border-slate-200/50 dark:border-slate-800 shadow-inner">
                 
-                <div className="flex items-center gap-4 px-5 py-3 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700/50 w-full sm:w-auto hover:border-indigo-300 dark:hover:border-indigo-500/50 transition-colors group">
-                    <CalendarIcon className="w-5 h-5 text-indigo-500 dark:text-indigo-400 group-hover:scale-110 transition-transform" strokeWidth={2.5} />
+                <div className="flex items-center gap-4 px-5 py-3 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700/50 w-full sm:w-auto hover:border-red-300 dark:hover:border-red-500/50 transition-colors group">
+                    <CalendarIcon className="w-5 h-5 text-red-500 dark:text-red-400 group-hover:scale-110 transition-transform" strokeWidth={2.5} />
                     <Input type="date" className="h-9 w-[135px] border-none bg-transparent focus-visible:ring-0 text-sm font-bold text-slate-700 dark:text-slate-200 cursor-pointer dark:[color-scheme:dark] p-0" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
                     <div className="w-8 h-[2px] bg-slate-200 dark:bg-slate-700 rounded-full"></div>
                     <Input type="date" className="h-9 w-[135px] border-none bg-transparent focus-visible:ring-0 text-sm font-bold text-slate-700 dark:text-slate-200 cursor-pointer dark:[color-scheme:dark] p-0 text-right" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
@@ -718,11 +718,11 @@ export default function Reports() {
                 
                 <div className="flex gap-2 p-1.5 bg-white/60 dark:bg-slate-900/60 rounded-xl border border-transparent dark:border-slate-800">
                     <Button onClick={() => setQuickDate('today')} variant="ghost" size="sm" className="h-10 px-5 text-xs font-bold hover:bg-white dark:hover:bg-slate-800 hover:shadow-sm transition-all rounded-lg uppercase tracking-wider">Hoje</Button>
-                    <Button onClick={() => setQuickDate('month')} variant="ghost" size="sm" className="h-10 px-5 text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-500/30 rounded-lg uppercase tracking-wider">Mês</Button>
+                    <Button onClick={() => setQuickDate('month')} variant="ghost" size="sm" className="h-10 px-5 text-xs font-bold bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-500/30 rounded-lg uppercase tracking-wider">Mês</Button>
                 </div>
 
-                <Button onClick={() => refetch()} size="icon" className="h-[3.25rem] w-[3.25rem] rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 shadow-sm transition-all hover:scale-105 active:scale-95 hover:border-indigo-400 hover:text-indigo-600 dark:hover:text-indigo-400">
-                    <RefreshCw className={`h-6 w-6 ${isLoading || isRefetching ? 'animate-spin text-indigo-500' : ''}`} />
+                <Button onClick={() => refetch()} size="icon" className="h-[3.25rem] w-[3.25rem] rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 shadow-sm transition-all hover:scale-105 active:scale-95 hover:border-red-400 hover:text-red-600 dark:hover:text-red-400">
+                    <RefreshCw className={`h-6 w-6 ${isLoading || isRefetching ? 'animate-spin text-red-500' : ''}`} />
                 </Button>
             </div>
         </div>
@@ -745,14 +745,14 @@ export default function Reports() {
                 </div>
             )}
             {analytics.estoqueCritico.length > 0 && (
-                <div className="gsap-kpi-card relative overflow-hidden bg-amber-50/90 dark:bg-amber-950/30 backdrop-blur-xl border border-amber-200/80 dark:border-amber-900/60 p-6 rounded-[2rem] flex items-center gap-6 shadow-xl shadow-amber-500/10 hover:-translate-y-1 transition-transform cursor-default">
-                    <div className="absolute -top-10 -right-10 w-48 h-48 bg-amber-400/20 dark:bg-amber-600/20 blur-3xl rounded-full"></div>
-                    <div className="bg-amber-100 dark:bg-amber-900/60 p-4 rounded-2xl shadow-inner shadow-white/50 border border-amber-200 dark:border-amber-800 relative z-10">
-                        <AlertOctagon className="w-8 h-8 text-amber-600 dark:text-amber-400" strokeWidth={2.5} />
+                <div className="gsap-kpi-card relative overflow-hidden bg-red-50/90 dark:bg-red-950/30 backdrop-blur-xl border border-red-200/80 dark:border-red-900/60 p-6 rounded-[2rem] flex items-center gap-6 shadow-xl shadow-red-500/10 hover:-translate-y-1 transition-transform cursor-default">
+                    <div className="absolute -top-10 -right-10 w-48 h-48 bg-red-400/20 dark:bg-amber-600/20 blur-3xl rounded-full"></div>
+                    <div className="bg-red-100 dark:bg-red-900/60 p-4 rounded-2xl shadow-inner shadow-white/50 border border-red-200 dark:border-red-800 relative z-10">
+                        <AlertOctagon className="w-8 h-8 text-red-600 dark:text-red-400" strokeWidth={2.5} />
                     </div>
                     <div className="z-10">
-                        <h4 className="font-black text-amber-950 dark:text-amber-300 text-xl tracking-tight">Rutura Crítica</h4>
-                        <p className="text-sm text-amber-800 dark:text-amber-400/90 mt-1 font-semibold"><b className="text-amber-600 dark:text-amber-300 text-base">{analytics.estoqueCritico.length} itens</b> abaixo do estoque mínimo definido.</p>
+                        <h4 className="font-black text-amber-950 dark:text-red-300 text-xl tracking-tight">Rutura Crítica</h4>
+                        <p className="text-sm text-red-800 dark:text-red-400/90 mt-1 font-semibold"><b className="text-red-600 dark:text-red-300 text-base">{analytics.estoqueCritico.length} itens</b> abaixo do estoque mínimo definido.</p>
                     </div>
                 </div>
             )}
@@ -770,25 +770,25 @@ export default function Reports() {
              title="Capital Total Físico" 
              value={formatCurrencyNoDecimals(analytics.valorTotalEstoque)} 
              subtext="Valor Físico Armazenado" 
-             icon={DollarSign} colorClass="text-indigo-500" bgClass="bg-indigo-500/10" 
+             icon={DollarSign} colorClass="text-red-500" bgClass="bg-red-500/10" 
           />
           <KPICard 
              title="Qtd. Solicitações no Mês" 
              value={analytics.saidasSolicitacaoTotal} 
              subtext="Pedidos do sistema (OPs)" 
-             icon={Briefcase} colorClass="text-blue-500" bgClass="bg-blue-500/10" 
+             icon={Briefcase} colorClass="text-red-500" bgClass="bg-blue-500/10" 
           />
           <KPICard 
              title="Qtd. Total de Entradas" 
              value={analytics.opsEntrada} 
              subtext="Lotes Recebidos" 
-             icon={ArrowDownToLine} colorClass="text-emerald-500" bgClass="bg-emerald-500/10" 
+             icon={ArrowDownToLine} colorClass="text-red-500" bgClass="bg-red-500/10" 
           />
           <KPICard 
              title="Qtd. Total Saídas Manuais" 
              value={analytics.saidasManuaisTotal} 
              subtext="Retiradas avulsas" 
-             icon={ArrowUpFromLine} colorClass="text-amber-500" bgClass="bg-amber-500/10" 
+             icon={ArrowUpFromLine} colorClass="text-red-500" bgClass="bg-red-500/10" 
           />
         </div>
       )}
@@ -797,9 +797,9 @@ export default function Reports() {
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
         <div className="flex flex-col sm:flex-row justify-between items-center gap-6 bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl p-2 sm:p-2.5 rounded-[2rem] border border-slate-200/80 dark:border-slate-800 shadow-md">
           <TabsList className="bg-slate-200/60 dark:bg-slate-950/60 p-1.5 rounded-[1.5rem] gap-2 h-auto flex-wrap w-full sm:w-auto border border-slate-300/30 dark:border-slate-800/50 shadow-inner">
-            <TabsTrigger value="insights" className="rounded-xl px-6 py-3 font-bold text-sm data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:text-indigo-600 dark:data-[state=active]:text-indigo-400 data-[state=active]:shadow-lg transition-all uppercase tracking-wide">Visão Global</TabsTrigger>
-            <TabsTrigger value="saude-estoque" className="rounded-xl px-6 py-3 font-bold text-sm data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:text-emerald-600 dark:data-[state=active]:text-emerald-400 data-[state=active]:shadow-lg transition-all uppercase tracking-wide">Saúde de Estoque</TabsTrigger>
-            <TabsTrigger value="financeiro" className="rounded-xl px-6 py-3 font-bold text-sm data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:text-amber-600 dark:data-[state=active]:text-amber-400 data-[state=active]:shadow-lg transition-all uppercase tracking-wide">Análise de Custos</TabsTrigger>
+            <TabsTrigger value="insights" className="rounded-xl px-6 py-3 font-bold text-sm data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:text-red-600 dark:data-[state=active]:text-red-400 data-[state=active]:shadow-lg transition-all uppercase tracking-wide">Visão Global</TabsTrigger>
+            <TabsTrigger value="saude-estoque" className="rounded-xl px-6 py-3 font-bold text-sm data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:text-red-600 dark:data-[state=active]:text-red-400 data-[state=active]:shadow-lg transition-all uppercase tracking-wide">Saúde de Estoque</TabsTrigger>
+            <TabsTrigger value="financeiro" className="rounded-xl px-6 py-3 font-bold text-sm data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:text-red-600 dark:data-[state=active]:text-red-400 data-[state=active]:shadow-lg transition-all uppercase tracking-wide">Análise de Custos</TabsTrigger>
             <TabsTrigger value="reposicao" className="rounded-xl px-6 py-3 font-bold text-sm data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:text-rose-600 dark:data-[state=active]:text-rose-400 data-[state=active]:shadow-lg transition-all uppercase tracking-wide">Reposição e Garantia</TabsTrigger>
           </TabsList>
           
@@ -807,7 +807,7 @@ export default function Reports() {
             <Button variant="outline" size="sm" onClick={handleExportPDF} className="h-12 rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-rose-50 dark:hover:bg-rose-500/10 hover:text-rose-600 hover:border-rose-200 dark:hover:border-rose-500/30 transition-all font-bold shadow-sm uppercase tracking-wider text-xs px-5">
                 <FileText className="w-4 h-4 mr-2" /> PDF Gerencial
             </Button>
-            <Button variant="outline" size="sm" onClick={handleExportExcel} className="h-12 rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-emerald-500/10 hover:text-emerald-600 hover:border-emerald-200 dark:hover:border-emerald-500/30 transition-all font-bold shadow-sm uppercase tracking-wider text-xs px-5">
+            <Button variant="outline" size="sm" onClick={handleExportExcel} className="h-12 rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-600 hover:border-red-200 dark:hover:border-red-500/30 transition-all font-bold shadow-sm uppercase tracking-wider text-xs px-5">
                 <FileSpreadsheet className="w-4 h-4 mr-2" /> Dados (Excel)
             </Button>
           </div>
@@ -818,8 +818,8 @@ export default function Reports() {
           <Card id="chart-flow" className="shadow-2xl shadow-slate-200/50 dark:shadow-none border border-slate-200/80 dark:border-slate-800/80 bg-white/90 dark:bg-slate-900/60 backdrop-blur-3xl rounded-[2.5rem] overflow-hidden">
             <CardHeader className="pb-8 border-b border-slate-100 dark:border-slate-800 px-10 pt-10">
                 <CardTitle className="text-3xl font-black flex items-center gap-4 text-slate-800 dark:text-slate-100 tracking-tight">
-                    <div className="p-3 bg-indigo-50 dark:bg-indigo-900/30 rounded-2xl border border-indigo-100 dark:border-indigo-800/50">
-                        <Activity className="h-7 w-7 text-indigo-600 dark:text-indigo-400" />
+                    <div className="p-3 bg-red-50 dark:bg-red-900/30 rounded-2xl border border-red-100 dark:border-red-800/50">
+                        <Activity className="h-7 w-7 text-red-600 dark:text-red-400" />
                     </div>
                     Fluxo Temporal de Movimentação
                 </CardTitle>
@@ -849,19 +849,19 @@ export default function Reports() {
           {/* HISTÓRICO DE ENTRADAS E SAÍDAS */}
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
                 {/* HISTÓRICO ENTRADAS */}
-                <Card className="shadow-xl border border-emerald-200/50 dark:border-emerald-900/30 bg-emerald-50/30 dark:bg-emerald-950/10 backdrop-blur-2xl rounded-[2.5rem] overflow-hidden flex flex-col h-[500px]">
-                    <div className="absolute top-0 right-0 w-full h-1.5 bg-gradient-to-r from-emerald-300 via-emerald-500 to-emerald-400 opacity-80"></div>
-                    <CardHeader className="bg-white/50 dark:bg-slate-900/50 pb-4 pt-6 px-8 border-b border-emerald-100/50 dark:border-emerald-900/30">
-                        <CardTitle className="text-xl flex items-center justify-between gap-4 text-emerald-950 dark:text-emerald-400 font-black tracking-tight">
+                <Card className="shadow-xl border border-red-200/50 dark:border-red-900/30 bg-red-50/30 dark:bg-red-950/10 backdrop-blur-2xl rounded-[2.5rem] overflow-hidden flex flex-col h-[500px]">
+                    <div className="absolute top-0 right-0 w-full h-1.5 bg-gradient-to-r from-red-300 via-red-500 to-red-400 opacity-80"></div>
+                    <CardHeader className="bg-white/50 dark:bg-slate-900/50 pb-4 pt-6 px-8 border-b border-red-100/50 dark:border-red-900/30">
+                        <CardTitle className="text-xl flex items-center justify-between gap-4 text-emerald-950 dark:text-red-400 font-black tracking-tight">
                             <div className="flex items-center gap-4">
-                                <div className="p-3 bg-white dark:bg-emerald-900/60 rounded-2xl text-emerald-600 shadow-sm border border-emerald-100 dark:border-emerald-800/50"><ArrowDownToLine className="h-6 w-6" strokeWidth={2.5} /></div>
+                                <div className="p-3 bg-white dark:bg-red-900/60 rounded-2xl text-red-600 shadow-sm border border-red-100 dark:border-red-800/50"><ArrowDownToLine className="h-6 w-6" strokeWidth={2.5} /></div>
                                 Histórico de Entradas
                             </div>
                             <div className="relative w-48 hidden sm:block">
-                                <Search className="absolute left-3 top-2.5 h-4 w-4 text-emerald-600/50" />
+                                <Search className="absolute left-3 top-2.5 h-4 w-4 text-red-600/50" />
                                 <Input 
                                     placeholder="Buscar produto..." 
-                                    className="pl-9 h-9 border-emerald-200/50 bg-white/50 focus-visible:ring-emerald-500" 
+                                    className="pl-9 h-9 border-red-200/50 bg-white/50 focus-visible:ring-emerald-500" 
                                     value={searchEntradas}
                                     onChange={(e) => setSearchEntradas(e.target.value)}
                                 />
@@ -871,10 +871,10 @@ export default function Reports() {
                     <CardContent className="pt-6 px-8 pb-8 flex-1 overflow-y-auto custom-scrollbar">
                         {/* Search mobile */}
                         <div className="relative w-full mb-4 sm:hidden">
-                            <Search className="absolute left-3 top-2.5 h-4 w-4 text-emerald-600/50" />
+                            <Search className="absolute left-3 top-2.5 h-4 w-4 text-red-600/50" />
                             <Input 
                                 placeholder="Buscar produto..." 
-                                className="pl-9 h-9 border-emerald-200/50 bg-white/50 focus-visible:ring-emerald-500" 
+                                className="pl-9 h-9 border-red-200/50 bg-white/50 focus-visible:ring-emerald-500" 
                                 value={searchEntradas}
                                 onChange={(e) => setSearchEntradas(e.target.value)}
                             />
@@ -883,10 +883,10 @@ export default function Reports() {
                             <div key={idx} className="flex justify-between items-center text-[15px] border-b border-slate-200/50 dark:border-slate-800/60 pb-4 mb-4 last:border-0 last:mb-0 hover:bg-white/50 dark:hover:bg-slate-800/40 p-3 -mx-3 rounded-2xl transition-colors">
                                 <div className="flex flex-col gap-1 w-[60%]">
                                     <span className="font-bold text-slate-800 dark:text-slate-200 truncate" title={item.produto}>{item.produto}</span>
-                                    <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-500">Origem: {item.origem || 'Fornecedor'}</span>
+                                    <span className="text-xs font-semibold text-red-600 dark:text-red-500">Origem: {item.origem || 'Fornecedor'}</span>
                                 </div>
                                 <div className="flex flex-col items-end shrink-0">
-                                    <span className="font-black text-emerald-700 dark:text-emerald-400 bg-emerald-100/50 dark:bg-emerald-900/30 px-3 py-1 rounded-xl">
+                                    <span className="font-black text-red-700 dark:text-red-400 bg-red-100/50 dark:bg-red-900/30 px-3 py-1 rounded-xl">
                                         +{item.quantidade} un.
                                     </span>
                                     <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 mt-1">{format(new Date(item.data), 'dd/MM/yyyy HH:mm')}</span>
@@ -903,19 +903,19 @@ export default function Reports() {
                 </Card>
 
                 {/* HISTÓRICO SAÍDAS */}
-                <Card className="shadow-xl border border-indigo-200/50 dark:border-indigo-900/30 bg-indigo-50/30 dark:bg-indigo-950/10 backdrop-blur-2xl rounded-[2.5rem] overflow-hidden flex flex-col h-[500px]">
-                    <div className="absolute top-0 right-0 w-full h-1.5 bg-gradient-to-r from-indigo-300 via-indigo-500 to-indigo-400 opacity-80"></div>
-                    <CardHeader className="bg-white/50 dark:bg-slate-900/50 pb-4 pt-6 px-8 border-b border-indigo-100/50 dark:border-indigo-900/30">
-                        <CardTitle className="text-xl flex items-center justify-between gap-4 text-indigo-950 dark:text-indigo-400 font-black tracking-tight">
+                <Card className="shadow-xl border border-red-200/50 dark:border-red-900/30 bg-red-50/30 dark:bg-red-950/10 backdrop-blur-2xl rounded-[2.5rem] overflow-hidden flex flex-col h-[500px]">
+                    <div className="absolute top-0 right-0 w-full h-1.5 bg-gradient-to-r from-red-300 via-red-500 to-red-400 opacity-80"></div>
+                    <CardHeader className="bg-white/50 dark:bg-slate-900/50 pb-4 pt-6 px-8 border-b border-red-100/50 dark:border-red-900/30">
+                        <CardTitle className="text-xl flex items-center justify-between gap-4 text-indigo-950 dark:text-red-400 font-black tracking-tight">
                             <div className="flex items-center gap-4">
-                                <div className="p-3 bg-white dark:bg-indigo-900/60 rounded-2xl text-indigo-600 shadow-sm border border-indigo-100 dark:border-indigo-800/50"><ArrowUpFromLine className="h-6 w-6" strokeWidth={2.5} /></div>
+                                <div className="p-3 bg-white dark:bg-red-900/60 rounded-2xl text-red-600 shadow-sm border border-red-100 dark:border-red-800/50"><ArrowUpFromLine className="h-6 w-6" strokeWidth={2.5} /></div>
                                 Histórico de Saídas
                             </div>
                             <div className="relative w-48 hidden sm:block">
-                                <Search className="absolute left-3 top-2.5 h-4 w-4 text-indigo-600/50" />
+                                <Search className="absolute left-3 top-2.5 h-4 w-4 text-red-600/50" />
                                 <Input 
                                     placeholder="Buscar produto..." 
-                                    className="pl-9 h-9 border-indigo-200/50 bg-white/50 focus-visible:ring-indigo-500" 
+                                    className="pl-9 h-9 border-red-200/50 bg-white/50 focus-visible:ring-red-500" 
                                     value={searchSaidas}
                                     onChange={(e) => setSearchSaidas(e.target.value)}
                                 />
@@ -925,10 +925,10 @@ export default function Reports() {
                     <CardContent className="pt-6 px-8 pb-8 flex-1 overflow-y-auto custom-scrollbar">
                         {/* Search mobile */}
                         <div className="relative w-full mb-4 sm:hidden">
-                            <Search className="absolute left-3 top-2.5 h-4 w-4 text-indigo-600/50" />
+                            <Search className="absolute left-3 top-2.5 h-4 w-4 text-red-600/50" />
                             <Input 
                                 placeholder="Buscar produto..." 
-                                className="pl-9 h-9 border-indigo-200/50 bg-white/50 focus-visible:ring-indigo-500" 
+                                className="pl-9 h-9 border-red-200/50 bg-white/50 focus-visible:ring-red-500" 
                                 value={searchSaidas}
                                 onChange={(e) => setSearchSaidas(e.target.value)}
                             />
@@ -938,14 +938,14 @@ export default function Reports() {
                                 <div className="flex flex-col gap-1 w-[60%]">
                                     <span className="font-bold text-slate-800 dark:text-slate-200 truncate" title={item.produto}>{item.produto}</span>
                                     <div className="flex items-center gap-2">
-                                        <Badge variant="outline" className={cn("text-[9px] px-1.5 py-0 border-0", item.origem_tipo === 'MANUAL' ? "bg-amber-100 text-amber-700" : "bg-indigo-100 text-indigo-700")}>
+                                        <Badge variant="outline" className={cn("text-[9px] px-1.5 py-0 border-0", item.origem_tipo === 'MANUAL' ? "bg-red-100 text-red-700" : "bg-red-100 text-indigo-700")}>
                                             {item.origem_tipo}
                                         </Badge>
                                         <span className="text-[10px] font-bold text-muted-foreground truncate">Para: {item.destino_setor || 'N/A'}</span>
                                     </div>
                                 </div>
                                 <div className="flex flex-col items-end shrink-0">
-                                    <span className="font-black text-indigo-700 dark:text-indigo-400 bg-indigo-100/50 dark:bg-indigo-900/30 px-3 py-1 rounded-xl">
+                                    <span className="font-black text-indigo-700 dark:text-red-400 bg-red-100/50 dark:bg-red-900/30 px-3 py-1 rounded-xl">
                                         -{item.quantidade} un.
                                     </span>
                                     <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 mt-1">{format(new Date(item.data), 'dd/MM/yyyy HH:mm')}</span>
@@ -969,7 +969,7 @@ export default function Reports() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                 {/* Estoque Parado (Largo) */}
                 <Card className="shadow-xl border border-slate-200/80 dark:border-slate-800/80 bg-white/90 dark:bg-slate-900/70 backdrop-blur-2xl rounded-[2.5rem] overflow-hidden group hover:border-rose-300 dark:hover:border-rose-500/50 hover:shadow-2xl hover:shadow-rose-500/10 transition-all duration-500 relative flex flex-col h-[500px]">
-                    <div className="absolute top-0 right-0 w-full h-1.5 bg-gradient-to-r from-rose-300 via-rose-500 to-rose-400 opacity-80"></div>
+                    <div className="absolute top-0 right-0 w-full h-1.5 bg-gradient-to-r from-red-300 via-red-500 to-red-400 opacity-80"></div>
                     <CardHeader className="bg-rose-50/60 dark:bg-rose-950/30 pb-6 pt-8 px-8 border-b border-rose-100/50 dark:border-rose-900/30 flex flex-row items-center justify-between">
                         <CardTitle className="text-xl flex items-center gap-4 text-rose-950 dark:text-rose-400 font-black tracking-tight">
                             <div className="p-3 bg-white dark:bg-rose-900/60 rounded-2xl text-rose-600 shadow-sm border border-rose-100 dark:border-rose-800/50"><Clock className="h-6 w-6" strokeWidth={2.5}/></div>
@@ -1015,11 +1015,11 @@ export default function Reports() {
                 </Card>
 
                 {/* Mais Movimentados */}
-                <Card className="shadow-xl border border-slate-200/80 dark:border-slate-800/80 bg-white/90 dark:bg-slate-900/70 backdrop-blur-2xl rounded-[2.5rem] overflow-hidden group hover:border-indigo-300 dark:hover:border-indigo-500/50 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-500 flex flex-col h-[500px]">
-                    <div className="absolute top-0 right-0 w-full h-1.5 bg-gradient-to-r from-indigo-300 via-indigo-500 to-indigo-400 opacity-80"></div>
-                    <CardHeader className="bg-indigo-50/60 dark:bg-indigo-950/30 pb-6 pt-8 px-8 border-b border-indigo-100/50 dark:border-indigo-900/30 flex flex-row items-center justify-between">
+                <Card className="shadow-xl border border-slate-200/80 dark:border-slate-800/80 bg-white/90 dark:bg-slate-900/70 backdrop-blur-2xl rounded-[2.5rem] overflow-hidden group hover:border-red-300 dark:hover:border-red-500/50 hover:shadow-2xl hover:shadow-red-500/10 transition-all duration-500 flex flex-col h-[500px]">
+                    <div className="absolute top-0 right-0 w-full h-1.5 bg-gradient-to-r from-red-300 via-red-500 to-red-400 opacity-80"></div>
+                    <CardHeader className="bg-red-50/60 dark:bg-red-950/30 pb-6 pt-8 px-8 border-b border-red-100/50 dark:border-red-900/30 flex flex-row items-center justify-between">
                         <CardTitle className="text-xl flex items-center gap-4 text-indigo-950 dark:text-indigo-300 font-black tracking-tight">
-                            <div className="p-3 bg-white dark:bg-indigo-900/60 rounded-2xl text-indigo-600 shadow-sm border border-indigo-100 dark:border-indigo-800/50"><BarChart3 className="h-6 w-6" strokeWidth={2.5}/></div>
+                            <div className="p-3 bg-white dark:bg-red-900/60 rounded-2xl text-red-600 shadow-sm border border-red-100 dark:border-red-800/50"><BarChart3 className="h-6 w-6" strokeWidth={2.5}/></div>
                             Top 10 Maior Giro
                         </CardTitle>
                     </CardHeader>
@@ -1030,7 +1030,7 @@ export default function Reports() {
                                     <span className="text-sm font-black text-slate-400 dark:text-slate-500 w-5 shrink-0">{idx+1}.</span>
                                     <span className="font-bold text-slate-700 dark:text-slate-200 truncate" title={item.produto}>{item.produto}</span>
                                 </div>
-                                <Badge className="bg-indigo-100 hover:bg-indigo-200 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-300 dark:hover:bg-indigo-800/70 shadow-sm border border-indigo-200 dark:border-indigo-700/50 font-black shrink-0 px-3 py-1">
+                                <Badge className="bg-red-100 hover:bg-indigo-200 text-indigo-800 dark:bg-red-900/50 dark:text-indigo-300 dark:hover:bg-indigo-800/70 shadow-sm border border-red-200 dark:border-indigo-700/50 font-black shrink-0 px-3 py-1">
                                     {item.count} ops
                                 </Badge>
                             </div>
@@ -1042,11 +1042,11 @@ export default function Reports() {
             {/* GRID INFERIOR COM MAIOR VALOR E RISCO */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* 1. Maior Valor */}
-                <Card className="shadow-xl border border-slate-200/80 dark:border-slate-800/80 bg-white/90 dark:bg-slate-900/70 backdrop-blur-2xl rounded-[2.5rem] overflow-hidden group hover:border-emerald-300 dark:hover:border-emerald-500/50 hover:shadow-2xl hover:shadow-emerald-500/10 transition-all duration-500 flex flex-col">
-                    <div className="absolute top-0 right-0 w-full h-1.5 bg-gradient-to-r from-emerald-300 via-emerald-500 to-emerald-400 opacity-80"></div>
-                    <CardHeader className="bg-emerald-50/60 dark:bg-emerald-950/30 pb-6 pt-8 px-8 border-b border-emerald-100/50 dark:border-emerald-900/30">
-                        <CardTitle className="text-xl flex items-center gap-4 text-emerald-950 dark:text-emerald-300 font-black tracking-tight">
-                            <div className="p-3 bg-white dark:bg-emerald-900/60 rounded-2xl text-emerald-600 shadow-sm border border-emerald-100 dark:border-emerald-800/50"><DollarSign className="h-6 w-6" strokeWidth={2.5} /></div>
+                <Card className="shadow-xl border border-slate-200/80 dark:border-slate-800/80 bg-white/90 dark:bg-slate-900/70 backdrop-blur-2xl rounded-[2.5rem] overflow-hidden group hover:border-emerald-300 dark:hover:border-red-500/50 hover:shadow-2xl hover:shadow-red-500/10 transition-all duration-500 flex flex-col">
+                    <div className="absolute top-0 right-0 w-full h-1.5 bg-gradient-to-r from-red-300 via-red-500 to-red-400 opacity-80"></div>
+                    <CardHeader className="bg-red-50/60 dark:bg-red-950/30 pb-6 pt-8 px-8 border-b border-red-100/50 dark:border-red-900/30">
+                        <CardTitle className="text-xl flex items-center gap-4 text-emerald-950 dark:text-red-300 font-black tracking-tight">
+                            <div className="p-3 bg-white dark:bg-red-900/60 rounded-2xl text-red-600 shadow-sm border border-red-100 dark:border-red-800/50"><DollarSign className="h-6 w-6" strokeWidth={2.5} /></div>
                             Top 10 Maiores Capitais (Valor)
                         </CardTitle>
                     </CardHeader>
@@ -1057,7 +1057,7 @@ export default function Reports() {
                                     <span className="text-sm font-black text-slate-400 dark:text-slate-500 w-5 shrink-0">{idx+1}.</span>
                                     <span className="font-bold text-slate-700 dark:text-slate-200 truncate" title={item.produto}>{item.produto}</span>
                                 </div>
-                                <span className="font-black text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30 px-3 py-1.5 rounded-xl shrink-0 border border-emerald-100 dark:border-emerald-800/50">
+                                <span className="font-black text-red-700 dark:text-red-400 bg-red-50 dark:bg-red-900/30 px-3 py-1.5 rounded-xl shrink-0 border border-red-100 dark:border-red-800/50">
                                     {formatCurrency(item.quantidade * (item.preco || 0))}
                                 </span>
                             </div>
@@ -1066,11 +1066,11 @@ export default function Reports() {
                 </Card>
 
                 {/* 2. Risco de Rutura */}
-                <Card className="shadow-xl border border-slate-200/80 dark:border-slate-800/80 bg-white/90 dark:bg-slate-900/70 backdrop-blur-2xl rounded-[2.5rem] overflow-hidden group hover:border-amber-300 dark:hover:border-amber-500/50 hover:shadow-2xl hover:shadow-amber-500/10 transition-all duration-500 relative flex flex-col">
-                    <div className="absolute top-0 right-0 w-full h-1.5 bg-gradient-to-r from-amber-300 via-amber-500 to-amber-400 opacity-80"></div>
-                    <CardHeader className="bg-amber-50/60 dark:bg-amber-950/30 pb-6 pt-8 px-8 border-b border-amber-100/50 dark:border-amber-900/30">
-                        <CardTitle className="text-xl flex items-center gap-4 text-amber-950 dark:text-amber-400 font-black tracking-tight">
-                            <div className="p-3 bg-white dark:bg-amber-900/60 rounded-2xl text-amber-600 shadow-sm border border-amber-100 dark:border-amber-800/50"><AlertTriangle className="h-6 w-6" strokeWidth={2.5}/></div>
+                <Card className="shadow-xl border border-slate-200/80 dark:border-slate-800/80 bg-white/90 dark:bg-slate-900/70 backdrop-blur-2xl rounded-[2.5rem] overflow-hidden group hover:border-amber-300 dark:hover:border-red-500/50 hover:shadow-2xl hover:shadow-red-500/10 transition-all duration-500 relative flex flex-col">
+                    <div className="absolute top-0 right-0 w-full h-1.5 bg-gradient-to-r from-red-300 via-red-500 to-red-400 opacity-80"></div>
+                    <CardHeader className="bg-red-50/60 dark:bg-red-950/30 pb-6 pt-8 px-8 border-b border-red-100/50 dark:border-red-900/30">
+                        <CardTitle className="text-xl flex items-center gap-4 text-amber-950 dark:text-red-400 font-black tracking-tight">
+                            <div className="p-3 bg-white dark:bg-red-900/60 rounded-2xl text-red-600 shadow-sm border border-red-100 dark:border-red-800/50"><AlertTriangle className="h-6 w-6" strokeWidth={2.5}/></div>
                             Itens em Risco de Rutura
                         </CardTitle>
                     </CardHeader>
@@ -1083,8 +1083,8 @@ export default function Reports() {
                                     <span className="text-sm font-black text-slate-400 dark:text-slate-500 w-5 shrink-0">{idx+1}.</span>
                                     <span className="font-bold text-slate-700 dark:text-slate-200 truncate" title={item.produto}>{item.produto}</span>
                                 </div>
-                                <div className="flex flex-col items-end shrink-0 bg-amber-50 dark:bg-amber-900/20 px-3 py-1.5 rounded-xl border border-amber-100 dark:border-amber-800/30">
-                                    <span className="font-black text-amber-700 dark:text-amber-400">
+                                <div className="flex flex-col items-end shrink-0 bg-red-50 dark:bg-red-900/20 px-3 py-1.5 rounded-xl border border-red-100 dark:border-red-800/30">
+                                    <span className="font-black text-red-700 dark:text-red-400">
                                         {disp} un.
                                     </span>
                                     <span className="text-[10px] font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-widest mt-0.5">Mín: {item.estoque_minimo}</span>
@@ -1112,7 +1112,7 @@ export default function Reports() {
                  totalValue={analytics?.totalSectorValue}
                  title="Detalhamento de Custos de Saída (Por Setor)" 
                  icon={DollarSign} 
-                 colorClass="text-emerald-600"
+                 colorClass="text-red-600"
                  barColor={COLORS.entradas}
                  isCurrency={true}
                />
@@ -1124,8 +1124,8 @@ export default function Reports() {
             <Card className="shadow-2xl border border-slate-200/80 dark:border-slate-800/80 bg-white/90 dark:bg-slate-900/60 backdrop-blur-3xl rounded-[2.5rem] overflow-hidden">
                 <CardHeader className="pb-8 border-b border-slate-100 dark:border-slate-800 px-10 pt-10">
                     <CardTitle className="text-3xl font-black flex items-center gap-4 text-slate-800 dark:text-slate-100 tracking-tight">
-                        <div className="p-3 bg-indigo-50 dark:bg-indigo-900/30 rounded-2xl border border-indigo-100 dark:border-indigo-800/50">
-                            <ShieldAlert className="h-7 w-7 text-indigo-600 dark:text-indigo-400" />
+                        <div className="p-3 bg-red-50 dark:bg-red-900/30 rounded-2xl border border-red-100 dark:border-red-800/50">
+                            <ShieldAlert className="h-7 w-7 text-red-600 dark:text-red-400" />
                         </div>
                         Registo de Operações Secundárias
                     </CardTitle>
@@ -1137,18 +1137,18 @@ export default function Reports() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {/* Input Reposição (Ganho de Venda) */}
                         <div className="space-y-4">
-                            <Label className="text-lg font-black text-emerald-700 dark:text-emerald-400 flex items-center gap-2">
+                            <Label className="text-lg font-black text-red-700 dark:text-red-400 flex items-center gap-2">
                                 <Package className="w-5 h-5" /> Ganho de Venda (Reposição)
                             </Label>
                             <p className="text-sm text-slate-500 font-medium">Valores obtidos através da venda de peças para reposição no período selecionado.</p>
                             <div className="relative group">
-                                <span className="absolute left-6 top-1/2 -translate-y-1/2 text-emerald-500 font-bold text-xl group-focus-within:text-emerald-600 transition-colors">R$</span>
+                                <span className="absolute left-6 top-1/2 -translate-y-1/2 text-red-500 font-bold text-xl group-focus-within:text-red-600 transition-colors">R$</span>
                                 <Input 
                                     type="number" 
                                     placeholder="0.00" 
                                     value={custoReposicao} 
                                     onChange={(e) => setCustoReposicao(e.target.value)} 
-                                    className="pl-14 h-16 rounded-[1.5rem] border-slate-200 dark:border-slate-700 text-2xl font-black shadow-sm focus-visible:ring-emerald-500 focus-visible:border-emerald-500 bg-emerald-50/50 dark:bg-emerald-950/20 text-emerald-900 dark:text-emerald-100 transition-all"
+                                    className="pl-14 h-16 rounded-[1.5rem] border-slate-200 dark:border-slate-700 text-2xl font-black shadow-sm focus-visible:ring-emerald-500 focus-visible:border-red-500 bg-red-50/50 dark:bg-red-950/20 text-emerald-900 dark:text-emerald-100 transition-all"
                                 />
                             </div>
                         </div>
@@ -1184,11 +1184,11 @@ export default function Reports() {
                         <p className="text-3xl font-black text-slate-800 dark:text-slate-100">{formatCurrency(analytics.valorTotalEstoque)}</p>
                     </Card>
 
-                    <Card className="shadow-lg border border-emerald-200 dark:border-emerald-900/50 bg-emerald-50 dark:bg-emerald-900/20 rounded-3xl p-6 flex flex-col justify-center transform hover:-translate-y-1 transition-transform cursor-default">
-                        <p className="text-xs font-bold text-emerald-600 dark:text-emerald-500 uppercase tracking-widest mb-2 flex items-center gap-2">
+                    <Card className="shadow-lg border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-900/20 rounded-3xl p-6 flex flex-col justify-center transform hover:-translate-y-1 transition-transform cursor-default">
+                        <p className="text-xs font-bold text-red-600 dark:text-red-500 uppercase tracking-widest mb-2 flex items-center gap-2">
                             <TrendingUp className="w-4 h-4"/> Total Ganhos (Venda)
                         </p>
-                        <p className="text-3xl font-black text-emerald-700 dark:text-emerald-400">+{formatCurrency(Number(custoReposicao) || 0)}</p>
+                        <p className="text-3xl font-black text-red-700 dark:text-red-400">+{formatCurrency(Number(custoReposicao) || 0)}</p>
                     </Card>
 
                     <Card className="shadow-lg border border-rose-200 dark:border-rose-900/50 bg-rose-50 dark:bg-rose-950/20 rounded-3xl p-6 flex flex-col justify-center transform hover:-translate-y-1 transition-transform cursor-default">
